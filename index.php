@@ -118,7 +118,7 @@
                 if ($count <= 2) {
                   // Grands articles (2 premiers)
                   echo '<div class="col-lg-6">';
-                  echo '<div class="post-box">';
+                  echo '<div class="post-box post-img">';
                   if (has_post_thumbnail()) {
                     echo '<div class="post-img">';
                     echo '<a href="' . get_permalink() . '" class="img-link">';

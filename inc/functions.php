@@ -40,8 +40,6 @@ function lejournaldesactus_include_files() {
     }
     add_action('admin_init', 'lejournaldesactus_force_flush_rewrite_rules');
 
-    // Charger les fichiers liés au carrousel
-    require_once get_template_directory() . '/inc/carousel.php';
-    require_once get_template_directory() . '/inc/page-carousel-metabox.php';
+    // Les fichiers liés au carrousel ont été supprimés
 }
 add_action('after_setup_theme', 'lejournaldesactus_include_files');

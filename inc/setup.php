@@ -56,22 +56,45 @@ function lejournaldesactus_scripts() {
     // Styles
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap', array(), null);
     
+    // Bibliothèques externes
     wp_enqueue_style('bootstrap', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/bootstrap/css/bootstrap.min.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('bootstrap-icons', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/bootstrap-icons/bootstrap-icons.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('aos', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/aos/aos.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('glightbox', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/glightbox/css/glightbox.min.css', array(), LEJOURNALDESACTUS_VERSION);
-    wp_enqueue_style('lejournaldesactus-style', LEJOURNALDESACTUS_THEME_URI . '/assets/css/main.css', array(), LEJOURNALDESACTUS_VERSION);
+    
+    // Styles du thème
+    wp_enqueue_style('lejournaldesactus-main', LEJOURNALDESACTUS_THEME_URI . '/assets/css/main.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-widgets', LEJOURNALDESACTUS_THEME_URI . '/assets/css/widgets.css', array(), LEJOURNALDESACTUS_VERSION);
-    wp_enqueue_style('lejournaldesactus-carousel', LEJOURNALDESACTUS_THEME_URI . '/assets/css/carousel.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-mobile-menu', LEJOURNALDESACTUS_THEME_URI . '/assets/css/mobile-menu-fix.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-newsletter', LEJOURNALDESACTUS_THEME_URI . '/assets/css/newsletter.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-rgpd', LEJOURNALDESACTUS_THEME_URI . '/assets/css/rgpd.css', array(), LEJOURNALDESACTUS_VERSION);
+    
+    // Styles des nouvelles fonctionnalités
+    wp_enqueue_style('lejournaldesactus-trending', LEJOURNALDESACTUS_THEME_URI . '/assets/css/trending-posts.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-bookmarks', LEJOURNALDESACTUS_THEME_URI . '/assets/css/bookmarks.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array(), LEJOURNALDESACTUS_VERSION);
+    
+    // Style principal
     wp_enqueue_style('lejournaldesactus-theme', get_stylesheet_uri(), array(), LEJOURNALDESACTUS_VERSION);
     
     // Scripts
-    wp_enqueue_script('bootstrap', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js', array(), LEJOURNALDESACTUS_VERSION, true);
-    wp_enqueue_script('aos', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/aos/aos.js', array(), LEJOURNALDESACTUS_VERSION, true);
-    wp_enqueue_script('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.js', array(), LEJOURNALDESACTUS_VERSION, true);
-    wp_enqueue_script('glightbox', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/glightbox/js/glightbox.min.js', array(), LEJOURNALDESACTUS_VERSION, true);
-    wp_enqueue_script('lejournaldesactus-main', LEJOURNALDESACTUS_THEME_URI . '/assets/js/main.js', array(), LEJOURNALDESACTUS_VERSION, true);
+    // Bibliothèques externes
+    wp_enqueue_script('bootstrap', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/bootstrap/js/bootstrap.bundle.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('aos', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/aos/aos.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('glightbox', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/glightbox/js/glightbox.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    
+    // Scripts du thème
+    wp_enqueue_script('lejournaldesactus-main', LEJOURNALDESACTUS_THEME_URI . '/assets/js/main.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-mobile-menu', LEJOURNALDESACTUS_THEME_URI . '/assets/js/mobile-menu.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-purecounter', LEJOURNALDESACTUS_THEME_URI . '/assets/js/purecounter.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-newsletter', LEJOURNALDESACTUS_THEME_URI . '/assets/js/newsletter.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-rgpd', LEJOURNALDESACTUS_THEME_URI . '/assets/js/rgpd.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    
+    // Scripts des nouvelles fonctionnalités
+    wp_enqueue_script('lejournaldesactus-bookmarks', LEJOURNALDESACTUS_THEME_URI . '/assets/js/bookmarks.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/js/dark-mode.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
     
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
@@ -169,6 +192,6 @@ function lejournaldesactus_add_mobile_menu_fix() {
     // Utiliser LEJOURNALDESACTUS_THEME_URI au lieu de get_template_directory_uri() pour la cohérence
     wp_enqueue_style('lejournaldesactus-mobile-menu-fix', LEJOURNALDESACTUS_THEME_URI . '/assets/css/mobile-menu-fix.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_script('lejournaldesactus-mobile-menu', LEJOURNALDESACTUS_THEME_URI . '/assets/js/mobile-menu.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
-    wp_enqueue_script('lejournaldesactus-purecounter', LEJOURNALDESACTUS_THEME_URI . '/assets/js/purecounter.min.js', array(), LEJOURNALDESACTUS_VERSION, true);
+    wp_enqueue_script('lejournaldesactus-purecounter', LEJOURNALDESACTUS_THEME_URI . '/assets/js/purecounter.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
 }
 add_action('wp_enqueue_scripts', 'lejournaldesactus_add_mobile_menu_fix');

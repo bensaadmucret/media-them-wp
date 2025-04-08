@@ -1,3 +1,26 @@
+/* Styles pour les cartes, widgets et articles */
+.widget {
+    background-color: #cfe2ff;
+    border-color: var(--card-border);
+    padding: 1rem;
+  }
+  
+  .widget .widget-title {
+    color: #6d798b;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .widget .widget-title a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.3s;
+    &:hover {
+      color: var(--accent-color);
+    }
+  }  
+
 /**
  * Styles pour les widgets du footer
  */

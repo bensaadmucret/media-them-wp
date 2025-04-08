@@ -9,7 +9,7 @@
       <h4 class="sidebar-title"><?php esc_html_e('Rechercher', 'lejournaldesactus'); ?></h4>
       <form action="<?php echo esc_url(home_url('/')); ?>" class="mt-3">
         <input type="text" name="s" value="<?php echo get_search_query(); ?>" placeholder="<?php echo esc_attr_x('Rechercher...', 'placeholder', 'lejournaldesactus'); ?>">
-        <button type="submit"><i class="bi bi-search"></i></button>
+        <button type="submit" class="btn-accent"><i class="bi bi-search"></i></button>
       </form>
     </div><!-- End sidebar search form-->
 

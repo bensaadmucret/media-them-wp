@@ -1,0 +1,821 @@
+/**
+ * Styles pour le mode sombre/clair
+ */
+
+/* Bouton de basculement */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.dark-mode-toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.dark-mode-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.dark-mode-toggle-btn .light-icon,
+.dark-mode-toggle-btn .dark-icon {
+    position: absolute;
+    font-size: 18px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dark-mode-toggle-btn .light-icon {
+    color: #f39c12;
+}
+
+.dark-mode-toggle-btn .dark-icon {
+    color: #3498db;
+}
+
+/* Afficher l'icône appropriée en fonction du mode */
+[data-theme="dark"] .dark-mode-toggle-btn .dark-icon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0);
+}
+
+[data-theme="dark"] .dark-mode-toggle-btn .light-icon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+[data-theme="dark"] .dark-mode-toggle-btn .dark-icon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+[data-theme="dark"] .dark-mode-toggle-btn .light-icon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0);
+}
+
+/* Menu déroulant pour le sélecteur de thème */
+.theme-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    padding: 10px 0;
+    min-width: 150px;
+    z-index: 1000;
+    display: none;
+}
+
+.theme-dropdown.show {
+    display: block;
+    animation: fadeInUp 0.3s ease;
+}
+
+.theme-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: var(--text-color);
+}
+
+.theme-dropdown-item:hover {
+    background-color: var(--input-bg);
+}
+
+.theme-dropdown-item i {
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.theme-dropdown-item.active {
+    font-weight: bold;
+    background-color: var(--input-bg);
+}
+
+/* Animation pour le menu déroulant */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Item de menu pour le basculement de thème */
+.menu-item-dark-mode {
+    position: relative;
+}
+
+.dark-mode-menu-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.dark-mode-menu-toggle i {
+    margin-right: 5px;
+    font-size: 16px;
+}
+
+/* Notification de changement de thème */
+.theme-notification {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    color: var(--text-color);
+    font-size: 14px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dark-mode-toggle {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .dark-mode-toggle-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .theme-notification {
+        bottom: 60px;
+        right: 15px;
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+
+/* Forcer le fond sombre et les couleurs de texte claires */
+[data-theme="dark"] {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Forcer les couleurs du header */
+[data-theme="dark"] header,
+[data-theme="dark"] .header,
+[data-theme="dark"] #header,
+[data-theme="dark"] .site-header,
+[data-theme="dark"] #site-header,
+[data-theme="dark"] .top-header,
+[data-theme="dark"] .main-header {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+/* Forcer les couleurs du titre du site - sélecteurs très spécifiques */
+[data-theme="dark"] .site-title,
+[data-theme="dark"] .site-title a,
+[data-theme="dark"] .site-name,
+[data-theme="dark"] .site-name a,
+[data-theme="dark"] .logo-text,
+[data-theme="dark"] .logo-text a,
+[data-theme="dark"] .brand-text,
+[data-theme="dark"] .brand-text a,
+[data-theme="dark"] .header-title,
+[data-theme="dark"] .header-title a,
+[data-theme="dark"] #logo a,
+[data-theme="dark"] #logo h1,
+[data-theme="dark"] #logo h2,
+[data-theme="dark"] #logo span,
+[data-theme="dark"] #site-logo a,
+[data-theme="dark"] #site-logo h1,
+[data-theme="dark"] #site-logo h2,
+[data-theme="dark"] #site-logo span,
+[data-theme="dark"] .custom-logo-link,
+[data-theme="dark"] h1.site-title,
+[data-theme="dark"] h1.site-title a,
+[data-theme="dark"] h2.site-title,
+[data-theme="dark"] h2.site-title a,
+[data-theme="dark"] h3.site-title,
+[data-theme="dark"] h3.site-title a,
+[data-theme="dark"] h1.site-name,
+[data-theme="dark"] h1.site-name a,
+[data-theme="dark"] h2.site-name,
+[data-theme="dark"] h2.site-name a,
+[data-theme="dark"] h3.site-name,
+[data-theme="dark"] h3.site-name a,
+[data-theme="dark"] .journal-title,
+[data-theme="dark"] .journal-title a,
+[data-theme="dark"] .journal-logo,
+[data-theme="dark"] .journal-logo a,
+[data-theme="dark"] .journal-brand,
+[data-theme="dark"] .journal-brand a,
+[data-theme="dark"] #masthead *,
+[data-theme="dark"] .masthead *,
+[data-theme="dark"] .site-branding *,
+[data-theme="dark"] #site-branding *,
+[data-theme="dark"] .title-area *,
+[data-theme="dark"] #title-area *,
+[data-theme="dark"] .sitename,
+[data-theme="dark"] .sitename a,
+[data-theme="dark"] #sitename,
+[data-theme="dark"] #sitename a,
+[data-theme="dark"] .site-header .sitename,
+[data-theme="dark"] .site-header .sitename a,
+[data-theme="dark"] #site-header .sitename,
+[data-theme="dark"] #site-header .sitename a,
+[data-theme="dark"] header .sitename,
+[data-theme="dark"] header .sitename a,
+[data-theme="dark"] .header .sitename,
+[data-theme="dark"] .header .sitename a,
+[data-theme="dark"] #header .sitename,
+[data-theme="dark"] #header .sitename a,
+[data-theme="dark"] .sitename,
+[data-theme="dark"] .sitename a,
+[data-theme="dark"] .sitename,
+[data-theme="dark"] .sitename a {
+    color: #ffffff !important;
+}
+
+/* Forcer les couleurs des liens de navigation */
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] .menu-item a,
+[data-theme="dark"] .navbar-nav a,
+[data-theme="dark"] .main-navigation a,
+[data-theme="dark"] .primary-menu a,
+[data-theme="dark"] .secondary-menu a,
+[data-theme="dark"] .top-menu a,
+[data-theme="dark"] .header-menu a,
+[data-theme="dark"] .footer-menu a {
+    color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .menu-item a:hover,
+[data-theme="dark"] .navbar-nav a:hover,
+[data-theme="dark"] .main-navigation a:hover,
+[data-theme="dark"] .primary-menu a:hover,
+[data-theme="dark"] .secondary-menu a:hover,
+[data-theme="dark"] .top-menu a:hover,
+[data-theme="dark"] .header-menu a:hover,
+[data-theme="dark"] .footer-menu a:hover {
+    color: #90caf9 !important;
+}
+
+/* Forcer les couleurs du pied de page */
+[data-theme="dark"] footer,
+[data-theme="dark"] .footer,
+[data-theme="dark"] #footer,
+[data-theme="dark"] .site-footer,
+[data-theme="dark"] #site-footer {
+    background-color: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+/* Forcer les couleurs du titre du site dans le footer */
+[data-theme="dark"] footer .site-title,
+[data-theme="dark"] footer .site-title a,
+[data-theme="dark"] .footer .site-title,
+[data-theme="dark"] .footer .site-title a,
+[data-theme="dark"] #footer .site-title,
+[data-theme="dark"] #footer .site-title a,
+[data-theme="dark"] .site-footer .site-title,
+[data-theme="dark"] .site-footer .site-title a,
+[data-theme="dark"] #site-footer .site-title,
+[data-theme="dark"] #site-footer .site-title a,
+[data-theme="dark"] footer .site-name,
+[data-theme="dark"] footer .site-name a,
+[data-theme="dark"] .footer .site-name,
+[data-theme="dark"] .footer .site-name a,
+[data-theme="dark"] #footer .site-name,
+[data-theme="dark"] #footer .site-name a,
+[data-theme="dark"] .site-footer .site-name,
+[data-theme="dark"] .site-footer .site-name a,
+[data-theme="dark"] #site-footer .site-name,
+[data-theme="dark"] #site-footer .site-name a,
+[data-theme="dark"] footer .navbar-brand,
+[data-theme="dark"] footer .navbar-brand a,
+[data-theme="dark"] .footer .navbar-brand,
+[data-theme="dark"] .footer .navbar-brand a,
+[data-theme="dark"] #footer .navbar-brand,
+[data-theme="dark"] #footer .navbar-brand a,
+[data-theme="dark"] .site-footer .navbar-brand,
+[data-theme="dark"] .site-footer .navbar-brand a,
+[data-theme="dark"] #site-footer .navbar-brand,
+[data-theme="dark"] #site-footer .navbar-brand a,
+[data-theme="dark"] footer .logo-text,
+[data-theme="dark"] footer .logo-text a,
+[data-theme="dark"] .footer .logo-text,
+[data-theme="dark"] .footer .logo-text a,
+[data-theme="dark"] #footer .logo-text,
+[data-theme="dark"] #footer .logo-text a,
+[data-theme="dark"] .site-footer .logo-text,
+[data-theme="dark"] .site-footer .logo-text a,
+[data-theme="dark"] #site-footer .logo-text,
+[data-theme="dark"] #site-footer .logo-text a,
+[data-theme="dark"] footer .footer-logo,
+[data-theme="dark"] footer .footer-logo a,
+[data-theme="dark"] .footer .footer-logo,
+[data-theme="dark"] .footer .footer-logo a,
+[data-theme="dark"] #footer .footer-logo,
+[data-theme="dark"] #footer .footer-logo a,
+[data-theme="dark"] .site-footer .footer-logo,
+[data-theme="dark"] .site-footer .footer-logo a,
+[data-theme="dark"] #site-footer .footer-logo,
+[data-theme="dark"] #site-footer .footer-logo a {
+    color: #f5f5f5 !important;
+}
+
+/* Forcer les couleurs des conteneurs principaux */
+[data-theme="dark"] .container,
+[data-theme="dark"] .container-fluid,
+[data-theme="dark"] .row,
+[data-theme="dark"] .col,
+[data-theme="dark"] .wrapper,
+[data-theme="dark"] #wrapper,
+[data-theme="dark"] .content,
+[data-theme="dark"] #content,
+[data-theme="dark"] .content-area,
+[data-theme="dark"] #primary,
+[data-theme="dark"] .site-content,
+[data-theme="dark"] #main,
+[data-theme="dark"] .main,
+[data-theme="dark"] #main-content,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] article,
+[data-theme="dark"] section,
+[data-theme="dark"] .section,
+[data-theme="dark"] div[class*="content"],
+[data-theme="dark"] div[id*="content"],
+[data-theme="dark"] div[class*="container"],
+[data-theme="dark"] div[id*="container"],
+[data-theme="dark"] div[class*="wrapper"],
+[data-theme="dark"] div[id*="wrapper"],
+[data-theme="dark"] div[class*="main"],
+[data-theme="dark"] div[id*="main"],
+[data-theme="dark"] .page,
+[data-theme="dark"] #page,
+[data-theme="dark"] .site,
+[data-theme="dark"] #site,
+[data-theme="dark"] body > div,
+[data-theme="dark"] html > body {
+    /* background-color: #121212 !important; */
+    color: #e0e0e0 !important;
+}
+
+/* Forcer les couleurs des cartes et articles */
+[data-theme="dark"] .card,
+[data-theme="dark"] .post,
+[data-theme="dark"] .article,
+[data-theme="dark"] .entry,
+[data-theme="dark"] .widget,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .widget-area,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .box {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border-color: #333333 !important;
+}
+
+/* Forcer les couleurs des titres */
+[data-theme="dark"] h1, 
+[data-theme="dark"] h2, 
+[data-theme="dark"] h3, 
+[data-theme="dark"] h4, 
+[data-theme="dark"] h5, 
+[data-theme="dark"] h6,
+[data-theme="dark"] .h1, 
+[data-theme="dark"] .h2, 
+[data-theme="dark"] .h3, 
+[data-theme="dark"] .h4, 
+[data-theme="dark"] .h5, 
+[data-theme="dark"] .h6,
+[data-theme="dark"] .entry-title, 
+[data-theme="dark"] .page-title, 
+[data-theme="dark"] .post-title, 
+[data-theme="dark"] .widget-title {
+    color: #f5f5f5 !important;
+}
+
+/* Forcer les couleurs des liens */
+[data-theme="dark"] a:not(.btn):not(.button):not(.menu-item> a) {
+    color: #A2F8B5 !important;
+}
+
+[data-theme="dark"] a:hover:not(.btn):not(.button) {
+    color: #e3dfdf !important;
+}
+
+[data-theme="dark"] .menu-item > a {
+    color: #040704 !important;
+}
+
+span.dark-mode-text {
+    color: #040704 !important;
+}
+
+/* Forcer les couleurs des formulaires */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .input-group,
+[data-theme="dark"] .custom-select {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #444444 !important;
+}
+
+/* Améliorer la lisibilité des placeholders */
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] select::placeholder,
+[data-theme="dark"] .form-control::placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] input::-webkit-input-placeholder,
+[data-theme="dark"] textarea::-webkit-input-placeholder,
+[data-theme="dark"] select::-webkit-input-placeholder,
+[data-theme="dark"] .form-control::-webkit-input-placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] input::-moz-placeholder,
+[data-theme="dark"] textarea::-moz-placeholder,
+[data-theme="dark"] select::-moz-placeholder,
+[data-theme="dark"] .form-control::-moz-placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] input:-ms-input-placeholder,
+[data-theme="dark"] textarea:-ms-input-placeholder,
+[data-theme="dark"] select:-ms-input-placeholder,
+[data-theme="dark"] .form-control:-ms-input-placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] input:-moz-placeholder,
+[data-theme="dark"] textarea:-moz-placeholder,
+[data-theme="dark"] select:-moz-placeholder,
+[data-theme="dark"] .form-control:-moz-placeholder {
+    color: #aaaaaa !important;
+    opacity: 1 !important;
+}
+
+/* Force les couleurs pour les éléments avec des styles inline */
+[data-theme="dark"] [style*="color"] {
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] [style*="background"] {
+    background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] [style*="border"] {
+    border-color: var(--border-color) !important;
+}
+
+/* Exceptions pour les réseaux sociaux - préserver leurs couleurs originales */
+[data-theme="dark"] .social-icons a,
+[data-theme="dark"] .social-links a,
+[data-theme="dark"] .social-media a,
+[data-theme="dark"] .social-navigation a,
+[data-theme="dark"] .social-menu a,
+[data-theme="dark"] .social-list a,
+[data-theme="dark"] .social a,
+[data-theme="dark"] a.social-icon,
+[data-theme="dark"] a.social-link,
+[data-theme="dark"] .fa-facebook,
+[data-theme="dark"] .fa-facebook-f,
+[data-theme="dark"] .fa-twitter,
+[data-theme="dark"] .fa-instagram,
+[data-theme="dark"] .fa-linkedin,
+[data-theme="dark"] .fa-linkedin-in,
+[data-theme="dark"] .fa-youtube,
+[data-theme="dark"] .fa-pinterest,
+[data-theme="dark"] .fa-pinterest-p,
+[data-theme="dark"] .fa-snapchat,
+[data-theme="dark"] .fa-snapchat-ghost,
+[data-theme="dark"] .fa-tiktok,
+[data-theme="dark"] .fa-whatsapp,
+[data-theme="dark"] .fa-telegram,
+[data-theme="dark"] .fa-reddit,
+[data-theme="dark"] .fa-discord,
+[data-theme="dark"] .fa-twitch,
+[data-theme="dark"] .fa-github,
+[data-theme="dark"] .fa-gitlab,
+[data-theme="dark"] .fa-bitbucket,
+[data-theme="dark"] .fa-medium,
+[data-theme="dark"] .fa-slack,
+[data-theme="dark"] .fa-dribbble,
+[data-theme="dark"] .fa-behance,
+[data-theme="dark"] .fa-flickr,
+[data-theme="dark"] .fa-vimeo,
+[data-theme="dark"] .fa-vimeo-v,
+[data-theme="dark"] .fa-tumblr,
+[data-theme="dark"] .bi-facebook,
+[data-theme="dark"] .bi-twitter,
+[data-theme="dark"] .bi-instagram,
+[data-theme="dark"] .bi-linkedin,
+[data-theme="dark"] .bi-youtube,
+[data-theme="dark"] .bi-pinterest,
+[data-theme="dark"] .bi-snapchat,
+[data-theme="dark"] .bi-tiktok,
+[data-theme="dark"] .bi-whatsapp,
+[data-theme="dark"] .bi-telegram,
+[data-theme="dark"] .bi-reddit,
+[data-theme="dark"] .bi-discord,
+[data-theme="dark"] .bi-twitch,
+[data-theme="dark"] .bi-github,
+[data-theme="dark"] .bi-gitlab,
+[data-theme="dark"] .bi-medium,
+[data-theme="dark"] .bi-slack,
+[data-theme="dark"] .bi-dribbble,
+[data-theme="dark"] .bi-behance,
+[data-theme="dark"] .bi-flickr,
+[data-theme="dark"] .bi-vimeo,
+[data-theme="dark"] .bi-tumblr {
+    color: inherit !important;
+}
+
+/* Couleurs spécifiques pour les réseaux sociaux */
+[data-theme="dark"] .facebook-icon,
+[data-theme="dark"] .facebook-link,
+[data-theme="dark"] .fa-facebook,
+[data-theme="dark"] .fa-facebook-f,
+[data-theme="dark"] .bi-facebook {
+    color: #1877f2 !important;
+}
+
+[data-theme="dark"] .twitter-icon,
+[data-theme="dark"] .twitter-link,
+[data-theme="dark"] .fa-twitter,
+[data-theme="dark"] .bi-twitter {
+    color: #1da1f2 !important;
+}
+
+[data-theme="dark"] .instagram-icon,
+[data-theme="dark"] .instagram-link,
+[data-theme="dark"] .fa-instagram,
+[data-theme="dark"] .bi-instagram {
+    color: #e4405f !important;
+}
+
+[data-theme="dark"] .linkedin-icon,
+[data-theme="dark"] .linkedin-link,
+[data-theme="dark"] .fa-linkedin,
+[data-theme="dark"] .fa-linkedin-in,
+[data-theme="dark"] .bi-linkedin {
+    color: #0077b5 !important;
+}
+
+[data-theme="dark"] .youtube-icon,
+[data-theme="dark"] .youtube-link,
+[data-theme="dark"] .fa-youtube,
+[data-theme="dark"] .bi-youtube {
+    color: #ff0000 !important;
+}
+
+[data-theme="dark"] .pinterest-icon,
+[data-theme="dark"] .pinterest-link,
+[data-theme="dark"] .fa-pinterest,
+[data-theme="dark"] .fa-pinterest-p,
+[data-theme="dark"] .bi-pinterest {
+    color: #bd081c !important;
+}
+
+[data-theme="dark"] .snapchat-icon,
+[data-theme="dark"] .snapchat-link,
+[data-theme="dark"] .fa-snapchat,
+[data-theme="dark"] .fa-snapchat-ghost,
+[data-theme="dark"] .bi-snapchat {
+    color: #fffc00 !important;
+}
+
+[data-theme="dark"] .whatsapp-icon,
+[data-theme="dark"] .whatsapp-link,
+[data-theme="dark"] .fa-whatsapp,
+[data-theme="dark"] .bi-whatsapp {
+    color: #25d366 !important;
+}
+
+[data-theme="dark"] .telegram-icon,
+[data-theme="dark"] .telegram-link,
+[data-theme="dark"] .fa-telegram,
+[data-theme="dark"] .bi-telegram {
+    color: #0088cc !important;
+}
+
+/* Préserver les couleurs des boutons de partage */
+[data-theme="dark"] .share-buttons a,
+[data-theme="dark"] .share-links a,
+[data-theme="dark"] .share-icons a,
+[data-theme="dark"] .share-social a,
+[data-theme="dark"] .share a,
+[data-theme="dark"] a.share-button,
+[data-theme="dark"] a.share-link,
+[data-theme="dark"] a.share-icon,
+[data-theme="dark"] .share-facebook,
+[data-theme="dark"] .share-twitter,
+[data-theme="dark"] .share-instagram,
+[data-theme="dark"] .share-linkedin,
+[data-theme="dark"] .share-pinterest,
+[data-theme="dark"] .share-whatsapp,
+[data-theme="dark"] .share-telegram,
+[data-theme="dark"] .share-email {
+    color: inherit !important;
+}
+
+/* Forcer les couleurs des boutons de favoris */
+[data-theme="dark"] .bookmark-button,
+[data-theme="dark"] .bookmark-icon,
+[data-theme="dark"] .bookmark-link,
+[data-theme="dark"] .bookmark-toggle,
+[data-theme="dark"] .add-bookmark,
+[data-theme="dark"] .remove-bookmark {
+    background-color: transparent !important;
+    color: #e0e0e0 !important;
+    border-color: #444444 !important;
+}
+
+[data-theme="dark"] .bookmark-button:hover,
+[data-theme="dark"] .bookmark-icon:hover,
+[data-theme="dark"] .bookmark-link:hover,
+[data-theme="dark"] .bookmark-toggle:hover,
+[data-theme="dark"] .add-bookmark:hover,
+[data-theme="dark"] .remove-bookmark:hover {
+    background-color: #2d2d2d !important;
+    color: #4fc3f7 !important;
+}
+
+[data-theme="dark"] .bookmark-button.bookmarked,
+[data-theme="dark"] .bookmark-icon.bookmarked,
+[data-theme="dark"] .bookmark-link.bookmarked,
+[data-theme="dark"] .bookmark-toggle.bookmarked,
+[data-theme="dark"] .add-bookmark.bookmarked,
+[data-theme="dark"] .remove-bookmark.bookmarked {
+    background-color: #2d2d2d !important;
+    color: #4fc3f7 !important;
+    border-color: #4fc3f7 !important;
+}
+
+/* Styles pour les éléments spécifiques au thème */
+[data-theme="dark"] .trending-posts,
+[data-theme="dark"] .bookmark-item,
+[data-theme="dark"] .bookmark-content,
+[data-theme="dark"] .bookmark-title,
+[data-theme="dark"] .bookmark-excerpt,
+[data-theme="dark"] .bookmark-meta,
+[data-theme="dark"] .bookmark-category,
+[data-theme="dark"] .bookmark-date,
+[data-theme="dark"] .bookmark-remove,
+[data-theme="dark"] .bookmarks-container,
+[data-theme="dark"] .bookmarks-title,
+[data-theme="dark"] .bookmarks-empty,
+[data-theme="dark"] .bookmarks-list {
+    color: var(--text-color) !important;
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+}
+
+/* Forcer les couleurs de la section newsletter et CTA */
+[data-theme="dark"] .newsletter,
+[data-theme="dark"] .newsletter-section,
+[data-theme="dark"] .newsletter-container,
+[data-theme="dark"] .newsletter-wrapper,
+[data-theme="dark"] .newsletter-block,
+[data-theme="dark"] .newsletter-widget,
+[data-theme="dark"] .widget_newsletter,
+[data-theme="dark"] .widget-newsletter,
+[data-theme="dark"] #newsletter,
+[data-theme="dark"] .subscribe,
+[data-theme="dark"] .subscribe-section,
+[data-theme="dark"] .subscribe-container,
+[data-theme="dark"] .subscribe-wrapper,
+[data-theme="dark"] .subscribe-block,
+[data-theme="dark"] .subscribe-widget,
+[data-theme="dark"] .widget_subscribe,
+[data-theme="dark"] .widget-subscribe,
+[data-theme="dark"] #subscribe,
+[data-theme="dark"] div[class*="newsletter"],
+[data-theme="dark"] div[id*="newsletter"],
+[data-theme="dark"] div[class*="subscribe"],
+[data-theme="dark"] div[id*="subscribe"],
+[data-theme="dark"] form[class*="newsletter"],
+[data-theme="dark"] form[id*="newsletter"],
+[data-theme="dark"] form[class*="subscribe"],
+[data-theme="dark"] form[id*="subscribe"],
+[data-theme="dark"] #cta,
+[data-theme="dark"] .cta,
+[data-theme="dark"] .cta-section,
+[data-theme="dark"] #cta .newsletter,
+[data-theme="dark"] #cta .newsletter form,
+[data-theme="dark"] .cta .newsletter,
+[data-theme="dark"] .cta .newsletter form,
+[data-theme="dark"] .cta-section .newsletter,
+[data-theme="dark"] .cta-section .newsletter form {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+    border-color: #333333 !important;
+}
+
+[data-theme="dark"] .newsletter *,
+[data-theme="dark"] .newsletter-section *,
+[data-theme="dark"] .newsletter-container *,
+[data-theme="dark"] .newsletter-wrapper *,
+[data-theme="dark"] .newsletter-block *,
+[data-theme="dark"] .newsletter-widget *,
+[data-theme="dark"] .widget_newsletter *,
+[data-theme="dark"] .widget-newsletter *,
+[data-theme="dark"] #newsletter *,
+[data-theme="dark"] .subscribe *,
+[data-theme="dark"] .subscribe-section *,
+[data-theme="dark"] .subscribe-container *,
+[data-theme="dark"] .subscribe-wrapper *,
+[data-theme="dark"] .subscribe-block *,
+[data-theme="dark"] .subscribe-widget *,
+[data-theme="dark"] .widget_subscribe *,
+[data-theme="dark"] .widget-subscribe *,
+[data-theme="dark"] #subscribe *,
+[data-theme="dark"] div[class*="newsletter"] *,
+[data-theme="dark"] div[id*="newsletter"] *,
+[data-theme="dark"] div[class*="subscribe"] *,
+[data-theme="dark"] div[id*="subscribe"] *,
+[data-theme="dark"] form[class*="newsletter"] *,
+[data-theme="dark"] form[id*="newsletter"] *,
+[data-theme="dark"] form[class*="subscribe"] *,
+[data-theme="dark"] form[id*="subscribe"] *,
+[data-theme="dark"] #cta *:not(input),
+[data-theme="dark"] .cta *:not(input),
+[data-theme="dark"] .cta-section *:not(input) {
+    color: #e0e0e0 !important;
+}
+
+/* Styles spécifiques pour les formulaires dans CTA */
+[data-theme="dark"] #cta form,
+[data-theme="dark"] .cta form,
+[data-theme="dark"] .cta-section form,
+[data-theme="dark"] #cta .newsletter form,
+[data-theme="dark"] .cta .newsletter form,
+[data-theme="dark"] .cta-section .newsletter form,
+[data-theme="dark"] #cta form.newsletter,
+[data-theme="dark"] .cta form.newsletter,
+[data-theme="dark"] .cta-section form.newsletter {
+    background-color: #1e1e1e !important;
+    border-color: #333333 !important;
+}
+
+[data-theme="dark"] #cta input,
+[data-theme="dark"] .cta input,
+[data-theme="dark"] .cta-section input,
+[data-theme="dark"] #cta .form-control,
+[data-theme="dark"] .cta .form-control,
+[data-theme="dark"] .cta-section .form-control,
+[data-theme="dark"] #cta .input-group,
+[data-theme="dark"] .cta .input-group,
+[data-theme="dark"] .cta-section .input-group {
+    background-color: #2d2d2d !important;
+    color: #e0e0e0 !important;
+    border-color: #444444 !important;
+}
+
+/* Exception pour conserver la couleur jaune de la barre de navigation */
+[data-theme="dark"] .header .nav-wrap {
+  background-color: #FFF44F !important;
+}

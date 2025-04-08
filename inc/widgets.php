@@ -17,7 +17,6 @@ require_once get_template_directory() . '/inc/widgets/newsletter-widget.php';
 require_once get_template_directory() . '/inc/widgets/social-widget.php';
 require_once get_template_directory() . '/inc/widgets/authors-widget.php';
 require_once get_template_directory() . '/inc/widgets/advertisement-widget.php';
-require_once get_template_directory() . '/inc/widgets/carousel-widget.php';
 
 /**
  * Enregistrer les widgets
@@ -29,7 +28,6 @@ function lejournaldesactus_register_widgets() {
     register_widget('Lejournaldesactus_Social_Widget');
     register_widget('Lejournaldesactus_Authors_Widget');
     register_widget('Lejournaldesactus_Advertisement_Widget');
-    register_widget('Lejournaldesactus_Carousel_Widget');
 }
 add_action('widgets_init', 'lejournaldesactus_register_widgets');
 

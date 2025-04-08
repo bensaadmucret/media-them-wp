@@ -30,6 +30,10 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/widgets.php';         // Widget
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/comments-control.php'; // Contrôle des commentaires
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/rgpd.php';            // Gestion RGPD
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/newsletter.php';      // Système de newsletter
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/trending-posts.php';  // Système d'articles tendance
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/bookmarks.php';       // Système de favoris/bookmarks
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';       // Système de mode sombre/clair
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/page-related-posts.php'; // Articles liés pour les pages
 
 // Inclure les fichiers de fonctions supplémentaires
 require_once get_template_directory() . '/inc/functions.php';

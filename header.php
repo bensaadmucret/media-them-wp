@@ -37,7 +37,7 @@
 
           <form class="search-form ms-4" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
             <input type="text" placeholder="<?php echo esc_attr_x('Search...', 'placeholder', 'lejournaldesactus'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" name="s" class="form-control">
-            <button type="submit" class="btn"><i class="bi bi-search"></i></button>
+            <button type="submit" class="btn btn-accent"><i class="bi bi-search"></i></button>
           </form>
           
           <!-- Bouton Menu Mobile -->
@@ -59,7 +59,7 @@
             <form role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
               <div class="input-group">
                 <input type="text" placeholder="<?php echo esc_attr_x('Search...', 'placeholder', 'lejournaldesactus'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" name="s" class="form-control">
-                <button type="submit" class="btn btn-search"><i class="bi bi-search"></i></button>
+                <button type="submit" class="btn btn-search btn-accent"><i class="bi bi-search"></i></button>
               </div>
             </form>
           </div>
