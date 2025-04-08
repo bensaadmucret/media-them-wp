@@ -74,9 +74,10 @@
 
               <div class="post-share">
                 <span><i class="bi bi-share"></i> <?php esc_html_e('Partager :', 'lejournaldesactus'); ?></span>
-                <a href="https://twitter.com/intent/tweet?url=<?php the_permalink(); ?>&text=<?php the_title(); ?>" target="_blank"><i class="bi bi-twitter-x"></i></a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=<?php the_permalink(); ?>" target="_blank"><i class="bi bi-facebook"></i></a>
-                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?php the_permalink(); ?>" target="_blank"><i class="bi bi-linkedin"></i></a>
+                <?php 
+                // Afficher les liens vers les réseaux sociaux dans l'article
+                lejournaldesactus_display_social_links('articles'); 
+                ?>
               </div>
             </div><!-- End post footer -->
 

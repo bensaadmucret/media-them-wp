@@ -22,5 +22,8 @@ function lejournaldesactus_include_files() {
     
     // Inclure le fichier de lecture sans distraction
     require_once get_template_directory() . '/inc/distraction-free.php';
+    
+    // Inclure le fichier de gestion des réseaux sociaux
+    require_once get_template_directory() . '/inc/social-links.php';
 }
 add_action('after_setup_theme', 'lejournaldesactus_include_files');

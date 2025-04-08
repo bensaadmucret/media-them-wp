@@ -12,11 +12,11 @@
           <p class="mt-3"><strong>Phone:</strong> <span><?php echo esc_html(get_theme_mod('lejournaldesactus_phone', '+1 5589 55488 55')); ?></span></p>
           <p><strong>Email:</strong> <span><?php echo esc_html(get_theme_mod('lejournaldesactus_email', 'info@example.com')); ?></span></p>
         </div>
-        <div class="social-links d-flex mt-4">
-          <a href="<?php echo esc_url(get_theme_mod('lejournaldesactus_twitter', '#')); ?>" rel="noopener" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-          <a href="<?php echo esc_url(get_theme_mod('lejournaldesactus_facebook', '#')); ?>" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="<?php echo esc_url(get_theme_mod('lejournaldesactus_instagram', '#')); ?>" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-          <a href="<?php echo esc_url(get_theme_mod('lejournaldesactus_linkedin', '#')); ?>" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        <div class="mt-4">
+          <?php 
+          // Afficher les liens vers les réseaux sociaux dans le footer
+          lejournaldesactus_display_social_links('footer'); 
+          ?>
         </div>
       </div>
 

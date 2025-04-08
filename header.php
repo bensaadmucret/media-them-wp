@@ -30,11 +30,10 @@
         </a>
 
         <div class="d-flex align-items-center">
-          <div class="social-links d-none d-lg-block">
-            <a href="#" class="facebook" rel="noopener"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="twitter" rel="noopener"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="instagram" rel="noopener"><i class="bi bi-instagram"></i></a>
-          </div>
+          <?php 
+          // Afficher les liens vers les réseaux sociaux dans le header
+          lejournaldesactus_display_social_links('header'); 
+          ?>
 
           <form class="search-form ms-4" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
             <input type="text" placeholder="<?php echo esc_attr_x('Search...', 'placeholder', 'lejournaldesactus'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" name="s" class="form-control">
