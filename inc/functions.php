@@ -23,13 +23,25 @@ function lejournaldesactus_include_files() {
     // Inclure le fichier de lecture sans distraction
     require_once get_template_directory() . '/inc/distraction-free.php';
     
-    // Inclure le fichier de gestion des réseaux sociaux
+    // Inclure les fichiers de fonctionnalités
+    require_once get_template_directory() . '/inc/customizer.php';
+    require_once get_template_directory() . '/inc/widgets.php';
     require_once get_template_directory() . '/inc/social-links.php';
-    
-    // Inclure le fichier de gestion des carrousels
+
+    // Forcer la réinitialisation des règles de réécriture lors du chargement de la page d'administration
+    function lejournaldesactus_force_flush_rewrite_rules() {
+        global $pagenow;
+        
+        // Réinitialiser les règles de réécriture uniquement lors de la première visite de l'admin après activation
+        if (is_admin() && ($pagenow == 'edit.php' || $pagenow == 'post-new.php')) {
+            delete_option('lejournaldesactus_flush_rewrite');
+            flush_rewrite_rules();
+        }
+    }
+    add_action('admin_init', 'lejournaldesactus_force_flush_rewrite_rules');
+
+    // Charger les fichiers liés au carrousel
     require_once get_template_directory() . '/inc/carousel.php';
-    
-    // Inclure le fichier de metabox pour les pages avec carrousel
     require_once get_template_directory() . '/inc/page-carousel-metabox.php';
 }
 add_action('after_setup_theme', 'lejournaldesactus_include_files');

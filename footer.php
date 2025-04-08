@@ -6,12 +6,7 @@
         <a href="<?php echo esc_url(home_url('/')); ?>" class="logo d-flex align-items-center">
           <span class="sitename"><?php bloginfo('name'); ?></span>
         </a>
-        <div class="footer-contact pt-3">
-          <p><?php echo esc_html(get_theme_mod('lejournaldesactus_address_line1', 'A108 Adam Street')); ?></p>
-          <p><?php echo esc_html(get_theme_mod('lejournaldesactus_address_line2', 'New York, NY 535022')); ?></p>
-          <p class="mt-3"><strong>Phone:</strong> <span><?php echo esc_html(get_theme_mod('lejournaldesactus_phone', '+1 5589 55488 55')); ?></span></p>
-          <p><strong>Email:</strong> <span><?php echo esc_html(get_theme_mod('lejournaldesactus_email', 'info@example.com')); ?></span></p>
-        </div>
+    
         <div class="mt-4">
           <?php 
           // Afficher les liens vers les réseaux sociaux dans le footer
