@@ -1,0 +1,156 @@
+/**
+ * Styles pour les widgets du footer
+ */
+
+/* Styles généraux pour les widgets du footer */
+.footer-widget {
+    margin-bottom: 25px;
+}
+
+.footer-widget-title {
+    font-size: 18px;
+    font-weight: 600;
+    position: relative;
+    margin-bottom: 20px;
+    color: var(--color-white);
+}
+
+/* Styles pour les listes dans les widgets */
+.footer-widget ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.footer-widget ul li {
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.footer-widget ul li:before {
+    content: "\F282";
+    font-family: "bootstrap-icons";
+    font-size: 14px;
+    margin-right: 10px;
+    color: rgba(var(--color-primary-rgb), 0.8);
+}
+
+.footer-widget ul li a {
+    color: rgba(var(--color-white-rgb), 0.7);
+    transition: 0.3s;
+    display: inline-block;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.footer-widget ul li a:hover {
+    color: var(--color-white);
+}
+
+/* Styles pour les widgets de texte */
+.footer-widget .textwidget p {
+    color: rgba(var(--color-white-rgb), 0.7);
+    margin-bottom: 15px;
+}
+
+/* Styles pour les widgets de recherche */
+.footer-widget .search-form {
+    position: relative;
+}
+
+.footer-widget .search-form label {
+    width: 100%;
+}
+
+.footer-widget .search-form .search-field {
+    width: 100%;
+    padding: 8px 40px 8px 15px;
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+    background-color: rgba(var(--color-white-rgb), 0.1);
+    color: var(--color-white);
+    border-radius: 4px;
+}
+
+.footer-widget .search-form .search-submit {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: rgba(var(--color-primary-rgb), 0.8);
+    border: none;
+    color: var(--color-white);
+    padding: 0 15px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Styles pour les widgets de tags */
+.footer-widget .tagcloud a {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    font-size: 12px !important;
+    background-color: rgba(var(--color-white-rgb), 0.1);
+    color: rgba(var(--color-white-rgb), 0.7);
+    border-radius: 4px;
+    transition: 0.3s;
+    text-decoration: none;
+}
+
+.footer-widget .tagcloud a:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.8);
+    color: var(--color-white);
+}
+
+/* Styles pour les widgets de calendrier */
+.footer-widget .calendar_wrap table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-widget .calendar_wrap table caption {
+    color: var(--color-white);
+    font-weight: 600;
+    padding: 8px 0;
+}
+
+.footer-widget .calendar_wrap table th,
+.footer-widget .calendar_wrap table td {
+    padding: 4px;
+    text-align: center;
+    color: rgba(var(--color-white-rgb), 0.7);
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+}
+
+.footer-widget .calendar_wrap table th {
+    background-color: rgba(var(--color-white-rgb), 0.1);
+}
+
+.footer-widget .calendar_wrap table a {
+    color: rgba(var(--color-primary-rgb), 0.8);
+    text-decoration: none;
+}
+
+/* Styles pour les widgets de médias */
+.footer-widget img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* Styles pour les widgets récents articles */
+.footer-widget .wp-block-latest-posts__list,
+.footer-widget .wp-block-latest-comments {
+    padding-left: 0;
+}
+
+.footer-widget .wp-block-latest-posts__list li,
+.footer-widget .wp-block-latest-comments li {
+    margin-bottom: 10px;
+}
+
+.footer-widget .wp-block-latest-posts__post-date,
+.footer-widget .wp-block-latest-comments__comment-date {
+    color: rgba(var(--color-white-rgb), 0.5);
+    font-size: 12px;
+}

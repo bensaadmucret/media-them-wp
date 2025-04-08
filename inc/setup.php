@@ -62,6 +62,7 @@ function lejournaldesactus_scripts() {
     wp_enqueue_style('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('glightbox', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/glightbox/css/glightbox.min.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-style', LEJOURNALDESACTUS_THEME_URI . '/assets/css/main.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-widgets', LEJOURNALDESACTUS_THEME_URI . '/assets/css/widgets.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-theme', get_stylesheet_uri(), array(), LEJOURNALDESACTUS_VERSION);
     
     // Scripts
@@ -89,6 +90,50 @@ function lejournaldesactus_widgets_init() {
         'after_widget'  => '</section>',
         'before_title'  => '<h3 class="widget-title">',
         'after_title'   => '</h3>',
+    ));
+    
+    // Widgets du footer - Colonne 1
+    register_sidebar(array(
+        'name'          => esc_html__('Footer Colonne 1', 'lejournaldesactus'),
+        'id'            => 'footer-1',
+        'description'   => esc_html__('Widgets pour la première colonne du footer.', 'lejournaldesactus'),
+        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="footer-widget-title">',
+        'after_title'   => '</h4>',
+    ));
+    
+    // Widgets du footer - Colonne 2
+    register_sidebar(array(
+        'name'          => esc_html__('Footer Colonne 2', 'lejournaldesactus'),
+        'id'            => 'footer-2',
+        'description'   => esc_html__('Widgets pour la deuxième colonne du footer.', 'lejournaldesactus'),
+        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="footer-widget-title">',
+        'after_title'   => '</h4>',
+    ));
+    
+    // Widgets du footer - Colonne 3
+    register_sidebar(array(
+        'name'          => esc_html__('Footer Colonne 3', 'lejournaldesactus'),
+        'id'            => 'footer-3',
+        'description'   => esc_html__('Widgets pour la troisième colonne du footer.', 'lejournaldesactus'),
+        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="footer-widget-title">',
+        'after_title'   => '</h4>',
+    ));
+    
+    // Widgets du footer - Colonne 4
+    register_sidebar(array(
+        'name'          => esc_html__('Footer Colonne 4', 'lejournaldesactus'),
+        'id'            => 'footer-4',
+        'description'   => esc_html__('Widgets pour la quatrième colonne du footer.', 'lejournaldesactus'),
+        'before_widget' => '<div id="%1$s" class="footer-widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="footer-widget-title">',
+        'after_title'   => '</h4>',
     ));
 }
 add_action('widgets_init', 'lejournaldesactus_widgets_init');
