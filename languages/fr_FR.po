@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Le Journal des Actus\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-08 11:04+0200\n"
+"PO-Revision-Date: 2025-04-08 11:04+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Cascade\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: assets/vendor\n"
+
+#: search.php:41 index.php:39 index.php:134 archive.php:61
+msgid "Read More"
+msgstr "Lire la suite"
+
+#: sidebar.php:9
+msgid "Search"
+msgstr "Rechercher"
+
+#: header.php:39 header.php:61 sidebar.php:11
+msgctxt "placeholder"
+msgid "Search..."
+msgstr "Rechercher..."
+
+#: header.php:54
+msgid "Menu"
+msgstr "Menu"
+
+#: inc/setup.php:22
+msgid "Menu Principal"
+msgstr "Menu Principal"
+
+#: inc/setup.php:23
+msgid "Liens Utiles (Footer)"
+msgstr "Liens Utiles (Footer)"
+
+#: inc/setup.php:24
+msgid "Nos Services (Footer)"
+msgstr "Nos Services (Footer)"
+
+#: inc/setup.php:25
+msgid "Liens Footer 1"
+msgstr "Liens Footer 1"
+
+#: inc/setup.php:26
+msgid "Liens Footer 2"
+msgstr "Liens Footer 2"
+
+#: inc/setup.php:77
+msgid "Sidebar"
+msgstr "Barre latérale"
+
+#: inc/setup.php:79
+msgid "Ajouter des widgets ici."
+msgstr "Ajouter des widgets ici."
+
+#: search.php:12
+msgid "Résultats de recherche pour : %s"
+msgstr "Résultats de recherche pour : %s"
+
+#: search.php:55
+msgid "Aucun résultat trouvé"
+msgstr "Aucun résultat trouvé"
+
+#: search.php:56
+msgid "Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des mots-clés différents."
+msgstr "Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des mots-clés différents."
+
+#: 404.php:10
+msgid "Page non trouvée"
+msgstr "Page non trouvée"
+
+#: 404.php:11
+msgid "La page que vous recherchez n'existe pas ou a été déplacée."
+msgstr "La page que vous recherchez n'existe pas ou a été déplacée."
+
+#: 404.php:12
+msgid "Retour à l'accueil"
+msgstr "Retour à l'accueil"
+
+#: comments.php:18
+msgid "Commentaires"
+msgstr "Commentaires"
+
+#: comments.php:35
+msgid "Laisser un commentaire"
+msgstr "Laisser un commentaire"
+
+#: comments.php:36
+msgid "Laisser une réponse à %s"
+msgstr "Laisser une réponse à %s"
+
+#: comments.php:37
+msgid "Annuler la réponse"
+msgstr "Annuler la réponse"
+
+#: comments.php:38
+msgid "Publier"
+msgstr "Publier"
+
+#: comments.php:42
+msgid "Votre commentaire"
+msgstr "Votre commentaire"
+
+#: comments.php:46 index.php:194
+msgid "Votre nom"
+msgstr "Votre nom"
+
+#: comments.php:50 index.php:197
+msgid "Votre email"
+msgstr "Votre email"
+
+#: comments.php:54
+msgid "Votre site web"
+msgstr "Votre site web"
+
+#: inc/template-functions.php:25
+msgid "Page"
+msgstr "Page"
+
+#: inc/template-functions.php:25
+msgid "sur"
+msgstr "sur"
+
+#: inc/template-functions.php:45
+msgid "Précédent"
+msgstr "Précédent"
+
+#: inc/template-functions.php:46
+msgid "Suivant"
+msgstr "Suivant"
+
+#: inc/template-functions.php:47
+msgid "Page %s"
+msgstr "Page %s"
+
+#: sidebar.php:17
+msgid "Catégories"
+msgstr "Catégories"
+
+#: sidebar.php:38 index.php:92
+msgid "Articles récents"
+msgstr "Articles récents"
+
+#: sidebar.php:66
+msgid "Étiquettes"
+msgstr "Étiquettes"
+
+#: single.php:64
+msgid "Partager :"
+msgstr "Partager :"
+
+#: index.php:94
+msgid "Tous les articles"
+msgstr "Tous les articles"
+
+#: index.php:189
+msgid "Abonnez-vous à notre newsletter"
+msgstr "Abonnez-vous à notre newsletter"
+
+#: index.php:190
+msgid "Restez informé de nos derniers articles et actualités. Rejoignez notre communauté dès aujourd'hui !"
+msgstr "Restez informé de nos derniers articles et actualités. Rejoignez notre communauté dès aujourd'hui !"
+
+#: index.php:200
+msgid "S'abonner"
+msgstr "S'abonner"

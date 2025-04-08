@@ -1,0 +1,164 @@
+/**
+ * Styles pour l'interface d'administration SEO
+ *
+ * @package LeJournalDesActus
+ */
+
+/* Conteneur principal */
+.lejournaldesactus-seo-meta-box {
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+}
+
+/* Score SEO */
+.seo-score-wrapper {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.seo-score {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    flex-shrink: 0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.seo-score.good {
+    background-color: #46b450;
+}
+
+.seo-score.average {
+    background-color: #ffb900;
+}
+
+.seo-score.poor {
+    background-color: #dc3232;
+}
+
+.seo-score .score-value {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.seo-score .score-label {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* Conseils SEO */
+.seo-tips {
+    flex-grow: 1;
+}
+
+.seo-tips-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.seo-tips-list li {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.no-tips {
+    color: #46b450;
+    font-weight: bold;
+}
+
+/* Aperçu dans les résultats de recherche */
+.seo-preview {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.seo-preview h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #23282d;
+}
+
+.search-preview {
+    font-family: Arial, sans-serif;
+}
+
+.preview-title {
+    color: #1a0dab;
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.preview-url {
+    color: #006621;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.preview-description {
+    color: #545454;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* Champs SEO */
+.seo-fields p {
+    margin-bottom: 15px;
+}
+
+.seo-fields label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.seo-fields .description {
+    display: block;
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.char-count {
+    display: inline-block;
+    margin-left: 10px;
+    color: #666;
+    font-size: 12px;
+}
+
+.char-count.over-limit {
+    color: #dc3232;
+}
+
+/* Cases à cocher */
+.seo-checkboxes {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.seo-checkboxes p {
+    margin-bottom: 10px;
+}
+
+.seo-checkboxes input[type="checkbox"] {
+    margin-right: 5px;
+}

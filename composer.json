@@ -1,0 +1,20 @@
+{
+    "name": "lejournaldesactus/theme",
+    "description": "Thème WordPress personnalisé pour Le Journal des Actus avec système de newsletter intégré",
+    "type": "wordpress-theme",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Le Journal des Actus",
+            "email": "contact@lejournaldesactus.fr"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "LeJournalDesActus\\": "inc/"
+        }
+    }
+}

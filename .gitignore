@@ -1,0 +1,43 @@
+# WordPress specific files
+wp-config.php
+wp-content/advanced-cache.php
+wp-content/backup-*
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/wp-cache-config.php
+wp-content/plugins/hello.php
+
+# Configuration files
+*.log
+.htaccess
+sitemap.xml
+sitemap.xml.gz
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Node modules and build files
+node_modules/
+npm-debug.log
+yarn-error.log
+/vendor/
+
+# Local development files
+.env
+.env.*
+!.env.example
