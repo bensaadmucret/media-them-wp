@@ -2243,37 +2243,98 @@ section,
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--accent-color), transparent 92%);
-  color: var(--accent-color);
   margin: 0 5px;
   font-size: 1rem;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Couleurs spécifiques pour les icônes sociales des auteurs */
+.blog-author .author-social-links a.facebook {
+  background-color: rgba(59, 89, 152, 0.1);
+  color: #3b5998;
+}
+
+.blog-author .author-social-links a.twitter {
+  background-color: rgba(29, 161, 242, 0.1);
+  color: #1da1f2;
+}
+
+.blog-author .author-social-links a.instagram {
+  background-color: rgba(225, 48, 108, 0.1);
+  color: #e1306c;
+}
+
+.blog-author .author-social-links a.linkedin {
+  background-color: rgba(0, 119, 181, 0.1);
+  color: #0077b5;
+}
+
+.blog-author .author-social-links a.github {
+  background-color: rgba(36, 41, 46, 0.1);
+  color: #24292e;
+}
+
+.blog-author .author-social-links a.youtube {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff0000;
 }
 
 .blog-author .author-social-links a:hover {
-  background-color: var(--accent-color);
-  color: var(--contrast-color);
-  transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .blog-author .author-social-links a.linkedin:hover {
   background-color: #0077b5;
+  color: white;
 }
 
 .blog-author .author-social-links a.twitter:hover {
-  background-color: #000000;
+  background-color: #1da1f2;
+  color: white;
 }
 
 .blog-author .author-social-links a.github:hover {
-  background-color: #333333;
+  background-color: #24292e;
+  color: white;
 }
 
 .blog-author .author-social-links a.facebook:hover {
-  background-color: #1877f2;
+  background-color: #3b5998;
+  color: white;
 }
 
 .blog-author .author-social-links a.instagram:hover {
-  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+  background-color: #e1306c;
+  color: white;
+}
+
+.blog-author .author-social-links a.youtube:hover {
+  background-color: #ff0000;
+  color: white;
+}
+
+/* Animation d'onde pour les icônes sociales des auteurs */
+.blog-author .author-social-links a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.blog-author .author-social-links a:hover::before {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
 }
 
 .blog-author .author-content {
@@ -3242,6 +3303,7 @@ section,
 .pagination-3 li {
   margin: 0 5px;
   transition: 0.3s;
+  display: inline-block;
 }
 
 .pagination-3 li a {
@@ -3696,4 +3758,64 @@ body.mobile-nav-active .mobile-social-links {
   .pagination-container .page-numbers .current .page-number {
     display: inline;
   }
+}
+
+/* Styles pour les icônes sociales dans les articles */
+.blog-details .article-content .meta-bottom .social-links a.facebook {
+  background: rgba(59, 89, 152, 0.1);
+  color: #3b5998;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.twitter {
+  background: rgba(29, 161, 242, 0.1);
+  color: #1da1f2;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.linkedin {
+  background: rgba(0, 119, 181, 0.1);
+  color: #0077b5;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.instagram {
+  background: rgba(225, 48, 108, 0.1);
+  color: #e1306c;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.pinterest {
+  background: rgba(230, 0, 35, 0.1);
+  color: #e60023;
+}
+
+.blog-details .article-content .meta-bottom .social-links a:hover {
+  transform: translateY(-5px) rotate(5deg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.blog-details .article-content .meta-bottom .social-links a.facebook:hover {
+  background: #3b5998;
+  color: white;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.twitter:hover {
+  background: #1da1f2;
+  color: white;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.linkedin:hover {
+  background: #0077b5;
+  color: white;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.instagram:hover {
+  background: #e1306c;
+  color: white;
+}
+
+.blog-details .article-content .meta-bottom .social-links a.pinterest:hover {
+  background: #e60023;
+  color: white;
+}
+
+.blog-details .article-content .meta-bottom .social-links a i {
+  font-size: 1.2rem;
 }
