@@ -43,6 +43,15 @@ Un thème WordPress personnalisé pour "Le Journal des Actus" avec un système d
 - **Mise en page adaptative** avec Bootstrap
 - **Styles CSS optimisés** pour une meilleure lisibilité et accessibilité
 - **Contraste amélioré** pour une meilleure lisibilité des contenus
+- **Mode lecture zen** permettant une lecture sans distraction des articles
+
+### Fonctionnalités de lecture avancées
+- **Mode lecture sans distraction** avec basculement facile
+- **Barre de progression de lecture** indiquant la position dans l'article
+- **Estimation du temps de lecture** pour chaque article
+- **Personnalisation des préférences de lecture** via le Customizer
+- **Raccourcis clavier** pour activer/désactiver le mode lecture zen (Alt+Z)
+- **Mémorisation des préférences** entre les sessions
 
 ### Optimisation technique
 - **JavaScript moderne** sans dépendance à jQuery

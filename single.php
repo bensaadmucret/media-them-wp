@@ -1,6 +1,13 @@
 <?php get_header(); ?>
 
 <main id="main">
+  <!-- Barre de progression de lecture -->
+  <div class="reading-progress-bar"></div>
+  
+  <!-- Bouton de lecture sans distraction -->
+  <button class="distraction-free-toggle">
+    <i class="bi bi-arrows-angle-expand"></i> Lecture zen
+  </button>
 
   <!-- Blog Details Section -->
   <section id="blog-details" class="blog-details">
@@ -36,6 +43,10 @@
 
             <div class="meta-bottom">
               <?php lejournaldesactus_post_meta(); ?>
+              <!-- Indicateur de temps de lecture -->
+              <span class="reading-time">
+                <i class="bi bi-clock"></i> <?php echo lejournaldesactus_reading_time(); ?> min de lecture
+              </span>
             </div><!-- End meta bottom -->
 
             <div class="content">
@@ -98,7 +109,7 @@
         </div>
         
         <?php if ($template === 'with-sidebar') : ?>
-        <div class="col-lg-4">
+        <div class="col-lg-4 sidebar">
           <?php get_sidebar(); ?>
         </div>
         <?php endif; ?>
