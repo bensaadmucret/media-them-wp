@@ -142,12 +142,8 @@ function lejournaldesactus_distraction_free_customizer($wp_customize) {
 }
 add_action('customize_register', 'lejournaldesactus_distraction_free_customizer');
 
-/**
- * Fonction de nettoyage pour les cases à cocher
- */
-function lejournaldesactus_sanitize_checkbox($checked) {
-    return ((isset($checked) && true == $checked) ? true : false);
-}
+// La fonction lejournaldesactus_sanitize_checkbox est déjà définie dans maintenance-mode.php
+// Nous ne la redéclarons pas ici pour éviter les erreurs
 
 /**
  * Ajoute des styles personnalisés basés sur les options du Customizer
