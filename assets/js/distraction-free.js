@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     '.post-navigation',
     '.post-share',
     '.post-footer',
-    '.related-posts',
+    // '.related-posts', // Ne pas masquer les articles similaires
     '.blog-comments',
     'footer',
     '.post-meta'
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const articleContent = document.querySelector('.blog-details-content');
   const mainContainer = document.querySelector('.blog-details .container');
   const articleTitle = document.querySelector('.blog-details-content .title');
+  const relatedPosts = document.querySelector('.related-posts');
   
   // État du mode lecture sans distraction
   let isDistractionFreeMode = false;
@@ -64,6 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
         articleTitle.classList.add('df-title');
       }
       
+      // Appliquer un style spécial aux articles similaires en mode lecture sans distraction
+      if (relatedPosts) {
+        relatedPosts.classList.add('df-related-posts');
+      }
+      
       // Faire défiler jusqu'au début de l'article
       if (articleTitle) {
         articleTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -95,6 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (articleTitle) {
         articleTitle.classList.remove('df-title');
+      }
+      
+      // Restaurer le style normal des articles similaires
+      if (relatedPosts) {
+        relatedPosts.classList.remove('df-related-posts');
       }
       
       // Sauvegarder la préférence utilisateur
