@@ -63,6 +63,7 @@ function lejournaldesactus_scripts() {
     wp_enqueue_style('glightbox', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/glightbox/css/glightbox.min.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-style', LEJOURNALDESACTUS_THEME_URI . '/assets/css/main.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-widgets', LEJOURNALDESACTUS_THEME_URI . '/assets/css/widgets.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-carousel', LEJOURNALDESACTUS_THEME_URI . '/assets/css/carousel.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-theme', get_stylesheet_uri(), array(), LEJOURNALDESACTUS_VERSION);
     
     // Scripts

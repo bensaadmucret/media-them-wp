@@ -25,5 +25,11 @@ function lejournaldesactus_include_files() {
     
     // Inclure le fichier de gestion des réseaux sociaux
     require_once get_template_directory() . '/inc/social-links.php';
+    
+    // Inclure le fichier de gestion des carrousels
+    require_once get_template_directory() . '/inc/carousel.php';
+    
+    // Inclure le fichier de metabox pour les pages avec carrousel
+    require_once get_template_directory() . '/inc/page-carousel-metabox.php';
 }
 add_action('after_setup_theme', 'lejournaldesactus_include_files');

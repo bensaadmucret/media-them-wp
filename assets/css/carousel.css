@@ -1,0 +1,209 @@
+/**
+ * Styles pour les carrousels
+ */
+
+/* Styles généraux du carrousel */
+.lejournaldesactus-carousel {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Hauteurs du carrousel */
+.carousel-height-default {
+    height: 400px;
+}
+
+.carousel-height-small {
+    height: 300px;
+}
+
+.carousel-height-medium {
+    height: 500px;
+}
+
+.carousel-height-large {
+    height: 600px;
+}
+
+.carousel-height-full {
+    height: 100vh;
+    max-height: 800px;
+}
+
+/* Styles des slides */
+.lejournaldesactus-carousel .swiper-slide {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Image de la slide */
+.carousel-slide-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.carousel-slide-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Contenu de la slide */
+.carousel-slide-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 30px;
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 0 20px;
+}
+
+/* Titre de la slide */
+.carousel-slide-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+/* Description de la slide */
+.carousel-slide-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Bouton de la slide */
+.carousel-slide-button {
+    margin-top: 20px;
+}
+
+.carousel-slide-button .btn {
+    padding: 10px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.carousel-slide-button .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation */
+.lejournaldesactus-carousel .swiper-button-next,
+.lejournaldesactus-carousel .swiper-button-prev {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.lejournaldesactus-carousel .swiper-button-next:after,
+.lejournaldesactus-carousel .swiper-button-prev:after {
+    font-size: 18px;
+}
+
+.lejournaldesactus-carousel .swiper-button-next:hover,
+.lejournaldesactus-carousel .swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Pagination */
+.lejournaldesactus-carousel .swiper-pagination-bullet {
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.lejournaldesactus-carousel .swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: var(--color-primary, #0d6efd);
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .carousel-height-default,
+    .carousel-height-small,
+    .carousel-height-medium,
+    .carousel-height-large {
+        height: 350px;
+    }
+    
+    .carousel-height-full {
+        height: 100vh;
+        max-height: 600px;
+    }
+    
+    .carousel-slide-title {
+        font-size: 1.8rem;
+    }
+    
+    .carousel-slide-description {
+        font-size: 1rem;
+    }
+    
+    .carousel-slide-content {
+        padding: 20px;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-height-default,
+    .carousel-height-small,
+    .carousel-height-medium,
+    .carousel-height-large {
+        height: 300px;
+    }
+    
+    .carousel-height-full {
+        height: 100vh;
+        max-height: 500px;
+    }
+    
+    .carousel-slide-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .carousel-slide-description {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .carousel-slide-button .btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .lejournaldesactus-carousel .swiper-button-next,
+    .lejournaldesactus-carousel .swiper-button-prev {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .lejournaldesactus-carousel .swiper-button-next:after,
+    .lejournaldesactus-carousel .swiper-button-prev:after {
+        font-size: 16px;
+    }
+}
