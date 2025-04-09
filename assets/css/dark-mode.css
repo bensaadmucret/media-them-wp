@@ -451,7 +451,7 @@
 }
 
 [data-theme="dark"] a:hover:not(.btn):not(.button) {
-    color: #e3dfdf !important;
+    color:color-mix(in srgb, var(--nav-hover-color), #000 10%)   !important;
 }
 
 [data-theme="dark"] .menu-item > a {
