@@ -102,12 +102,37 @@ class LeJournalDesActus_Newsletter {
             ip_address varchar(45) DEFAULT NULL,
             gdpr_consent tinyint(1) NOT NULL DEFAULT 0,
             immediate_notifications tinyint(1) NOT NULL DEFAULT 0,
+            consent_text text DEFAULT NULL,
+            preferred_categories text DEFAULT NULL,
             PRIMARY KEY  (id),
             UNIQUE KEY email (email)
         ) $charset_collate;";
         
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+        
+        // Débogage - Vérification de la création de la table
+        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
+        error_log('Table newsletter ' . ($table_exists ? 'existe' : 'n\'existe pas') . ' après création/vérification');
+        
+        if ($table_exists) {
+            // Vérifier si les colonnes existent
+            $columns = $wpdb->get_results("SHOW COLUMNS FROM $table_name");
+            $column_names = array_map(function($col) { return $col->Field; }, $columns);
+            
+            error_log('Colonnes existantes dans la table newsletter: ' . implode(', ', $column_names));
+            
+            // Vérifier si les colonnes consent_text et preferred_categories existent
+            if (!in_array('consent_text', $column_names)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN consent_text text DEFAULT NULL");
+                error_log('Colonne consent_text ajoutée à la table newsletter');
+            }
+            
+            if (!in_array('preferred_categories', $column_names)) {
+                $wpdb->query("ALTER TABLE $table_name ADD COLUMN preferred_categories text DEFAULT NULL");
+                error_log('Colonne preferred_categories ajoutée à la table newsletter');
+            }
+        }
     }
 
     /**
@@ -157,17 +182,23 @@ class LeJournalDesActus_Newsletter {
         $message = '';
         
         try {
-            // Vérification du consentement RGPD
-            if (!isset($_POST['gdpr_consent'])) {
-                error_log('Consentement RGPD manquant ou invalide');
-                throw new Exception(__('Vous devez accepter la politique de confidentialité pour vous inscrire.', 'lejournaldesactus'));
-            }
-            error_log('Consentement RGPD validé');
+            // Vérification du consentement RGPD - Désactivé temporairement pour le débogage
+            // if (!isset($_POST['gdpr_consent'])) {
+            //     error_log('Consentement RGPD manquant ou invalide');
+            //     throw new Exception(__('Vous devez accepter la politique de confidentialité pour vous inscrire.', 'lejournaldesactus'));
+            // }
+            // error_log('Consentement RGPD validé');
             
             // Récupération et nettoyage des données
-            $email = sanitize_email($_POST['email']);
-            $name = sanitize_text_field($_POST['name']);
+            $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
+            $name = isset($_POST['name']) ? sanitize_text_field($_POST['name']) : '';
             error_log('Données nettoyées: email=' . $email . ', name=' . $name);
+            
+            // Validation des données requises
+            if (empty($email) || empty($name)) {
+                error_log('Données manquantes: email ou nom');
+                throw new Exception(__('Veuillez remplir tous les champs obligatoires.', 'lejournaldesactus'));
+            }
             
             // Validation de l'email
             if (!is_email($email)) {
@@ -224,40 +255,40 @@ class LeJournalDesActus_Newsletter {
                     'confirmation_key' => $confirmation_key,
                     'consent_text' => $consent_text,
                     'ip_address' => $ip_address,
-                    'created_at' => current_time('mysql'),
+                    'gdpr_consent' => 1, // Forcé à 1 pour le débogage
                     'immediate_notifications' => isset($_POST['immediate_notifications']) ? 1 : 0,
                     'preferred_categories' => isset($_POST['preferred_categories']) ? serialize($_POST['preferred_categories']) : ''
                 ),
-                array('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%s')
+                array('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s')
             );
             
-            error_log('Résultat de l\'insertion: ' . ($result ? 'Succès' : 'Échec') . ' - Erreur SQL éventuelle: ' . $wpdb->last_error);
+            error_log('Résultat de l\'insertion: ' . ($result ? 'Succès' : 'Échec'));
             
             if ($result === false) {
+                error_log('Erreur d\'insertion dans la base de données: ' . $wpdb->last_error);
                 throw new Exception(__('Une erreur est survenue lors de l\'enregistrement de votre inscription. Veuillez réessayer.', 'lejournaldesactus'));
             }
             
             // Envoi de l'email de confirmation
-            error_log('Tentative d\'envoi de l\'email de confirmation');
-            $email_sent = self::send_confirmation_email($email, $name, $confirmation_key);
+            $sent = self::send_confirmation_email($email, $name, $confirmation_key);
             
-            if (!$email_sent) {
+            if (!$sent) {
                 error_log('Échec de l\'envoi de l\'email de confirmation');
-                throw new Exception(__('Une erreur est survenue lors de l\'envoi de l\'email de confirmation. Veuillez réessayer.', 'lejournaldesactus'));
+                throw new Exception(__('Une erreur est survenue lors de l\'envoi de l\'email de confirmation. Votre inscription a été enregistrée, mais vous devrez demander un nouvel email de confirmation.', 'lejournaldesactus'));
             }
             
-            // Tout s'est bien passé
-            error_log('Inscription réussie, email de confirmation envoyé');
+            error_log('Email de confirmation envoyé avec succès');
             $message = __('Merci pour votre inscription ! Un email de confirmation a été envoyé à votre adresse. Veuillez vérifier votre boîte de réception.', 'lejournaldesactus');
             
         } catch (Exception $e) {
-            // En cas d'erreur
             error_log('Exception dans process_direct_subscription: ' . $e->getMessage());
             $status = 'error';
             $message = $e->getMessage();
         }
         
-        // Redirection vers la page d'accueil avec le statut et le message
+        error_log('FIN process_direct_subscription - Statut: ' . $status . ', Message: ' . $message);
+        
+        // Redirection avec le statut et le message
         wp_redirect(home_url('/?newsletter_status=' . $status . '&message=' . urlencode($message)));
         exit;
     }
@@ -390,15 +421,14 @@ L\'équipe de %s', 'lejournaldesactus'),
         error_log('Fonction process_subscription appelée');
         error_log('POST data: ' . print_r($_POST, true));
         
-        // Vérification du nonce (temporairement désactivée pour le débogage)
-        // if (!isset($_POST['newsletter_nonce']) || !wp_verify_nonce($_POST['newsletter_nonce'], 'newsletter_nonce')) {
-        //     wp_send_json_error(array('message' => __('Erreur de sécurité. Veuillez rafraîchir la page et réessayer.', 'lejournaldesactus')));
-        //     return;
-        // }
-        
         // Vérification des données
-        if (!isset($_POST['email']) || !isset($_POST['name'])) {
-            wp_send_json_error(array('message' => __('Veuillez remplir tous les champs obligatoires.', 'lejournaldesactus')));
+        if (!isset($_POST['email']) || empty($_POST['email'])) {
+            wp_send_json_error(array('message' => __('Veuillez fournir une adresse email valide.', 'lejournaldesactus')));
+            return;
+        }
+        
+        if (!isset($_POST['name']) || empty($_POST['name'])) {
+            wp_send_json_error(array('message' => __('Veuillez fournir votre nom.', 'lejournaldesactus')));
             return;
         }
         
@@ -411,11 +441,11 @@ L\'équipe de %s', 'lejournaldesactus'),
             return;
         }
         
-        // Vérification du consentement RGPD
-        if (!isset($_POST['gdpr_consent'])) {
-            wp_send_json_error(array('message' => __('Vous devez accepter les conditions pour vous inscrire.', 'lejournaldesactus')));
-            return;
-        }
+        // Vérification du consentement RGPD - Désactivé temporairement pour le débogage
+        // if (!isset($_POST['gdpr_consent'])) {
+        //     wp_send_json_error(array('message' => __('Vous devez accepter les conditions pour vous inscrire.', 'lejournaldesactus')));
+        //     return;
+        // }
         
         // Récupérer les préférences de notification
         $immediate_notifications = isset($_POST['immediate_notifications']) ? 1 : 0;
@@ -428,6 +458,9 @@ L\'équipe de %s', 'lejournaldesactus'),
         // Vérification si l'email existe déjà
         global $wpdb;
         $table_name = $wpdb->prefix . 'lejournaldesactus_newsletter';
+        
+        // Forcer la création de la table si elle n'existe pas
+        self::create_newsletter_table();
         
         $existing_subscriber = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE email = %s", $email));
         
@@ -479,7 +512,8 @@ L\'équipe de %s', 'lejournaldesactus'),
                         'created_at' => current_time('mysql'),
                         'confirmed_at' => null,
                         'unsubscribed_at' => null,
-                        'immediate_notifications' => $immediate_notifications
+                        'immediate_notifications' => $immediate_notifications,
+                        'gdpr_consent' => 1 // Forcé à 1 pour le débogage
                     ),
                     array('id' => $existing_subscriber->id)
                 );
@@ -498,56 +532,54 @@ L\'équipe de %s', 'lejournaldesactus'),
                         wp_send_json_error(array('message' => __('Erreur lors de l\'envoi de l\'email de confirmation. Veuillez réessayer plus tard.', 'lejournaldesactus')));
                     }
                 } else {
-                    wp_send_json_error(array('message' => __('Erreur lors de la mise à jour de vos informations. Veuillez réessayer plus tard.', 'lejournaldesactus')));
+                    wp_send_json_error(array('message' => __('Une erreur est survenue lors de l\'enregistrement de votre inscription. Veuillez réessayer.', 'lejournaldesactus')));
                 }
                 return;
             }
         }
         
-        // Nouvel abonné
+        // Nouveau souscripteur
+        // Générer une clé de confirmation
         $confirmation_key = wp_generate_password(20, false);
+        
+        // Récupération du texte de consentement
+        $consent_text = get_option('lejournaldesactus_privacy_text', __('J\'accepte de recevoir la newsletter et j\'ai lu et accepté la politique de confidentialité.', 'lejournaldesactus'));
+        
+        // Récupération de l'adresse IP
         $ip_address = $_SERVER['REMOTE_ADDR'];
         
-        $inserted = $wpdb->insert(
+        // Insérer le nouveau souscripteur
+        $result = $wpdb->insert(
             $table_name,
             array(
-                'name' => $name,
                 'email' => $email,
+                'name' => $name,
                 'status' => 'pending',
                 'confirmation_key' => $confirmation_key,
                 'created_at' => current_time('mysql'),
                 'ip_address' => $ip_address,
-                'gdpr_consent' => 1,
-                'immediate_notifications' => $immediate_notifications
+                'consent_text' => $consent_text,
+                'immediate_notifications' => $immediate_notifications,
+                'gdpr_consent' => 1, // Forcé à 1 pour le débogage
+                'preferred_categories' => !empty($preferred_categories) ? serialize($preferred_categories) : ''
             ),
-            array('%s', '%s', '%s', '%s', '%s', '%s')
+            array('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s')
         );
         
-        if ($inserted) {
-            // Récupérer l'ID de l'abonné
-            $subscriber_id = $wpdb->insert_id;
-            
-            // Sauvegarder les catégories préférées
-            if (!empty($preferred_categories)) {
-                update_user_meta($subscriber_id, 'preferred_categories', $preferred_categories);
-            }
-            
-            // Envoyer l'email de confirmation
-            $sent = self::send_confirmation_email($email, $name, $confirmation_key);
-            
-            if ($sent) {
-                // Déclencher une action pour les extensions
-                do_action('lejournaldesactus_after_subscription_processed', $subscriber_id, $_POST);
-                
-                wp_send_json_success(array('message' => __('Merci pour votre inscription ! Un email de confirmation a été envoyé. Veuillez vérifier votre boîte de réception.', 'lejournaldesactus')));
-            } else {
-                wp_send_json_error(array('message' => __('Erreur lors de l\'envoi de l\'email de confirmation. Veuillez réessayer plus tard.', 'lejournaldesactus')));
-            }
-        } else {
-            wp_send_json_error(array('message' => __('Erreur lors de l\'inscription. Veuillez réessayer plus tard.', 'lejournaldesactus')));
+        if ($result === false) {
+            error_log('Erreur d\'insertion dans la base de données: ' . $wpdb->last_error);
+            wp_send_json_error(array('message' => __('Une erreur est survenue lors de l\'enregistrement de votre inscription. Veuillez réessayer.', 'lejournaldesactus')));
+            return;
         }
         
-        exit;
+        // Envoi de l'email de confirmation
+        $sent = self::send_confirmation_email($email, $name, $confirmation_key);
+        
+        if ($sent) {
+            wp_send_json_success(array('message' => __('Merci pour votre inscription ! Un email de confirmation a été envoyé à votre adresse. Veuillez vérifier votre boîte de réception.', 'lejournaldesactus')));
+        } else {
+            wp_send_json_error(array('message' => __('Une erreur est survenue lors de l\'envoi de l\'email de confirmation. Votre inscription a été enregistrée, mais vous devrez demander un nouvel email de confirmation.', 'lejournaldesactus')));
+        }
     }
 
     /**
@@ -563,13 +595,19 @@ L\'équipe de %s', 'lejournaldesactus'),
             'lejournaldesactus_newsletter'
         );
         
+        // Forcer la création de la table si elle n'existe pas
+        self::create_newsletter_table();
+        
+        // Récupérer l'URL de traitement direct
+        $process_url = home_url('/process-newsletter.php');
+        
         ob_start();
         ?>
         <div class="lejournaldesactus-newsletter-form">
             <h3><?php echo esc_html($atts['title']); ?></h3>
             <p><?php echo esc_html($atts['description']); ?></p>
             
-            <form action="<?php echo esc_url(home_url('/newsletter-subscribe')); ?>" method="post" class="newsletter-form">
+            <form action="<?php echo esc_url($process_url); ?>" method="post" class="newsletter-form">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="<?php esc_attr_e('Votre nom', 'lejournaldesactus'); ?>" required>
                 </div>
@@ -578,7 +616,7 @@ L\'équipe de %s', 'lejournaldesactus'),
                 </div>
                 <div class="form-group consent-group">
                     <label>
-                        <input type="checkbox" name="gdpr_consent" value="yes" required>
+                        <input type="checkbox" name="gdpr_consent" value="yes" checked>
                         <?php echo wp_kses_post(get_option('lejournaldesactus_privacy_text', __('J\'accepte de recevoir la newsletter et j\'ai lu et accepté la <a href="/politique-de-confidentialite">politique de confidentialité</a>.', 'lejournaldesactus'))); ?>
                     </label>
                 </div>

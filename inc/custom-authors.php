@@ -46,16 +46,35 @@ function lejournaldesactus_register_author_post_type() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'author'),
+        'rewrite'            => array(
+            'slug' => 'redacteur',
+            'with_front' => false,
+            'feeds' => true,
+            'pages' => true
+        ),
         'capability_type'    => 'post',
-        'has_archive'        => true,
+        'has_archive'        => 'redacteurs',
         'hierarchical'       => false,
         'menu_position'      => null,
         'menu_icon'          => 'dashicons-admin-users',
         'supports'           => array('title', 'editor', 'thumbnail'),
     );
 
-    register_post_type('author', $args);
+    register_post_type('custom_author', $args);
+    
+    // Enregistrer l'ancien type de contenu pour la compatibilité
+    register_post_type('author', array(
+        'public' => false,
+        'publicly_queryable' => false,
+        'show_ui' => false,
+        'show_in_menu' => false,
+        'query_var' => false,
+        'rewrite' => false,
+        'capability_type' => 'post',
+        'has_archive' => false,
+        'hierarchical' => false,
+        'supports' => array(),
+    ));
 }
 add_action('init', 'lejournaldesactus_register_author_post_type');
 
@@ -67,7 +86,7 @@ function lejournaldesactus_add_author_meta_boxes() {
         'author_details',
         __('Détails de l\'auteur', 'lejournaldesactus'),
         'lejournaldesactus_author_details_callback',
-        'author',
+        'custom_author',
         'normal',
         'high'
     );
@@ -257,7 +276,7 @@ function lejournaldesactus_save_author_data($post_id) {
         update_post_meta($post_id, '_author_linkedin', esc_url_raw($_POST['author_linkedin']));
     }
 }
-add_action('save_post_author', 'lejournaldesactus_save_author_data');
+add_action('save_post_custom_author', 'lejournaldesactus_save_author_data');
 
 /**
  * Ajouter un champ pour sélectionner un auteur personnalisé dans les articles
@@ -286,7 +305,7 @@ function lejournaldesactus_post_author_callback($post) {
     
     // Récupérer tous les auteurs
     $authors = get_posts(array(
-        'post_type' => 'author',
+        'post_type' => 'custom_author',
         'posts_per_page' => -1,
         'orderby' => 'title',
         'order' => 'ASC',
@@ -385,3 +404,43 @@ function lejournaldesactus_update_author_articles_count($post_id, $post, $update
 add_action('save_post', 'lejournaldesactus_update_author_articles_count', 10, 3);
 add_action('trash_post', 'lejournaldesactus_update_author_articles_count', 10, 3);
 add_action('untrash_post', 'lejournaldesactus_update_author_articles_count', 10, 3);
+
+/**
+ * Fonction pour rediriger les anciennes URLs d'auteurs vers les nouvelles
+ */
+function lejournaldesactus_redirect_author_urls() {
+    // Vérifier si nous sommes sur une page 404
+    if (is_404()) {
+        // Récupérer l'URL actuelle
+        $current_url = $_SERVER['REQUEST_URI'];
+        error_log('URL 404 détectée: ' . $current_url);
+        
+        // Vérifier si l'URL contient /author/ ou /redacteur/
+        if (strpos($current_url, '/author/') !== false || strpos($current_url, '/redacteur/') !== false) {
+            // Extraire le slug de l'auteur
+            $author_slug = basename(rtrim($current_url, '/'));
+            error_log('Slug d\'auteur extrait: ' . $author_slug);
+            
+            // Rechercher l'auteur par son slug
+            $args = array(
+                'name'        => $author_slug,
+                'post_type'   => 'custom_author',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            );
+            $author_posts = get_posts($args);
+            
+            if ($author_posts) {
+                error_log('Auteur trouvé avec ID: ' . $author_posts[0]->ID);
+                // Rediriger vers la nouvelle URL
+                $new_url = get_permalink($author_posts[0]->ID);
+                error_log('Redirection vers: ' . $new_url);
+                wp_redirect($new_url, 301);
+                exit;
+            } else {
+                error_log('Aucun auteur trouvé avec le slug: ' . $author_slug);
+            }
+        }
+    }
+}
+add_action('template_redirect', 'lejournaldesactus_redirect_author_urls');

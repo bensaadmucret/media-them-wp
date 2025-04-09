@@ -49,7 +49,7 @@ class Lejournaldesactus_Authors_Widget extends WP_Widget {
         }
 
         // Vérifier si nous utilisons les auteurs personnalisés ou les auteurs WordPress
-        if ($use_custom_authors && post_type_exists('author')) {
+        if ($use_custom_authors && post_type_exists('custom_author')) {
             // Auteurs personnalisés (CPT)
             $this->display_custom_authors($number, $show_post_count, $orderby, $order, $exclude, $include);
         } else {
@@ -66,7 +66,7 @@ class Lejournaldesactus_Authors_Widget extends WP_Widget {
     private function display_custom_authors($number, $show_post_count, $orderby, $order, $exclude, $include) {
         // Arguments de la requête
         $args = array(
-            'post_type'      => 'author',
+            'post_type'      => 'custom_author',
             'posts_per_page' => $number,
             'post_status'    => 'publish',
         );
@@ -248,7 +248,7 @@ class Lejournaldesactus_Authors_Widget extends WP_Widget {
             <input class="checkbox" type="checkbox" <?php checked($use_custom_authors); ?> id="<?php echo $this->get_field_id('use_custom_authors'); ?>" name="<?php echo $this->get_field_name('use_custom_authors'); ?>" />
             <label for="<?php echo $this->get_field_id('use_custom_authors'); ?>"><?php _e('Utiliser les auteurs personnalisés', 'lejournaldesactus'); ?></label>
             <br>
-            <small><?php _e('Utilise le type de contenu personnalisé "author" au lieu des utilisateurs WordPress.', 'lejournaldesactus'); ?></small>
+            <small><?php _e('Utilise le type de contenu personnalisé "custom_author" au lieu des utilisateurs WordPress.', 'lejournaldesactus'); ?></small>
         </p>
 
         <p>

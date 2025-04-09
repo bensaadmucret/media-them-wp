@@ -90,7 +90,7 @@ function lejournaldesactus_get_custom_author($post_id) {
     
     $author = get_post($author_id);
     
-    if (!$author || $author->post_type !== 'author') {
+    if (!$author || $author->post_type !== 'custom_author') {
         return false;
     }
     

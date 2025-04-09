@@ -1,12 +1,12 @@
 <?php
 /**
- * Template pour l'affichage d'un profil d'auteur
+ * Template pour l'affichage d'un profil d'auteur personnalisé
  *
  * @package LeJournalDesActus
  */
 
 // Débogage - Vérifier si ce template est bien utilisé
-error_log('Template single-author.php chargé pour l\'ID: ' . get_the_ID());
+error_log('Template single-custom_author.php chargé pour l\'ID: ' . get_the_ID());
 
 get_header();
 ?>
