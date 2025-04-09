@@ -22,6 +22,10 @@ class Lejournaldesactus_Bookmarks {
         add_action('wp_ajax_lejournaldesactus_toggle_bookmark', array($this, 'toggle_bookmark'));
         add_action('wp_ajax_nopriv_lejournaldesactus_toggle_bookmark', array($this, 'toggle_bookmark_guest'));
         
+        // Ajouter l'action AJAX pour vérifier les favoris
+        add_action('wp_ajax_lejournaldesactus_check_bookmarks', array($this, 'check_bookmarks'));
+        add_action('wp_ajax_nopriv_lejournaldesactus_check_bookmarks', array($this, 'check_bookmarks_guest'));
+        
         // Ajouter le bouton de bookmark aux articles
         add_filter('the_content', array($this, 'add_bookmark_button'));
         
@@ -36,6 +40,9 @@ class Lejournaldesactus_Bookmarks {
         
         // Créer la page de bookmarks lors de l'activation du thème
         add_action('after_switch_theme', array($this, 'create_bookmarks_page'));
+        
+        // S'assurer que la page des favoris existe lors de l'initialisation du plugin
+        add_action('init', array($this, 'ensure_bookmarks_page_exists'));
     }
     
     /**
@@ -55,6 +62,10 @@ class Lejournaldesactus_Bookmarks {
             'loginRequired' => __('Vous devez être connecté pour ajouter des favoris', 'lejournaldesactus'),
             'guestBookmarkAdded' => __('Article ajouté aux favoris temporaires', 'lejournaldesactus'),
             'guestBookmarkRemoved' => __('Article retiré des favoris temporaires', 'lejournaldesactus'),
+            'bookmarkText' => __('Enregistrer', 'lejournaldesactus'),
+            'bookmarkedText' => __('Enregistré', 'lejournaldesactus'),
+            'emptyMessage' => __('Vous n\'avez pas encore d\'articles favoris.', 'lejournaldesactus'),
+            'homeUrl' => home_url('/')
         ));
     }
     
@@ -319,6 +330,55 @@ class Lejournaldesactus_Bookmarks {
     }
     
     /**
+     * Vérifier le nombre de favoris pour les utilisateurs connectés
+     */
+    public function check_bookmarks() {
+        // Vérifier le nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'lejournaldesactus_bookmark_nonce')) {
+            wp_send_json_error('Sécurité non valide.');
+            return;
+        }
+        
+        $user_id = get_current_user_id();
+        $bookmarks = get_user_meta($user_id, 'lejournaldesactus_bookmarks', true);
+        
+        if (!is_array($bookmarks)) {
+            $bookmarks = array();
+        }
+        
+        $count = count($bookmarks);
+        
+        wp_send_json_success(array(
+            'count' => $count
+        ));
+    }
+    
+    /**
+     * Vérifier le nombre de favoris pour les visiteurs
+     */
+    public function check_bookmarks_guest() {
+        // Vérifier le nonce
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'lejournaldesactus_bookmark_nonce')) {
+            wp_send_json_error('Sécurité non valide.');
+            return;
+        }
+        
+        $count = 0;
+        
+        if (isset($_COOKIE['lejournaldesactus_guest_bookmarks'])) {
+            $guest_bookmarks = json_decode(stripslashes($_COOKIE['lejournaldesactus_guest_bookmarks']), true);
+            
+            if (is_array($guest_bookmarks)) {
+                $count = count($guest_bookmarks);
+            }
+        }
+        
+        wp_send_json_success(array(
+            'count' => $count
+        ));
+    }
+    
+    /**
      * Ajouter un lien vers la page des favoris dans le menu
      */
     public function add_bookmarks_menu_item($items, $args) {
@@ -381,6 +441,28 @@ class Lejournaldesactus_Bookmarks {
             if (!is_wp_error($page_id)) {
                 update_option('lejournaldesactus_bookmarks_page', $page_id);
             }
+        }
+    }
+    
+    /**
+     * S'assurer que la page des favoris existe
+     * Cette fonction vérifie si la page existe et la crée si nécessaire
+     */
+    public function ensure_bookmarks_page_exists() {
+        $bookmarks_page_id = get_option('lejournaldesactus_bookmarks_page');
+        
+        // Vérifier si l'ID existe et si la page correspondante existe toujours
+        if ($bookmarks_page_id) {
+            $page = get_post($bookmarks_page_id);
+            if (!$page || $page->post_status !== 'publish' || $page->post_type !== 'page') {
+                $bookmarks_page_id = false; // Réinitialiser si la page n'existe plus
+                delete_option('lejournaldesactus_bookmarks_page');
+            }
+        }
+        
+        // Si la page n'existe pas, la créer
+        if (!$bookmarks_page_id) {
+            $this->create_bookmarks_page();
         }
     }
 }

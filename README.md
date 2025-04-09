@@ -44,6 +44,15 @@ Un thème WordPress personnalisé pour "Le Journal des Actus" avec un système d
 - **Styles CSS optimisés** pour une meilleure lisibilité et accessibilité
 - **Contraste amélioré** pour une meilleure lisibilité des contenus
 - **Mode lecture zen** permettant une lecture sans distraction des articles
+- **Système de favoris intelligent** permettant aux utilisateurs de sauvegarder des articles pour une lecture ultérieure
+
+### Système de favoris (Bookmarks)
+- **Bouton "Enregistrer"** sur chaque article pour l'ajouter aux favoris
+- **Gestion intelligente du menu** : le lien "Favoris" apparaît/disparaît automatiquement selon la présence d'articles enregistrés
+- **Stockage des favoris** pour les utilisateurs connectés (base de données) et les visiteurs (cookies)
+- **Page dédiée** listant tous les articles favoris avec options de suppression
+- **Interface intuitive** avec notifications et animations lors de l'ajout/suppression
+- **Compatibilité avec le mode sombre** pour une expérience utilisateur cohérente
 
 ### Fonctionnalités de lecture avancées
 - **Mode lecture sans distraction** avec basculement facile

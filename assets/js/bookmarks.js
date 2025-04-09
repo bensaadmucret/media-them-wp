@@ -11,6 +11,7 @@
     $(document).ready(function() {
         initBookmarkButtons();
         initBookmarkRemoveButtons();
+        checkBookmarksOnLoad();
     });
     
     /**
@@ -175,8 +176,46 @@
             } else {
                 $menuItem.find('a').append('<span class="bookmark-count">' + count + '</span>');
             }
+            // S'assurer que l'élément de menu est visible
+            $menuItem.removeClass('d-none').fadeIn(300);
         } else {
             $count.remove();
+            // Masquer l'élément de menu s'il n'y a plus de favoris
+            $menuItem.fadeOut(300, function() {
+                $(this).addClass('d-none');
+            });
+        }
+    }
+    
+    /**
+     * Vérifier s'il y a des favoris au chargement de la page
+     * et masquer le menu si nécessaire
+     */
+    function checkBookmarksOnLoad() {
+        var $menuItem = $('.menu-item-bookmarks');
+        var $count = $menuItem.find('.bookmark-count');
+        
+        if ($count.length) {
+            // Il y a un compteur, vérifier s'il y a des favoris
+            var count = parseInt($count.text());
+            if (count <= 0) {
+                $menuItem.addClass('d-none');
+            }
+        } else {
+            // Pas de compteur, vérifier si l'utilisateur a des favoris
+            $.ajax({
+                url: lejournaldesactusBookmarks.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'lejournaldesactus_check_bookmarks',
+                    nonce: lejournaldesactusBookmarks.nonce
+                },
+                success: function(response) {
+                    if (response.success && response.data.count <= 0) {
+                        $menuItem.addClass('d-none');
+                    }
+                }
+            });
         }
     }
     
