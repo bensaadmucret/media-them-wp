@@ -43,9 +43,6 @@ function lejournaldesactus_setup() {
         'gallery',
         'caption',
     ));
-    
-    // Ajouter la prise en charge de l'en-tête HTTP strict-transport-security
-    add_filter('wp_headers', 'lejournaldesactus_add_security_headers');
 }
 add_action('after_setup_theme', 'lejournaldesactus_setup');
 
@@ -161,29 +158,6 @@ function lejournaldesactus_widgets_init() {
     ));
 }
 add_action('widgets_init', 'lejournaldesactus_widgets_init');
-
-/**
- * Ajouter les en-têtes de sécurité
- */
-function lejournaldesactus_security_headers() {
-    // Content Security Policy
-    $csp = "default-src 'self'; " .
-           "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: *.googleapis.com *.gstatic.com *.bootstrapcdn.com *.cloudflare.com; " .
-           "style-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com *.bootstrapcdn.com *.cloudflare.com; " .
-           "img-src 'self' data: *.gravatar.com *.wp.com *.wordpress.com; " .
-           "font-src 'self' data: *.googleapis.com *.gstatic.com *.bootstrapcdn.com *.cloudflare.com; " .
-           "connect-src 'self'; " .
-           "worker-src 'self' blob:; " .
-           "frame-src 'self'; " .
-           "object-src 'none';";
-    
-    header("Content-Security-Policy: $csp");
-    header("X-Content-Type-Options: nosniff");
-    header("X-Frame-Options: SAMEORIGIN");
-    header("X-XSS-Protection: 1; mode=block");
-    header("Referrer-Policy: strict-origin-when-cross-origin");
-}
-add_action('send_headers', 'lejournaldesactus_security_headers');
 
 /**
  * Ajouter le CSS pour corriger le menu mobile
