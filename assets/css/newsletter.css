@@ -204,8 +204,8 @@
 }
 
 #cta .newsletter .btn-primary {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: color-mix(in srgb, var(--nav-hover-color), #000 10%);
+    border-color: color-mix(in srgb, var(--nav-hover-color), #000 10%);
     padding: 10px 20px;
     font-weight: 600;
     text-transform: uppercase;

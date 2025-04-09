@@ -10,10 +10,9 @@
   </button>
 
   <!-- Blog Details Section -->
-  <section id="blog-details" class="blog-details">
-    <div class="container" data-aos="fade-up">
+    <div class="container dark-mode-row" data-aos="fade-up">
 
-      <div class="row g-5">
+      <div class="row g-5 ">
         <?php
         // Récupérer le template choisi dans les options de personnalisation
         $template = get_theme_mod('lejournaldesactus_single_post_template', 'with-sidebar');

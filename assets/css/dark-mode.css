@@ -216,11 +216,11 @@
 [data-theme="dark"] #logo a,
 [data-theme="dark"] #logo h1,
 [data-theme="dark"] #logo h2,
-[data-theme="dark"] #logo span,
+[data-theme="dark"] #logo,
 [data-theme="dark"] #site-logo a,
 [data-theme="dark"] #site-logo h1,
 [data-theme="dark"] #site-logo h2,
-[data-theme="dark"] #site-logo span,
+[data-theme="dark"] #site-logo,
 [data-theme="dark"] .custom-logo-link,
 [data-theme="dark"] h1.site-title,
 [data-theme="dark"] h1.site-title a,
@@ -393,6 +393,23 @@
     color: #e0e0e0 !important;
 }
 
+/* Forcer les couleurs des articles */
+[data-theme="dark"] article{
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+[data-theme="dark"] section{
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+[data-theme="dark"] .dark-mode-row{
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+[data-theme="dark"] span{
+    color: #fff44f !important;
+}
+
 /* Forcer les couleurs des cartes et articles */
 [data-theme="dark"] .card,
 [data-theme="dark"] .post,
@@ -441,9 +458,6 @@
     color: #040704 !important;
 }
 
-span.dark-mode-text {
-    color: #040704 !important;
-}
 
 /* Forcer les couleurs des formulaires */
 [data-theme="dark"] input,
@@ -710,8 +724,8 @@ span.dark-mode-text {
 [data-theme="dark"] .bookmarks-empty,
 [data-theme="dark"] .bookmarks-list {
     color: var(--text-color) !important;
-    background-color: var(--card-bg) !important;
-    border-color: var(--card-border) !important;
+    background-color: #121212 !important;
+    border-color: #333333 !important;
 }
 
 /* Forcer les couleurs de la section newsletter et CTA */
