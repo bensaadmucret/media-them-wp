@@ -2781,10 +2781,11 @@ section,
   color: var(--accent-color);
 }
 
-.author-profile .author-card .author-stats .stat-item p {
+.author-profile .author-card .author-stats .stat-item .purecounter p {
   font-size: 0.85rem;
   margin: 0;
   color: color-mix(in srgb, var(--default-color), transparent 40%);
+  background-color: var(--bs-secondary-color);
 }
 
 .author-profile .author-card .social-links {

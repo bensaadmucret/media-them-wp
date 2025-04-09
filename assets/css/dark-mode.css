@@ -525,6 +525,13 @@
     border-color: var(--border-color) !important;
 }
 
+[data-theme="dark"] .author-profile .author-card .author-stats .stat-item .purecounter p {
+    font-size: 0.85rem;
+    margin: 0;
+    background-color: var(--bs-secondary-color) !important;
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
+}
+
 /* Exceptions pour les réseaux sociaux - préserver leurs couleurs originales */
 [data-theme="dark"] .social-icons a,
 [data-theme="dark"] .social-links a,
