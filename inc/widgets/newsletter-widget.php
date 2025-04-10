@@ -60,7 +60,7 @@ class Lejournaldesactus_Newsletter_Widget extends WP_Widget {
             ?>
             <form action="<?php echo esc_url($mailchimp_action); ?>" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="newsletter-form validate" target="_blank" novalidate>
                 <input type="email" value="" name="EMAIL" class="newsletter-email" id="mce-EMAIL" placeholder="<?php echo esc_attr($placeholder); ?>" required>
-                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <div class="hidden-field" aria-hidden="true">
                     <input type="text" name="b_<?php echo md5(rand()); ?>" tabindex="-1" value="">
                 </div>
                 <input type="submit" value="<?php echo esc_attr($button_text); ?>" name="subscribe" id="mc-embedded-subscribe" class="newsletter-submit">
@@ -163,7 +163,7 @@ class Lejournaldesactus_Newsletter_Widget extends WP_Widget {
             </select>
         </p>
 
-        <div class="mailchimp-fields" style="<?php echo $service === 'mailchimp' ? 'display:block;' : 'display:none;'; ?>">
+        <div class="mailchimp-fields">
             <p>
                 <label for="<?php echo $this->get_field_id('mailchimp_action'); ?>"><?php _e('URL d\'action MailChimp:', 'lejournaldesactus'); ?></label>
                 <input class="widefat" id="<?php echo $this->get_field_id('mailchimp_action'); ?>" name="<?php echo $this->get_field_name('mailchimp_action'); ?>" type="text" value="<?php echo esc_attr($mailchimp_action); ?>" />
@@ -171,7 +171,7 @@ class Lejournaldesactus_Newsletter_Widget extends WP_Widget {
             </p>
         </div>
 
-        <div class="custom-fields" style="<?php echo $service === 'custom' ? 'display:block;' : 'display:none;'; ?>">
+        <div class="custom-fields">
             <p>
                 <label for="<?php echo $this->get_field_id('custom_action'); ?>"><?php _e('URL d\'action personnalisée:', 'lejournaldesactus'); ?></label>
                 <input class="widefat" id="<?php echo $this->get_field_id('custom_action'); ?>" name="<?php echo $this->get_field_name('custom_action'); ?>" type="text" value="<?php echo esc_attr($custom_action); ?>" />

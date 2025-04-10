@@ -80,26 +80,17 @@ function lejournaldesactus_display_default_author() {
     if ($linked_profile_id) {
         // Utiliser le profil d'auteur personnalisé
         $profile = get_post($linked_profile_id);
+        // Vérifier si c'est un profil d'auteur (custom_author)
         if ($profile && $profile->post_type === 'custom_author') {
             // Récupérer les métadonnées du profil
             $author_name = $profile->post_title;
             $author_url = get_permalink($profile->ID);
-            $author_image = get_the_post_thumbnail_url($profile->ID, 'thumbnail');
-            $author_designation = get_post_meta($profile->ID, '_author_designation', true);
             
             ?>
             <div class="post-author">
                 <a href="<?php echo esc_url($author_url); ?>" class="author-link">
-                    <?php if ($author_image) : ?>
-                        <img src="<?php echo esc_url($author_image); ?>" alt="<?php echo esc_attr($author_name); ?>" class="author-img">
-                    <?php else : ?>
-                        <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
-                    <?php endif; ?>
                     <span class="author-name"><?php echo esc_html($author_name); ?></span>
                 </a>
-                <?php if ($author_designation) : ?>
-                    <span class="author-designation"><?php echo esc_html($author_designation); ?></span>
-                <?php endif; ?>
             </div>
             <?php
             return;
@@ -121,22 +112,12 @@ function lejournaldesactus_display_default_author() {
         // Récupérer les métadonnées du profil
         $author_name = $profile->post_title;
         $author_url = get_permalink($profile->ID);
-        $author_image = get_the_post_thumbnail_url($profile->ID, 'thumbnail');
-        $author_designation = get_post_meta($profile->ID, '_author_designation', true);
         
         ?>
         <div class="post-author">
             <a href="<?php echo esc_url($author_url); ?>" class="author-link">
-                <?php if ($author_image) : ?>
-                    <img src="<?php echo esc_url($author_image); ?>" alt="<?php echo esc_attr($author_name); ?>" class="author-img">
-                <?php else : ?>
-                    <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
-                <?php endif; ?>
                 <span class="author-name"><?php echo esc_html($author_name); ?></span>
             </a>
-            <?php if ($author_designation) : ?>
-                <span class="author-designation"><?php echo esc_html($author_designation); ?></span>
-            <?php endif; ?>
         </div>
         <?php
         return;
@@ -146,7 +127,6 @@ function lejournaldesactus_display_default_author() {
     ?>
     <div class="post-author">
         <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>" class="author-link">
-            <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
             <span class="author-name"><?php the_author(); ?></span>
         </a>
     </div>
@@ -160,7 +140,8 @@ function lejournaldesactus_get_author_posts($author_id, $limit = 4) {
     $args = array(
         'post_type' => 'post',
         'posts_per_page' => $limit,
-        'author' => $author_id,
+        'meta_key' => '_custom_author',
+        'meta_value' => $author_id,
         'orderby' => 'date',
         'order' => 'DESC',
     );

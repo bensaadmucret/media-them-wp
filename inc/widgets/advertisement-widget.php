@@ -103,7 +103,7 @@ class Lejournaldesactus_Advertisement_Widget extends WP_Widget {
             </select>
         </p>
 
-        <div class="image-fields" style="<?php echo $ad_type === 'image' ? 'display:block;' : 'display:none;'; ?>">
+        <div class="image-fields">
             <p>
                 <label for="<?php echo $this->get_field_id('image_url'); ?>"><?php _e('URL de l\'image:', 'lejournaldesactus'); ?></label>
                 <input class="widefat" id="<?php echo $this->get_field_id('image_url'); ?>" name="<?php echo $this->get_field_name('image_url'); ?>" type="url" value="<?php echo esc_url($image_url); ?>" />
@@ -121,7 +121,7 @@ class Lejournaldesactus_Advertisement_Widget extends WP_Widget {
             </p>
         </div>
 
-        <div class="code-fields" style="<?php echo $ad_type === 'code' ? 'display:block;' : 'display:none;'; ?>">
+        <div class="code-fields">
             <p>
                 <label for="<?php echo $this->get_field_id('ad_code'); ?>"><?php _e('Code de publicité:', 'lejournaldesactus'); ?></label>
                 <textarea class="widefat" id="<?php echo $this->get_field_id('ad_code'); ?>" name="<?php echo $this->get_field_name('ad_code'); ?>" rows="6"><?php echo esc_textarea($ad_code); ?></textarea>

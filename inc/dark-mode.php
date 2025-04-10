@@ -21,9 +21,6 @@ class Lejournaldesactus_Dark_Mode {
         // Ajouter les scripts et styles
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         
-        // Ajouter le bouton de basculement dans le footer
-        add_action('wp_footer', array($this, 'add_toggle_button'));
-        
         // Ajouter l'action AJAX pour les utilisateurs connectés
         add_action('wp_ajax_lejournaldesactus_save_theme_preference', array($this, 'save_theme_preference'));
         add_action('wp_ajax_nopriv_lejournaldesactus_save_theme_preference', array($this, 'save_theme_preference_guest'));
@@ -53,17 +50,6 @@ class Lejournaldesactus_Dark_Mode {
             'nonce' => wp_create_nonce('lejournaldesactus_dark_mode_nonce'),
             'loggedIn' => is_user_logged_in(),
         ));
-    }
-    
-    /**
-     * Ajouter le bouton de basculement dans le footer
-     */
-    public function add_toggle_button() {
-        echo '<div class="dark-mode-toggle">';
-        echo '<a href="#" class="dark-mode-toggle-btn" title="' . esc_attr__('Changer de thème', 'lejournaldesactus') . '">';
-        echo '<i class="bi bi-circle-half"></i>';
-        echo '</a>';
-        echo '</div>';
     }
     
     /**

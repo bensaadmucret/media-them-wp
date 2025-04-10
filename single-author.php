@@ -58,21 +58,6 @@ get_header();
                   <?php echo esc_html(get_post_meta(get_the_ID(), '_author_bio_short', true)); ?>
                 </div>
 
-                <div class="author-stats d-flex justify-content-between text-center my-4">
-                  <div class="stat-item">
-                    <h4 data-purecounter-start="0" data-purecounter-end="<?php echo esc_attr(get_post_meta(get_the_ID(), '_author_articles_count', true) ?: '0'); ?>" data-purecounter-duration="1" class="purecounter"></h4>
-                    <p><?php esc_html_e('Articles', 'lejournaldesactus'); ?></p>
-                  </div>
-                  <div class="stat-item">
-                    <h4 data-purecounter-start="0" data-purecounter-end="<?php echo esc_attr(get_post_meta(get_the_ID(), '_author_awards', true) ?: '0'); ?>" data-purecounter-duration="1" class="purecounter"></h4>
-                    <p><?php esc_html_e('Récompenses', 'lejournaldesactus'); ?></p>
-                  </div>
-                  <div class="stat-item">
-                    <h4 data-purecounter-start="0" data-purecounter-end="<?php echo esc_attr(get_post_meta(get_the_ID(), '_author_followers', true) ?: '0'); ?>" data-purecounter-duration="1" class="purecounter">K</h4>
-                    <p><?php esc_html_e('Abonnés', 'lejournaldesactus'); ?></p>
-                  </div>
-                </div>
-
                 <div class="social-links">
                   <?php $twitter = get_post_meta(get_the_ID(), '_author_twitter', true); ?>
                   <?php if (!empty($twitter)) : ?>

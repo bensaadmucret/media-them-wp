@@ -385,6 +385,10 @@ class LeJournalDesActus_Newsletter_Sender {
                 .unsubscribe {
                     color: #7f8c8d;
                 }
+                .newsletter-image {
+                    max-width: 100%;
+                    height: auto;
+                }
             </style>
         </head>
         <body>
@@ -401,7 +405,7 @@ class LeJournalDesActus_Newsletter_Sender {
                     <div class="post-excerpt">
                         <?php 
                         if (has_post_thumbnail($post->ID)) {
-                            echo '<p><img src="' . get_the_post_thumbnail_url($post->ID, 'medium') . '" style="max-width:100%;height:auto;"></p>';
+                            echo '<p><img src="' . get_the_post_thumbnail_url($post->ID, 'medium') . '" class="newsletter-image"></p>';
                         }
                         
                         echo '<p>' . wp_trim_words(get_the_excerpt($post), 30, '...') . '</p>';
@@ -519,7 +523,7 @@ class LeJournalDesActus_Newsletter_Sender {
                 <div class="post-excerpt">
                     <?php 
                     if (has_post_thumbnail($post->ID)) {
-                        echo '<p><img src="' . get_the_post_thumbnail_url($post->ID, 'medium') . '" style="max-width:100%;height:auto;"></p>';
+                        echo '<p><img src="' . get_the_post_thumbnail_url($post->ID, 'medium') . '" class="newsletter-image"></p>';
                     }
                     
                     echo '<p>' . wp_trim_words(get_the_excerpt($post), 50, '...') . '</p>';

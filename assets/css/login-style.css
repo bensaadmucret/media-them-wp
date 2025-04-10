@@ -1,0 +1,123 @@
+/**
+ * Styles personnalisés pour la page de connexion WordPress
+ * Thème: Le Journal des Actus
+ */
+
+/* Fond de la page */
+body.login {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Logo */
+.login h1 a {
+    background-image: url('../img/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 320px;
+    height: 80px;
+    margin-bottom: 30px;
+}
+
+/* Titre au-dessus du formulaire */
+.login-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Formulaire */
+.login form {
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 26px 24px;
+}
+
+/* Champs de texte */
+.login form .input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 12px;
+    background-color: #f8f9fa;
+}
+
+/* Focus sur les champs */
+.login form .input:focus {
+    border-color: #f75815;
+    box-shadow: 0 0 0 1px #f75815;
+}
+
+/* Bouton de connexion */
+.login .button-primary {
+    background-color: #f75815;
+    border-color: #f75815;
+    border-radius: 4px;
+    color: #fff;
+    text-shadow: none;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    height: auto;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+}
+
+/* Hover sur le bouton */
+.login .button-primary:hover,
+.login .button-primary:focus {
+    background-color: #e04e10;
+    border-color: #e04e10;
+}
+
+/* Liens */
+.login #nav a,
+.login #backtoblog a {
+    color: #f75815;
+    text-decoration: none;
+}
+
+/* Hover sur les liens */
+.login #nav a:hover,
+.login #backtoblog a:hover {
+    color: #e04e10;
+    text-decoration: underline;
+}
+
+/* Messages d'erreur */
+.login #login_error {
+    border-left-color: #dc3545;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Messages de succès */
+.login .message {
+    border-left-color: #28a745;
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Case à cocher Se souvenir de moi */
+.login form .forgetmenot label {
+    font-size: 14px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .login h1 a {
+        width: 240px;
+        height: 60px;
+    }
+    
+    .login-title {
+        font-size: 20px;
+    }
+}

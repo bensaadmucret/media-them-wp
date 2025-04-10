@@ -594,11 +594,11 @@ footer {
 }
 
 /* Forcer les couleurs des liens */
-[data-theme="dark"] a:not(.btn):not(.button):not(.menu-item> a) {
+[data-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item) {
     color: #A2F8B5 !important;
 }
 
-[data-theme="dark"] a:hover:not(.btn):not(.button) {
+[data-theme="dark"] a:hover:not(.btn):not(.nav-link):not(.dropdown-item) {
     color:color-mix(in srgb, var(--nav-hover-color), #000 10%)   !important;
 }
 
@@ -882,6 +882,55 @@ footer {
     border-color: #333333 !important;
 }
 
+/* Forcer les styles pour author-bio avec une spécificité plus élevée */
+[data-theme="dark"] .author-profile .author-card .author-info .author-bio,
+[data-theme="dark"] .author-profile-section .author-card .author-info .author-bio,
+[data-theme="dark"] #author-profile .author-card .author-info .author-bio,
+[data-theme="dark"] .author-profile-1 .author-card .author-info .author-bio,
+[data-theme="dark"] .author-profile .author-card .author-info .author-bio p,
+[data-theme="dark"] section.author-profile .author-card .author-info .author-bio {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--card-border) !important;
+}
+
+/* Styles pour le contenu principal de l'auteur */
+[data-theme="dark"] .content-body,
+[data-theme="dark"] .author-content .content-body,
+[data-theme="dark"] .author-content .content-body p {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* Forcer les couleurs des articles de l'auteur en mode sombre */
+[data-theme="dark"] .article-card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .article-card .article-details h5 a {
+    color: var(--heading-color) !important;
+}
+
+[data-theme="dark"] .article-card .post-category {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .article-card .post-meta {
+    color: var(--text-muted) !important;
+}
+
+/* Styles plus spécifiques pour author-bio */
+[data-theme="dark"] .author-bio,
+[data-theme="dark"] .author-info .author-bio,
+[data-theme="dark"] .author-profile .author-bio,
+[data-theme="dark"] .author-card .author-bio,
+[data-theme="dark"] .author-bio p {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+}
+
 /* Forcer les couleurs de la section newsletter et CTA */
 [data-theme="dark"] .newsletter,
 [data-theme="dark"] .newsletter-section,
@@ -1019,7 +1068,7 @@ footer {
     color: #f5f5f5 !important;
 }
 
-/* Styles spécifiques pour les formulaires dans CTA */
+/* Styles pour les formulaires dans CTA */
 [data-theme="dark"] #cta form,
 [data-theme="dark"] .cta form,
 [data-theme="dark"] .cta-section form,
@@ -1290,7 +1339,7 @@ input:checked + .slider:before {
     transition: color 0.3s ease;
 }
 
-/* Style pour le mode sombre actif */
+/* Style pour le mode sombre */
 [data-theme="dark"] .dark-mode-futura-btn {
     background-color: #2b4158;
     color: #fff;
@@ -1342,4 +1391,129 @@ input:checked + .slider:before {
     .form-switch .form-check-label {
         font-size: 12px;
     }
+}
+
+/* Notification de changement de thème */
+.theme-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 4px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.theme-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+[data-theme="dark"] .theme-notification {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+}
+
+/* Styles pour le menu de basculement */
+.dark-mode-menu-toggle {
+    display: flex;
+    align-items: center;
+}
+
+.dark-mode-menu-toggle i {
+    margin-right: 5px;
+}
+
+/* Styles pour les éléments author-card et author-content en mode sombre */
+[data-theme="dark"] .panel,
+[data-theme="dark"] .box,
+[data-theme="dark"] .block {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .author-card,
+[data-theme="dark"] .author-content {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .author-card h2,
+[data-theme="dark"] .author-content h3,
+[data-theme="dark"] .author-content h4 {
+    color: var(--heading-color) !important;
+}
+
+[data-theme="dark"] .author-card .designation,
+[data-theme="dark"] .author-card .author-bio,
+[data-theme="dark"] .author-stats p {
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .author-stats h4 {
+    color: var(--heading-color) !important;
+}
+
+[data-theme="dark"] .social-links a {
+    color: var(--link-color) !important;
+}
+
+[data-theme="dark"] .social-links a:hover {
+    color: var(--link-hover-color) !important;
+}
+
+[data-theme="dark"] .expertise-areas .tags span {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+}
+
+/* Styles pour la section des auteurs en mode sombre */
+[data-theme="dark"] .authors .author-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--card-border) !important;
+    padding: 2rem !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-info {
+    background-color: var(--card-bg) !important;
+    color: var(--text-color) !important;
+    padding: 1.5rem !important;
+    width: 100% !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-info h3 a {
+    color: var(--heading-color) !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-info h3 a:hover {
+    color: var(--link-hover-color) !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-info .designation {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-info .author-bio {
+    color: var(--text-color) !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-meta {
+    border-top-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-meta .read-more {
+    color: #A2F8B5 !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="dark"] .authors .author-card .author-meta .read-more:hover {
+    color: #7FDFA0 !important;
+    text-decoration: underline !important;
 }

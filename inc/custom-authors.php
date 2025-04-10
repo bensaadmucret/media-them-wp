@@ -68,15 +68,139 @@ function lejournaldesactus_register_author_post_type() {
         'publicly_queryable' => false,
         'show_ui' => false,
         'show_in_menu' => false,
-        'query_var' => false,
-        'rewrite' => false,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'auteur'),
         'capability_type' => 'post',
         'has_archive' => false,
         'hierarchical' => false,
-        'supports' => array(),
+        'supports' => array('title', 'editor', 'thumbnail'),
     ));
 }
 add_action('init', 'lejournaldesactus_register_author_post_type');
+
+/**
+ * Rediriger les URL de custom_author vers author
+ */
+function lejournaldesactus_redirect_custom_author() {
+    global $post, $wp_query;
+    
+    // Vérifier si nous sommes sur une page d'auteur personnalisé
+    if (is_singular('custom_author')) {
+        // Forcer WordPress à utiliser le bon template
+        // Nous ne redirigeons pas, mais nous nous assurons que le bon template est utilisé
+        add_filter('template_include', function($template) {
+            $new_template = locate_template(array('single-custom_author.php'));
+            if (!empty($new_template)) {
+                return $new_template;
+            }
+            return $template;
+        }, 99);
+    }
+}
+add_action('template_redirect', 'lejournaldesactus_redirect_custom_author', 5);
+
+/**
+ * Utiliser le template single-author.php pour les deux types de contenu
+ */
+function lejournaldesactus_use_author_template($template) {
+    if (is_singular('custom_author')) {
+        $new_template = locate_template(array('single-custom_author.php'));
+        if (!empty($new_template)) {
+            return $new_template;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'lejournaldesactus_use_author_template');
+
+/**
+ * Fonction pour forcer la mise à jour des permaliens
+ * Cette fonction sera exécutée une seule fois
+ */
+function lejournaldesactus_flush_rewrite_rules() {
+    // Vérifier si les règles ont déjà été mises à jour
+    if (get_option('lejournaldesactus_author_rewrite_flushed') !== '1') {
+        // Mettre à jour les règles de réécriture
+        flush_rewrite_rules();
+        
+        // Marquer comme fait pour ne pas le refaire
+        update_option('lejournaldesactus_author_rewrite_flushed', '1');
+        
+        // Journaliser l'action
+        error_log('Règles de réécriture mises à jour pour les types de contenu author et custom_author');
+    }
+}
+add_action('init', 'lejournaldesactus_flush_rewrite_rules', 20);
+
+/**
+ * Fonction pour migrer automatiquement tous les custom_author vers author
+ */
+function lejournaldesactus_migrate_all_authors() {
+    // Vérifier si la migration a déjà été effectuée
+    if (get_option('lejournaldesactus_authors_migrated') !== '1') {
+        // Récupérer tous les custom_author
+        $args = array(
+            'post_type' => 'custom_author',
+            'post_status' => 'publish',
+            'posts_per_page' => -1
+        );
+        $custom_authors = get_posts($args);
+        
+        if (!empty($custom_authors)) {
+            foreach ($custom_authors as $author_post) {
+                // Vérifier si un author avec le même slug existe déjà
+                $existing = get_posts(array(
+                    'name' => $author_post->post_name,
+                    'post_type' => 'author',
+                    'post_status' => 'publish',
+                    'numberposts' => 1
+                ));
+                
+                if (empty($existing)) {
+                    // Créer un nouveau post de type 'author'
+                    $author_args = array(
+                        'post_title' => $author_post->post_title,
+                        'post_content' => $author_post->post_content,
+                        'post_name' => $author_post->post_name,
+                        'post_type' => 'author',
+                        'post_status' => 'publish'
+                    );
+                    
+                    // Insérer le post
+                    $author_id = wp_insert_post($author_args);
+                    
+                    if (!is_wp_error($author_id)) {
+                        // Copier toutes les métadonnées
+                        $meta_keys = get_post_custom_keys($author_post->ID);
+                        if ($meta_keys) {
+                            foreach ($meta_keys as $key) {
+                                $meta_values = get_post_custom_values($key, $author_post->ID);
+                                foreach ($meta_values as $value) {
+                                    add_post_meta($author_id, $key, maybe_unserialize($value));
+                                }
+                            }
+                        }
+                        
+                        // Copier l'image mise en avant si elle existe
+                        if (has_post_thumbnail($author_post->ID)) {
+                            $thumbnail_id = get_post_thumbnail_id($author_post->ID);
+                            set_post_thumbnail($author_id, $thumbnail_id);
+                        }
+                        
+                        error_log('Auteur migré: ' . $author_post->post_title . ' (ID: ' . $author_post->ID . ' -> ' . $author_id . ')');
+                    }
+                }
+            }
+        }
+        
+        // Marquer comme fait pour ne pas le refaire
+        update_option('lejournaldesactus_authors_migrated', '1');
+        
+        // Journaliser l'action
+        error_log('Migration des auteurs terminée');
+    }
+}
+add_action('init', 'lejournaldesactus_migrate_all_authors', 30);
 
 /**
  * Ajouter les métadonnées personnalisées pour les auteurs
@@ -114,98 +238,77 @@ function lejournaldesactus_author_details_callback($post) {
     
     // Afficher les champs
     ?>
-    <style>
-        .author-meta-field {
-            margin-bottom: 15px;
-        }
-        .author-meta-field label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .author-meta-field input[type="text"],
-        .author-meta-field textarea {
-            width: 100%;
-        }
-        .author-meta-section {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        .author-meta-section h3 {
-            margin-top: 0;
-        }
-    </style>
-    
-    <div class="author-meta-section">
-        <h3><?php _e('Informations professionnelles', 'lejournaldesactus'); ?></h3>
-        
-        <div class="author-meta-field">
-            <label for="author_designation"><?php _e('Fonction / Titre', 'lejournaldesactus'); ?></label>
-            <input type="text" id="author_designation" name="author_designation" value="<?php echo esc_attr($designation); ?>" />
-            <p class="description"><?php _e('Ex: Journaliste, Rédacteur en chef, etc.', 'lejournaldesactus'); ?></p>
+    <div class="author-details-metabox">
+        <div class="author-meta-section">
+            <h3><?php _e('Informations professionnelles', 'lejournaldesactus'); ?></h3>
+            
+            <div class="author-meta-field">
+                <label for="author_designation"><?php _e('Fonction / Titre', 'lejournaldesactus'); ?></label>
+                <input type="text" id="author_designation" name="author_designation" value="<?php echo esc_attr($designation); ?>" />
+                <p class="description"><?php _e('Ex: Journaliste, Rédacteur en chef, etc.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_bio_short"><?php _e('Biographie courte', 'lejournaldesactus'); ?></label>
+                <textarea id="author_bio_short" name="author_bio_short" rows="3"><?php echo esc_textarea($bio_short); ?></textarea>
+                <p class="description"><?php _e('Une courte description qui apparaîtra dans les listes d\'articles.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_expertise"><?php _e('Domaines d\'expertise', 'lejournaldesactus'); ?></label>
+                <input type="text" id="author_expertise" name="author_expertise" value="<?php echo esc_attr($expertise); ?>" />
+                <p class="description"><?php _e('Ex: Politique, Économie, Sports, etc. (séparés par des virgules)', 'lejournaldesactus'); ?></p>
+            </div>
         </div>
         
-        <div class="author-meta-field">
-            <label for="author_bio_short"><?php _e('Biographie courte', 'lejournaldesactus'); ?></label>
-            <textarea id="author_bio_short" name="author_bio_short" rows="3"><?php echo esc_textarea($bio_short); ?></textarea>
-            <p class="description"><?php _e('Une courte description qui apparaîtra dans les listes d\'articles.', 'lejournaldesactus'); ?></p>
+        <div class="author-meta-section">
+            <h3><?php _e('Statistiques', 'lejournaldesactus'); ?></h3>
+            
+            <div class="author-meta-field">
+                <label for="author_articles_count"><?php _e('Nombre d\'articles', 'lejournaldesactus'); ?></label>
+                <input type="number" id="author_articles_count" name="author_articles_count" value="<?php echo esc_attr($articles_count); ?>" />
+                <p class="description"><?php _e('Ce champ est mis à jour automatiquement.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_awards"><?php _e('Récompenses', 'lejournaldesactus'); ?></label>
+                <input type="text" id="author_awards" name="author_awards" value="<?php echo esc_attr($awards); ?>" />
+                <p class="description"><?php _e('Nombre de prix ou distinctions reçus.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_followers"><?php _e('Abonnés', 'lejournaldesactus'); ?></label>
+                <input type="text" id="author_followers" name="author_followers" value="<?php echo esc_attr($followers); ?>" />
+                <p class="description"><?php _e('Nombre total d\'abonnés sur les réseaux sociaux.', 'lejournaldesactus'); ?></p>
+            </div>
         </div>
         
-        <div class="author-meta-field">
-            <label for="author_expertise"><?php _e('Domaines d\'expertise', 'lejournaldesactus'); ?></label>
-            <input type="text" id="author_expertise" name="author_expertise" value="<?php echo esc_attr($expertise); ?>" />
-            <p class="description"><?php _e('Ex: Politique, Économie, Sports, etc. (séparés par des virgules)', 'lejournaldesactus'); ?></p>
-        </div>
-    </div>
-    
-    <div class="author-meta-section">
-        <h3><?php _e('Statistiques', 'lejournaldesactus'); ?></h3>
-        
-        <div class="author-meta-field">
-            <label for="author_articles_count"><?php _e('Nombre d\'articles', 'lejournaldesactus'); ?></label>
-            <input type="number" id="author_articles_count" name="author_articles_count" value="<?php echo esc_attr($articles_count); ?>" />
-            <p class="description"><?php _e('Ce champ est mis à jour automatiquement.', 'lejournaldesactus'); ?></p>
-        </div>
-        
-        <div class="author-meta-field">
-            <label for="author_awards"><?php _e('Récompenses', 'lejournaldesactus'); ?></label>
-            <input type="text" id="author_awards" name="author_awards" value="<?php echo esc_attr($awards); ?>" />
-            <p class="description"><?php _e('Nombre de prix ou distinctions reçus.', 'lejournaldesactus'); ?></p>
-        </div>
-        
-        <div class="author-meta-field">
-            <label for="author_followers"><?php _e('Abonnés', 'lejournaldesactus'); ?></label>
-            <input type="text" id="author_followers" name="author_followers" value="<?php echo esc_attr($followers); ?>" />
-            <p class="description"><?php _e('Nombre total d\'abonnés sur les réseaux sociaux.', 'lejournaldesactus'); ?></p>
-        </div>
-    </div>
-    
-    <div class="author-meta-section">
-        <h3><?php _e('Réseaux sociaux', 'lejournaldesactus'); ?></h3>
-        
-        <div class="author-meta-field">
-            <label for="author_twitter"><?php _e('Twitter', 'lejournaldesactus'); ?></label>
-            <input type="url" id="author_twitter" name="author_twitter" value="<?php echo esc_url($twitter); ?>" />
-            <p class="description"><?php _e('URL complète du profil Twitter.', 'lejournaldesactus'); ?></p>
-        </div>
-        
-        <div class="author-meta-field">
-            <label for="author_facebook"><?php _e('Facebook', 'lejournaldesactus'); ?></label>
-            <input type="url" id="author_facebook" name="author_facebook" value="<?php echo esc_url($facebook); ?>" />
-            <p class="description"><?php _e('URL complète du profil Facebook.', 'lejournaldesactus'); ?></p>
-        </div>
-        
-        <div class="author-meta-field">
-            <label for="author_instagram"><?php _e('Instagram', 'lejournaldesactus'); ?></label>
-            <input type="url" id="author_instagram" name="author_instagram" value="<?php echo esc_url($instagram); ?>" />
-            <p class="description"><?php _e('URL complète du profil Instagram.', 'lejournaldesactus'); ?></p>
-        </div>
-        
-        <div class="author-meta-field">
-            <label for="author_linkedin"><?php _e('LinkedIn', 'lejournaldesactus'); ?></label>
-            <input type="url" id="author_linkedin" name="author_linkedin" value="<?php echo esc_url($linkedin); ?>" />
-            <p class="description"><?php _e('URL complète du profil LinkedIn.', 'lejournaldesactus'); ?></p>
+        <div class="author-meta-section">
+            <h3><?php _e('Réseaux sociaux', 'lejournaldesactus'); ?></h3>
+            
+            <div class="author-meta-field">
+                <label for="author_twitter"><?php _e('Twitter', 'lejournaldesactus'); ?></label>
+                <input type="url" id="author_twitter" name="author_twitter" value="<?php echo esc_url($twitter); ?>" />
+                <p class="description"><?php _e('URL complète du profil Twitter.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_facebook"><?php _e('Facebook', 'lejournaldesactus'); ?></label>
+                <input type="url" id="author_facebook" name="author_facebook" value="<?php echo esc_url($facebook); ?>" />
+                <p class="description"><?php _e('URL complète du profil Facebook.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_instagram"><?php _e('Instagram', 'lejournaldesactus'); ?></label>
+                <input type="url" id="author_instagram" name="author_instagram" value="<?php echo esc_url($instagram); ?>" />
+                <p class="description"><?php _e('URL complète du profil Instagram.', 'lejournaldesactus'); ?></p>
+            </div>
+            
+            <div class="author-meta-field">
+                <label for="author_linkedin"><?php _e('LinkedIn', 'lejournaldesactus'); ?></label>
+                <input type="url" id="author_linkedin" name="author_linkedin" value="<?php echo esc_url($linkedin); ?>" />
+                <p class="description"><?php _e('URL complète du profil LinkedIn.', 'lejournaldesactus'); ?></p>
+            </div>
         </div>
     </div>
     <?php
@@ -277,21 +380,32 @@ function lejournaldesactus_save_author_data($post_id) {
     }
 }
 add_action('save_post_custom_author', 'lejournaldesactus_save_author_data');
+// Supprimer le hook pour les posts de type 'author'
+// add_action('save_post_author', 'lejournaldesactus_save_author_data');
 
 /**
  * Ajouter un champ pour sélectionner un auteur personnalisé dans les articles
+ * Cette fonction est désactivée car nous utilisons la métabox d'auteur standard de WordPress
  */
 function lejournaldesactus_add_post_author_meta_box() {
+    // Fonction désactivée
+    return;
+    
+    // Code original conservé en commentaire pour référence
+    /*
     add_meta_box(
-        'post_author',
+        'post_custom_author',
         __('Auteur personnalisé', 'lejournaldesactus'),
         'lejournaldesactus_post_author_callback',
         'post',
-        'side',
+        'normal',
         'high'
     );
+    */
 }
-add_action('add_meta_boxes', 'lejournaldesactus_add_post_author_meta_box');
+
+// Désactiver l'ajout de la métabox d'auteur personnalisé
+// add_action('add_meta_boxes', 'lejournaldesactus_add_post_author_meta_box');
 
 /**
  * Callback pour afficher le sélecteur d'auteur personnalisé
@@ -303,29 +417,27 @@ function lejournaldesactus_post_author_callback($post) {
     // Récupérer l'auteur sélectionné
     $selected_author = get_post_meta($post->ID, '_custom_author', true);
     
-    // Récupérer tous les auteurs
+    // Récupérer tous les auteurs (utiliser 'author' au lieu de 'custom_author' selon la mémoire)
     $authors = get_posts(array(
-        'post_type' => 'custom_author',
+        'post_type' => 'author',
         'posts_per_page' => -1,
         'orderby' => 'title',
         'order' => 'ASC',
+        'post_status' => 'publish',
     ));
     
     // Afficher le sélecteur
     ?>
     <p>
-        <label for="custom_author"><?php _e('Sélectionner un auteur personnalisé :', 'lejournaldesactus'); ?></label>
-        <select id="custom_author" name="custom_author" style="width: 100%;">
-            <option value=""><?php _e('-- Auteur WordPress par défaut --', 'lejournaldesactus'); ?></option>
+        <label for="custom_author"><?php _e('Auteur personnalisé:', 'lejournaldesactus'); ?></label>
+        <br />
+        <select id="custom_author" name="custom_author" class="full-width">
+            <option value=""><?php _e('-- Sélectionner un auteur --', 'lejournaldesactus'); ?></option>
             <?php foreach ($authors as $author) : ?>
-                <option value="<?php echo esc_attr($author->ID); ?>" <?php selected($selected_author, $author->ID); ?>>
-                    <?php echo esc_html($author->post_title); ?>
-                </option>
+                <option value="<?php echo $author->ID; ?>" <?php selected($selected_author, $author->ID); ?>><?php echo $author->post_title; ?></option>
             <?php endforeach; ?>
         </select>
-    </p>
-    <p class="description">
-        <?php _e('Si aucun auteur personnalisé n\'est sélectionné, l\'auteur WordPress par défaut sera utilisé.', 'lejournaldesactus'); ?>
+        <p class="description"><?php _e('Sélectionnez un auteur personnalisé pour cet article. Cela remplacera l\'auteur WordPress standard dans l\'affichage.', 'lejournaldesactus'); ?></p>
     </p>
     <?php
 }
@@ -354,16 +466,45 @@ function lejournaldesactus_save_post_author($post_id) {
         return;
     }
     
+    // Vérifier si c'est une révision
+    if (wp_is_post_revision($post_id)) {
+        return;
+    }
+    
+    // Vérifier le type de post (uniquement pour les articles)
+    if (get_post_type($post_id) !== 'post') {
+        return;
+    }
+    
     // Sauvegarder l'auteur sélectionné
     if (isset($_POST['custom_author'])) {
         if (!empty($_POST['custom_author'])) {
             update_post_meta($post_id, '_custom_author', absint($_POST['custom_author']));
+            
+            // Mettre à jour le compteur d'articles pour cet auteur
+            $author_id = absint($_POST['custom_author']);
+            $count = intval(get_post_meta($author_id, '_author_articles_count', true));
+            update_post_meta($author_id, '_author_articles_count', $count + 1);
+            
+            // Log pour le débogage
+            error_log('Auteur personnalisé associé à l\'article ' . $post_id . ': ' . $author_id);
         } else {
+            // Récupérer l'ancien auteur pour mettre à jour son compteur
+            $old_author_id = get_post_meta($post_id, '_custom_author', true);
+            if (!empty($old_author_id)) {
+                $count = intval(get_post_meta($old_author_id, '_author_articles_count', true));
+                if ($count > 0) {
+                    update_post_meta($old_author_id, '_author_articles_count', $count - 1);
+                }
+            }
+            
             delete_post_meta($post_id, '_custom_author');
+            error_log('Auteur personnalisé supprimé de l\'article ' . $post_id);
         }
     }
 }
-add_action('save_post', 'lejournaldesactus_save_post_author');
+remove_action('save_post', 'lejournaldesactus_save_post_author');
+add_action('save_post_post', 'lejournaldesactus_save_post_author', 10, 1);
 
 /**
  * Fonction pour mettre à jour automatiquement le nombre d'articles d'un auteur
@@ -411,36 +552,126 @@ add_action('untrash_post', 'lejournaldesactus_update_author_articles_count', 10,
 function lejournaldesactus_redirect_author_urls() {
     // Vérifier si nous sommes sur une page 404
     if (is_404()) {
-        // Récupérer l'URL actuelle
-        $current_url = $_SERVER['REQUEST_URI'];
-        error_log('URL 404 détectée: ' . $current_url);
+        // Récupérer l'URL actuelle de manière sécurisée
+        $current_url = esc_url_raw(add_query_arg(array()));
+        $path = wp_parse_url($current_url, PHP_URL_PATH);
+        $path = ltrim($path, '/');
         
-        // Vérifier si l'URL contient /author/ ou /redacteur/
-        if (strpos($current_url, '/author/') !== false || strpos($current_url, '/redacteur/') !== false) {
-            // Extraire le slug de l'auteur
-            $author_slug = basename(rtrim($current_url, '/'));
-            error_log('Slug d\'auteur extrait: ' . $author_slug);
+        // Vérifier si l'URL contient /author/ ou /redacteur/ ou /auteur/
+        if (strpos($path, 'author/') !== false || strpos($path, 'redacteur/') !== false || strpos($path, 'auteur/') !== false) {
+            // Extraire le slug de l'auteur de manière sécurisée
+            $path_parts = explode('/', $path);
+            $author_slug = end($path_parts);
+            $author_slug = sanitize_title($author_slug);
             
-            // Rechercher l'auteur par son slug
-            $args = array(
-                'name'        => $author_slug,
-                'post_type'   => 'custom_author',
-                'post_status' => 'publish',
-                'numberposts' => 1
-            );
-            $author_posts = get_posts($args);
-            
-            if ($author_posts) {
-                error_log('Auteur trouvé avec ID: ' . $author_posts[0]->ID);
-                // Rediriger vers la nouvelle URL
-                $new_url = get_permalink($author_posts[0]->ID);
-                error_log('Redirection vers: ' . $new_url);
-                wp_redirect($new_url, 301);
-                exit;
-            } else {
-                error_log('Aucun auteur trouvé avec le slug: ' . $author_slug);
+            if (!empty($author_slug)) {
+                // Rechercher l'auteur par son slug
+                $args = array(
+                    'name'        => $author_slug,
+                    'post_type'   => 'custom_author',
+                    'post_status' => 'publish',
+                    'numberposts' => 1
+                );
+                $author_posts = get_posts($args);
+                
+                if ($author_posts) {
+                    // Rediriger vers la nouvelle URL
+                    $new_url = get_permalink($author_posts[0]->ID);
+                    wp_redirect($new_url, 301);
+                    exit;
+                }
             }
         }
     }
 }
 add_action('template_redirect', 'lejournaldesactus_redirect_author_urls');
+
+/**
+ * Fonction pour supprimer l'auteur personnalisé lorsque l'auteur WordPress standard est modifié
+ */
+function lejournaldesactus_handle_post_author_change($post_ID, $post_after, $post_before) {
+    // Vérifier si l'auteur a changé
+    if ($post_after->post_author !== $post_before->post_author) {
+        // Si l'auteur WordPress a changé, supprimer l'association avec l'auteur personnalisé
+        $old_author_id = get_post_meta($post_ID, '_custom_author', true);
+        if (!empty($old_author_id)) {
+            // Mettre à jour le compteur d'articles pour l'ancien auteur
+            $count = intval(get_post_meta($old_author_id, '_author_articles_count', true));
+            if ($count > 0) {
+                update_post_meta($old_author_id, '_author_articles_count', $count - 1);
+            }
+            
+            // Supprimer l'association
+            delete_post_meta($post_ID, '_custom_author');
+            
+            // Log pour le débogage
+            error_log('Auteur WordPress modifié pour l\'article ' . $post_ID . '. Suppression de l\'auteur personnalisé.');
+        }
+    }
+}
+add_action('post_updated', 'lejournaldesactus_handle_post_author_change', 10, 3);
+
+/**
+ * Fonction pour synchroniser l'auteur personnalisé avec l'auteur WordPress
+ * Cette fonction est appelée à chaque fois qu'un article est mis à jour
+ */
+function lejournaldesactus_sync_post_author($post_id) {
+    // Ne pas exécuter lors d'une sauvegarde automatique ou d'une révision
+    if ((defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) || wp_is_post_revision($post_id)) {
+        return;
+    }
+    
+    // Vérifier si c'est un article
+    if (get_post_type($post_id) !== 'post') {
+        return;
+    }
+    
+    // Vérifier si nous sommes dans un contexte d'administration
+    if (!is_admin()) {
+        return;
+    }
+    
+    // Forcer la mise à jour du compteur d'articles pour tous les auteurs
+    lejournaldesactus_update_all_authors_count();
+    
+    // Log pour le débogage
+    error_log('Synchronisation des auteurs pour l\'article ' . $post_id);
+}
+
+/**
+ * Fonction pour mettre à jour le compteur d'articles pour tous les auteurs
+ */
+function lejournaldesactus_update_all_authors_count() {
+    // Récupérer tous les auteurs
+    $authors = get_posts(array(
+        'post_type' => 'author',
+        'posts_per_page' => -1,
+        'post_status' => 'publish',
+    ));
+    
+    foreach ($authors as $author) {
+        // Compter le nombre d'articles de cet auteur
+        $args = array(
+            'post_type' => 'post',
+            'posts_per_page' => -1,
+            'meta_key' => '_custom_author',
+            'meta_value' => $author->ID,
+            'post_status' => 'publish',
+        );
+        
+        $posts = get_posts($args);
+        $count = count($posts);
+        
+        // Mettre à jour le compteur d'articles
+        update_post_meta($author->ID, '_author_articles_count', $count);
+        
+        // Log pour le débogage
+        error_log('Mise à jour du compteur d\'articles pour l\'auteur ' . $author->ID . ': ' . $count . ' articles');
+    }
+}
+
+// Ajouter les hooks pour la synchronisation des auteurs
+add_action('save_post_post', 'lejournaldesactus_sync_post_author', 20, 1);
+add_action('before_delete_post', 'lejournaldesactus_sync_post_author', 10, 1);
+add_action('wp_trash_post', 'lejournaldesactus_sync_post_author', 10, 1);
+add_action('untrash_post', 'lejournaldesactus_sync_post_author', 10, 1);

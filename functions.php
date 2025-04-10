@@ -21,8 +21,12 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/setup.php';           // Config
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/security.php';        // Fonctions de sécurité
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/seo.php';             // Optimisation SEO
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/template-functions.php'; // Fonctions liées aux templates
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/template-tags.php'; 
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-header.php'; 
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-authors.php';  // Fonctions pour les auteurs personnalisés
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer.php';      // Personnalisation du thème
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';       // Système de mode sombre/clair
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/admin-functions.php'; // Nouvelles fonctions d'administration
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/maintenance-mode.php'; // Mode maintenance
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/related-posts.php';   // Articles liés intelligents
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/reading-time.php';    // Temps de lecture estimé
@@ -32,9 +36,9 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/rgpd.php';            // Gestio
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/newsletter.php';      // Système de newsletter
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/trending-posts.php';  // Système d'articles tendance
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/bookmarks.php';       // Système de favoris/bookmarks
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';       // Système de mode sombre/clair
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/page-related-posts.php'; // Articles liés pour les pages
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/author-profile-link.php'; // Lien entre utilisateurs et profils d'auteurs
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/login-customizer.php'; // Personnalisation de la page de connexion
 
 /**
  * Inclure les fonctionnalités d'administration pour la gestion des auteurs

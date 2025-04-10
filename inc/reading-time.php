@@ -243,28 +243,31 @@ function lejournaldesactus_format_reading_time($reading_time) {
     
     switch ($style) {
         case 'icon':
-            $output = '<span class="reading-time reading-time-icon" style="color: ' . esc_attr($color) . ';">';
+            $output = '<span class="reading-time reading-time-icon">';
             $output .= '<i class="bi bi-clock"></i> ';
+            
             if (!empty($prefix)) {
                 $output .= '<span class="reading-time-prefix">' . esc_html($prefix) . '</span> ';
             }
-            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span> ';
+            
+            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span>';
+            
             if (!empty($suffix)) {
-                $output .= '<span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
+                $output .= ' <span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
             }
+            
             $output .= '</span>';
             break;
             
         case 'badge':
-            $output = '<span class="reading-time reading-time-badge" style="background-color: ' . esc_attr($color) . ';">';
+            $output = '<span class="reading-time reading-time-badge">';
             $output .= '<i class="bi bi-clock"></i> ';
-            if (!empty($prefix)) {
-                $output .= '<span class="reading-time-prefix">' . esc_html($prefix) . '</span> ';
-            }
-            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span> ';
+            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span>';
+            
             if (!empty($suffix)) {
-                $output .= '<span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
+                $output .= ' <span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
             }
+            
             $output .= '</span>';
             break;
             
@@ -274,10 +277,13 @@ function lejournaldesactus_format_reading_time($reading_time) {
             if (!empty($prefix)) {
                 $output .= '<span class="reading-time-prefix">' . esc_html($prefix) . '</span> ';
             }
-            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span> ';
+            
+            $output .= '<span class="reading-time-value">' . esc_html($reading_time) . '</span>';
+            
             if (!empty($suffix)) {
-                $output .= '<span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
+                $output .= ' <span class="reading-time-suffix">' . esc_html($suffix) . '</span>';
             }
+            
             $output .= '</span>';
             break;
     }

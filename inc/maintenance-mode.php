@@ -521,7 +521,7 @@ function lejournaldesactus_maintenance_admin_bar($wp_admin_bar) {
     
     $args = array(
         'id'    => 'maintenance-mode',
-        'title' => '<span style="color:#f44336;font-weight:bold;">' . __('MODE MAINTENANCE ACTIF', 'lejournaldesactus') . '</span>',
+        'title' => '<span class="maintenance-mode-text">' . __('MODE MAINTENANCE ACTIF', 'lejournaldesactus') . '</span>',
         'href'  => admin_url('customize.php?autofocus[section]=lejournaldesactus_maintenance_section'),
         'meta'  => array(
             'class' => 'maintenance-mode-active',
@@ -550,6 +550,10 @@ function lejournaldesactus_maintenance_admin_bar_style() {
         }
         #wpadminbar #wp-admin-bar-maintenance-mode:hover .ab-item {
             background-color: #d32f2f !important;
+        }
+        #wpadminbar #wp-admin-bar-maintenance-mode .maintenance-mode-text {
+            color: #ffffff !important;
+            font-weight: bold;
         }
     </style>
     <?php

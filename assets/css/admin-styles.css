@@ -1,0 +1,149 @@
+/**
+ * Styles d'administration globaux pour Le Journal des Actus
+ * Centralise tous les styles précédemment définis en inline dans les fichiers PHP
+ */
+
+/* Styles pour les widgets */
+.image-fields,
+.code-fields,
+.mailchimp-fields,
+.custom-fields {
+    display: none;
+}
+
+.image-fields.active,
+.code-fields.active,
+.mailchimp-fields.active,
+.custom-fields.active {
+    display: block;
+}
+
+/* Styles pour les métaboxes */
+#category-selector,
+#tag-selector {
+    display: none;
+}
+
+#category-selector.active,
+#tag-selector.active {
+    display: block;
+}
+
+/* Styles pour les listes */
+.admin-list {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+/* Styles pour les info-boxes */
+.info-box {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+}
+
+.info-box-blue {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f0f6fc;
+    border: 1px solid #c5d5dd;
+}
+
+.info-box ul {
+    margin-left: 20px;
+    list-style: disc;
+}
+
+.info-box-blue ul {
+    margin: 0;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+/* Styles pour les champs de formulaire */
+select.full-width,
+textarea.full-width,
+input.full-width {
+    width: 100%;
+}
+
+/* Styles pour les badges de temps de lecture */
+.reading-time-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.reading-time-badge {
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+/* Style pour l'indicateur de mode maintenance */
+.maintenance-mode-indicator {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Styles pour les images dans les emails */
+.email-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Styles pour les détails d'auteur */
+.author-details-metabox {
+    margin-bottom: 15px;
+}
+
+.author-details-metabox label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.author-details-metabox input[type="text"],
+.author-details-metabox input[type="url"],
+.author-details-metabox textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Styles pour le widget de newsletter - champ caché */
+.hidden-field {
+    position: absolute;
+    left: -5000px;
+}
+
+/* Styles pour la page de maintenance admin bar */
+.maintenance-admin-bar {
+    background-color: #f44336 !important;
+}
+
+.maintenance-admin-bar a {
+    color: white !important;
+}
+
+/* Styles pour les tableaux d'administration */
+.center-text {
+    text-align: center;
+}
+
+/* Styles pour les articles liés */
+.related-posts-admin-container .category-info,
+.related-posts-admin-container .tag-info {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+}
+
+.related-posts-admin-container .shortcode-info {
+    margin-top: 15px;
+    padding: 10px;
+    background: #f0f6fc;
+    border: 1px solid #c5d5dd;
+}

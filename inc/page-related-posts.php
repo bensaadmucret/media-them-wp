@@ -133,7 +133,7 @@ class Lejournaldesactus_Page_Related_Posts {
                 </select>
             </p>
             
-            <div id="category-selector" style="<?php echo ($related_method == 'category') ? 'display:block;' : 'display:none;'; ?>">
+            <div id="category-selector" class="related-posts-admin-container">
                 <p>
                     <label for="lejournaldesactus_page_related_posts_category"><?php _e('Sélectionner une catégorie :', 'lejournaldesactus'); ?></label>
                     <select id="lejournaldesactus_page_related_posts_category" name="lejournaldesactus_page_related_posts_category" class="widefat">
@@ -158,13 +158,13 @@ class Lejournaldesactus_Page_Related_Posts {
                             'post_status' => 'publish'
                         ));
                 ?>
-                <div class="category-info" style="margin-top: 10px; padding: 10px; background: #f9f9f9; border: 1px solid #e5e5e5;">
+                <div class="category-info info-box">
                     <p><strong><?php echo sprintf(__('Catégorie sélectionnée : %s', 'lejournaldesactus'), $selected_category->name); ?></strong></p>
                     <p><?php echo sprintf(__('Nombre d\'articles dans cette catégorie : %d', 'lejournaldesactus'), count($cat_posts)); ?></p>
                     
                     <?php if (!empty($cat_posts)) : ?>
                     <p><strong><?php _e('Articles récents dans cette catégorie :', 'lejournaldesactus'); ?></strong></p>
-                    <ul style="margin-left: 20px; list-style: disc;">
+                    <ul class="admin-list">
                         <?php foreach ($cat_posts as $cat_post) : ?>
                         <li><?php echo esc_html($cat_post->post_title); ?></li>
                         <?php endforeach; ?>
@@ -176,7 +176,7 @@ class Lejournaldesactus_Page_Related_Posts {
                 <?php endif; endif; ?>
             </div>
             
-            <div id="tag-selector" style="<?php echo ($related_method == 'tag') ? 'display:block;' : 'display:none;'; ?>">
+            <div id="tag-selector" class="related-posts-admin-container">
                 <p>
                     <label for="lejournaldesactus_page_related_posts_tag"><?php _e('Sélectionner un tag :', 'lejournaldesactus'); ?></label>
                     <select id="lejournaldesactus_page_related_posts_tag" name="lejournaldesactus_page_related_posts_tag" class="widefat">
@@ -201,13 +201,13 @@ class Lejournaldesactus_Page_Related_Posts {
                             'post_status' => 'publish'
                         ));
                 ?>
-                <div class="tag-info" style="margin-top: 10px; padding: 10px; background: #f9f9f9; border: 1px solid #e5e5e5;">
+                <div class="tag-info info-box">
                     <p><strong><?php echo sprintf(__('Tag sélectionné : %s', 'lejournaldesactus'), $selected_tag->name); ?></strong></p>
                     <p><?php echo sprintf(__('Nombre d\'articles avec ce tag : %d', 'lejournaldesactus'), count($tag_posts)); ?></p>
                     
                     <?php if (!empty($tag_posts)) : ?>
                     <p><strong><?php _e('Articles récents avec ce tag :', 'lejournaldesactus'); ?></strong></p>
-                    <ul style="margin-left: 20px; list-style: disc;">
+                    <ul class="admin-list">
                         <?php foreach ($tag_posts as $tag_post) : ?>
                         <li><?php echo esc_html($tag_post->post_title); ?></li>
                         <?php endforeach; ?>
@@ -230,9 +230,9 @@ class Lejournaldesactus_Page_Related_Posts {
                 <?php _e('Vous pouvez également utiliser le shortcode [lejournaldesactus_related_posts] dans le contenu de la page pour afficher les articles liés à un endroit spécifique.', 'lejournaldesactus'); ?>
             </p>
             
-            <div class="shortcode-info" style="margin-top: 15px; padding: 10px; background: #f0f6fc; border: 1px solid #c5d5dd;">
+            <div class="shortcode-info info-box-blue">
                 <p><strong><?php _e('Shortcodes disponibles :', 'lejournaldesactus'); ?></strong></p>
-                <ul style="margin: 0; padding-left: 20px; list-style: disc;">
+                <ul class="admin-list">
                     <li><code>[lejournaldesactus_related_posts]</code> - <?php _e('Affiche les articles liés selon la configuration ci-dessus', 'lejournaldesactus'); ?></li>
                     <li><code>[articles_recents nombre="6" titre="Articles récents" categorie=""]</code> - <?php _e('Affiche les articles récents avec options personnalisables', 'lejournaldesactus'); ?></li>
                 </ul>
