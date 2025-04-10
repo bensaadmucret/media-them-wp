@@ -178,6 +178,10 @@
     font-size: 12px;
 }
 
+.post-categories > a {
+    padding-right: 0.2rem;
+}
+
 /**
  * Styles améliorés pour le widget de recherche dans la sidebar
  */
@@ -278,4 +282,8 @@
 
 .dark-background .widget_search .wp-block-search__input::placeholder {
   color: #777;
+}
+
+.sidebar {
+    padding: 1rem;
 }

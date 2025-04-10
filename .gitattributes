@@ -1,0 +1,2 @@
+# Appliquer le filtre pour supprimer la balise de vérification Google
+header.php filter=remove-google-verification

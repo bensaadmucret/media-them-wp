@@ -6,8 +6,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <!-- Font Awesome pour les icônes sociales -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+  <meta name="google-site-verification" content="jkVDgWAXA6xncHLmfwMBM_qmyCjAdl-PEXTYZ1xTQP4" />  <!-- Font Awesome pour les icônes sociales -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <?php wp_head(); ?>
 </head>
 

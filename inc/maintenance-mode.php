@@ -145,6 +145,19 @@ function lejournaldesactus_display_maintenance_page() {
         return;
     }
     
+    // Permettre aux outils de test WordPress de fonctionner
+    if (isset($_SERVER['HTTP_USER_AGENT']) && (
+        strpos($_SERVER['HTTP_USER_AGENT'], 'WordPress') !== false ||
+        strpos($_SERVER['HTTP_USER_AGENT'], 'wp-health-check') !== false
+    )) {
+        return;
+    }
+    
+    // Ne pas afficher la page de maintenance sur la page de connexion
+    if (in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
+        return;
+    }
+    
     // Récupérer les options
     $title = get_theme_mod('lejournaldesactus_maintenance_title', __('Site en maintenance', 'lejournaldesactus'));
     $message = get_theme_mod('lejournaldesactus_maintenance_message', __('Notre site est actuellement en maintenance. Nous serons de retour très bientôt !', 'lejournaldesactus'));
@@ -155,6 +168,12 @@ function lejournaldesactus_display_maintenance_page() {
     
     // Définir le statut HTTP 503 (Service Unavailable)
     status_header(503);
+    
+    // Ajouter l'en-tête Retry-After
+    header('Retry-After: 3600'); // 1 heure
+    
+    // Ajouter un header pour permettre aux outils de test de cache de fonctionner
+    header('X-Cache-Enabled: false');
     
     // Afficher la page de maintenance
     ?><!DOCTYPE html>

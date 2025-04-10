@@ -23,6 +23,15 @@ function toggleMobileMenu() {
 
 // Close mobile menu when clicking outside
 document.addEventListener('DOMContentLoaded', function() {
+  // Attach click event to mobile menu toggle button
+  const mobileMenuBtn = document.querySelector('.mobile-nav-toggle');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      toggleMobileMenu();
+    });
+  }
+
   // Close menu when clicking on the overlay
   const overlay = document.querySelector('.mobile-nav-overlay');
   if (overlay) {

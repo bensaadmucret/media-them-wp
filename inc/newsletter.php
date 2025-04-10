@@ -182,12 +182,12 @@ class LeJournalDesActus_Newsletter {
         $message = '';
         
         try {
-            // Vérification du consentement RGPD - Désactivé temporairement pour le débogage
-            // if (!isset($_POST['gdpr_consent'])) {
-            //     error_log('Consentement RGPD manquant ou invalide');
-            //     throw new Exception(__('Vous devez accepter la politique de confidentialité pour vous inscrire.', 'lejournaldesactus'));
-            // }
-            // error_log('Consentement RGPD validé');
+            // Vérification du consentement RGPD
+            if (!isset($_POST['gdpr_consent'])) {
+                error_log('Consentement RGPD manquant ou invalide');
+                throw new Exception(__('Vous devez accepter la politique de confidentialité pour vous inscrire.', 'lejournaldesactus'));
+            }
+            error_log('Consentement RGPD validé');
             
             // Récupération et nettoyage des données
             $email = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
@@ -255,7 +255,7 @@ class LeJournalDesActus_Newsletter {
                     'confirmation_key' => $confirmation_key,
                     'consent_text' => $consent_text,
                     'ip_address' => $ip_address,
-                    'gdpr_consent' => 1, // Forcé à 1 pour le débogage
+                    'gdpr_consent' => 1,
                     'immediate_notifications' => isset($_POST['immediate_notifications']) ? 1 : 0,
                     'preferred_categories' => isset($_POST['preferred_categories']) ? serialize($_POST['preferred_categories']) : ''
                 ),
@@ -441,11 +441,11 @@ L\'équipe de %s', 'lejournaldesactus'),
             return;
         }
         
-        // Vérification du consentement RGPD - Désactivé temporairement pour le débogage
-        // if (!isset($_POST['gdpr_consent'])) {
-        //     wp_send_json_error(array('message' => __('Vous devez accepter les conditions pour vous inscrire.', 'lejournaldesactus')));
-        //     return;
-        // }
+        // Vérification du consentement RGPD
+        if (!isset($_POST['gdpr_consent'])) {
+            wp_send_json_error(array('message' => __('Vous devez accepter les conditions pour vous inscrire.', 'lejournaldesactus')));
+            return;
+        }
         
         // Récupérer les préférences de notification
         $immediate_notifications = isset($_POST['immediate_notifications']) ? 1 : 0;
@@ -513,7 +513,7 @@ L\'équipe de %s', 'lejournaldesactus'),
                         'confirmed_at' => null,
                         'unsubscribed_at' => null,
                         'immediate_notifications' => $immediate_notifications,
-                        'gdpr_consent' => 1 // Forcé à 1 pour le débogage
+                        'gdpr_consent' => 1
                     ),
                     array('id' => $existing_subscriber->id)
                 );
@@ -560,7 +560,7 @@ L\'équipe de %s', 'lejournaldesactus'),
                 'ip_address' => $ip_address,
                 'consent_text' => $consent_text,
                 'immediate_notifications' => $immediate_notifications,
-                'gdpr_consent' => 1, // Forcé à 1 pour le débogage
+                'gdpr_consent' => 1,
                 'preferred_categories' => !empty($preferred_categories) ? serialize($preferred_categories) : ''
             ),
             array('%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s')

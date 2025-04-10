@@ -66,3 +66,14 @@ add_action('add_meta_boxes', 'lejournaldesactus_restore_default_author_metabox',
 
 // Inclure les fichiers de fonctions supplémentaires
 require_once get_template_directory() . '/inc/functions.php';
+
+// Inclure la configuration spécifique au site si elle existe
+if (file_exists(get_template_directory() . '/site-specific.php')) {
+    require_once get_template_directory() . '/site-specific.php';
+}
+
+// Inclure le générateur de sitemap
+require_once get_template_directory() . '/inc/sitemap.php';
+
+// Inclure les widgets personnalisés
+require_once get_template_directory() . '/inc/widgets/selected-pages-widget.php';
