@@ -166,7 +166,7 @@
                   echo '</div>';
                   echo '</div>';
                   
-                  if ($count == 6) {
+                  if ($count == 6 || $count == $main_query->post_count) {
                     echo '</div>';
                     echo '</div>';
                   }
