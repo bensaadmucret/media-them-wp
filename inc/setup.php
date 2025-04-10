@@ -72,6 +72,10 @@ function lejournaldesactus_scripts() {
     wp_enqueue_style('lejournaldesactus-bookmarks', LEJOURNALDESACTUS_THEME_URI . '/assets/css/bookmarks.css', array(), LEJOURNALDESACTUS_VERSION);
     wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array(), LEJOURNALDESACTUS_VERSION);
     
+    // Styles de typographie améliorée
+    wp_enqueue_style('lejournaldesactus-typography', LEJOURNALDESACTUS_THEME_URI . '/assets/css/typography.css', array(), LEJOURNALDESACTUS_VERSION);
+    wp_enqueue_style('lejournaldesactus-article-style', LEJOURNALDESACTUS_THEME_URI . '/assets/css/article-style.css', array(), LEJOURNALDESACTUS_VERSION);
+    
     // Style principal
     wp_enqueue_style('lejournaldesactus-theme', get_stylesheet_uri(), array(), LEJOURNALDESACTUS_VERSION);
     

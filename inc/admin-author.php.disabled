@@ -1,0 +1,330 @@
+<?php
+/**
+ * Fonctionnalités d'administration pour la gestion des auteurs
+ *
+ * @package LeJournalDesActus
+ */
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
+/**
+ * Classe pour gérer les fonctionnalités d'auteur améliorées
+ */
+class LeJournalDesActus_Author_Admin {
+
+    /**
+     * Initialisation de la classe
+     */
+    public function __construct() {
+        // Remplacer la métabox d'auteur native par notre version améliorée
+        add_action('add_meta_boxes', array($this, 'replace_author_meta_box'), 10);
+        
+        // Sauvegarder les données de la métabox
+        add_action('save_post', array($this, 'save_author_meta_box'), 10, 2);
+        
+        // Ajouter une colonne d'auteur dans la liste des articles
+        add_filter('manage_posts_columns', array($this, 'add_author_column'));
+        add_action('manage_posts_custom_column', array($this, 'display_author_column'), 10, 2);
+        
+        // Rendre la colonne d'auteur triable
+        add_filter('manage_edit-post_sortable_columns', array($this, 'make_author_column_sortable'));
+        
+        // Ajouter un filtre par auteur
+        add_action('restrict_manage_posts', array($this, 'add_author_filter'));
+        
+        // Modifier l'affichage de l'auteur dans les templates
+        add_filter('the_author', array($this, 'display_correct_author'));
+        add_filter('get_the_author_display_name', array($this, 'display_correct_author'));
+        add_filter('the_author_posts_link', array($this, 'modify_author_posts_link'));
+        
+        // Filtrer l'auteur dans les requêtes
+        add_filter('get_post_field', array($this, 'filter_post_author'), 10, 3);
+        add_filter('post_author', array($this, 'filter_post_author_id'), 10, 2);
+        
+        // Modifier les requêtes d'auteur
+        add_action('pre_get_posts', array($this, 'modify_author_query'));
+    }
+
+    /**
+     * Remplacer la métabox d'auteur native par notre version améliorée
+     */
+    public function replace_author_meta_box() {
+        // Retirer la métabox d'auteur native
+        remove_meta_box('authordiv', 'post', 'normal');
+        remove_meta_box('authordiv', 'post', 'side');
+        remove_meta_box('authordiv', 'post', 'advanced');
+        
+        // Ajouter notre métabox personnalisée
+        add_meta_box(
+            'lejournaldesactus_author_meta_box',
+            __('Auteur de l\'article', 'lejournaldesactus'),
+            array($this, 'render_author_meta_box'),
+            'post',
+            'side',
+            'high'
+        );
+    }
+
+    /**
+     * Afficher le contenu de la métabox d'auteur
+     */
+    public function render_author_meta_box($post) {
+        // Ajouter un nonce pour la sécurité
+        wp_nonce_field('lejournaldesactus_author_meta_box', 'lejournaldesactus_author_meta_box_nonce');
+        
+        // Récupérer l'auteur actuel
+        $current_author = $post->post_author;
+        
+        // Récupérer tous les utilisateurs qui peuvent être auteurs
+        $all_users = get_users(array(
+            'orderby' => 'display_name',
+            'order' => 'ASC'
+        ));
+        
+        // Filtrer pour ne garder que les utilisateurs qui peuvent écrire des articles
+        $authors = array();
+        foreach ($all_users as $user) {
+            if (user_can($user, 'edit_posts')) {
+                $authors[] = $user;
+            }
+        }
+        
+        // Afficher le sélecteur d'auteur
+        echo '<label for="post_author_override">' . __('Sélectionner l\'auteur:', 'lejournaldesactus') . '</label>';
+        echo '<select id="post_author_override" name="post_author_override" class="widefat">';
+        
+        foreach ($authors as $author) {
+            echo '<option value="' . esc_attr($author->ID) . '" ' . selected($current_author, $author->ID, false) . '>';
+            echo esc_html($author->display_name);
+            echo '</option>';
+        }
+        
+        echo '</select>';
+        echo '<p class="description">' . __('Choisissez l\'auteur à qui attribuer cet article.', 'lejournaldesactus') . '</p>';
+    }
+
+    /**
+     * Sauvegarder les données de la métabox d'auteur
+     */
+    public function save_author_meta_box($post_id, $post) {
+        // Vérifier si nous devons sauvegarder
+        if (!isset($_POST['lejournaldesactus_author_meta_box_nonce'])) {
+            return;
+        }
+        
+        // Vérifier le nonce
+        if (!wp_verify_nonce($_POST['lejournaldesactus_author_meta_box_nonce'], 'lejournaldesactus_author_meta_box')) {
+            return;
+        }
+        
+        // Si c'est une sauvegarde automatique, ne rien faire
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
+        
+        // Si c'est une révision, ne rien faire
+        if (wp_is_post_revision($post_id)) {
+            return;
+        }
+        
+        // Vérifier les permissions
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+        
+        // Vérifier si le post_type est 'post'
+        if ($post->post_type !== 'post') {
+            return;
+        }
+        
+        // Sauvegarder l'auteur
+        if (isset($_POST['post_author_override'])) {
+            $author_id = (int) $_POST['post_author_override'];
+            
+            // Si l'auteur n'a pas changé, ne rien faire
+            if ($post->post_author == $author_id) {
+                return;
+            }
+            
+            // Vérifier que l'utilisateur existe
+            $author = get_userdata($author_id);
+            if ($author && user_can($author, 'edit_posts')) {
+                // Mettre à jour directement dans la base de données pour plus de rapidité
+                global $wpdb;
+                $wpdb->update(
+                    $wpdb->posts,
+                    array('post_author' => $author_id),
+                    array('ID' => $post_id),
+                    array('%d'),
+                    array('%d')
+                );
+                
+                // Nettoyer uniquement le cache nécessaire
+                clean_post_cache($post_id);
+            }
+        }
+    }
+
+    /**
+     * Ajouter une colonne d'auteur dans la liste des articles
+     */
+    public function add_author_column($columns) {
+        // S'assurer que la colonne d'auteur existe et est bien positionnée
+        if (isset($columns['author'])) {
+            // La colonne existe déjà, ne rien faire
+            return $columns;
+        }
+        
+        // Ajouter la colonne après la colonne de titre
+        $new_columns = array();
+        foreach ($columns as $key => $value) {
+            $new_columns[$key] = $value;
+            if ($key === 'title') {
+                $new_columns['author'] = __('Auteur', 'lejournaldesactus');
+            }
+        }
+        
+        return $new_columns;
+    }
+
+    /**
+     * Afficher le contenu de la colonne d'auteur
+     */
+    public function display_author_column($column, $post_id) {
+        if ($column === 'author') {
+            $author_id = get_post_field('post_author', $post_id);
+            $author = get_userdata($author_id);
+            
+            if ($author) {
+                echo '<a href="' . esc_url(add_query_arg('author', $author_id, admin_url('edit.php'))) . '">';
+                echo esc_html($author->display_name);
+                echo '</a>';
+            } else {
+                echo __('Aucun auteur', 'lejournaldesactus');
+            }
+        }
+    }
+
+    /**
+     * Rendre la colonne d'auteur triable
+     */
+    public function make_author_column_sortable($columns) {
+        $columns['author'] = 'author';
+        return $columns;
+    }
+
+    /**
+     * Ajouter un filtre par auteur
+     */
+    public function add_author_filter() {
+        global $typenow;
+        
+        if ($typenow === 'post') {
+            $authors = get_users(array(
+                'who' => 'authors',
+                'orderby' => 'display_name',
+                'order' => 'ASC'
+            ));
+            
+            // Ajouter également les administrateurs et éditeurs
+            $editors = get_users(array(
+                'role__in' => array('administrator', 'editor'),
+                'orderby' => 'display_name',
+                'order' => 'ASC'
+            ));
+            
+            $authors = array_merge($authors, $editors);
+            $authors = array_unique($authors, SORT_REGULAR);
+            
+            // Récupérer l'auteur sélectionné
+            $current_author = isset($_GET['author']) ? intval($_GET['author']) : 0;
+            
+            // Afficher le filtre
+            echo '<select name="author" id="author" class="postform">';
+            echo '<option value="0">' . __('Tous les auteurs', 'lejournaldesactus') . '</option>';
+            
+            foreach ($authors as $author) {
+                echo '<option value="' . esc_attr($author->ID) . '" ' . selected($current_author, $author->ID, false) . '>';
+                echo esc_html($author->display_name) . ' (' . count_user_posts($author->ID, 'post') . ')';
+                echo '</option>';
+            }
+            
+            echo '</select>';
+        }
+    }
+    
+    /**
+     * Modifier l'affichage de l'auteur dans les templates
+     */
+    public function display_correct_author($display_name) {
+        global $post;
+        
+        if (!$post) {
+            return $display_name;
+        }
+        
+        // Récupérer l'auteur de l'article
+        $author_id = $post->post_author;
+        $author = get_userdata($author_id);
+        
+        if ($author) {
+            return $author->display_name;
+        }
+        
+        return $display_name;
+    }
+    
+    /**
+     * Modifier les liens d'auteur dans les templates
+     */
+    public function modify_author_posts_link($link) {
+        global $post;
+        
+        if (!$post) {
+            return $link;
+        }
+        
+        // Récupérer l'auteur de l'article
+        $author_id = $post->post_author;
+        $author = get_userdata($author_id);
+        
+        if ($author) {
+            // Générer le lien avec le bon auteur
+            $author_link = get_author_posts_url($author_id);
+            return '<a href="' . esc_url($author_link) . '" title="' . esc_attr(sprintf(__('Articles de %s'), $author->display_name)) . '" rel="author">' . esc_html($author->display_name) . '</a>';
+        }
+        
+        return $link;
+    }
+    
+    /**
+     * Filtrer l'auteur dans les requêtes get_post_field
+     */
+    public function filter_post_author($value, $post_id, $field) {
+        if ($field === 'post_author') {
+            return $value; // Retourner l'auteur tel quel
+        }
+        
+        return $value;
+    }
+    
+    /**
+     * Filtrer l'auteur dans les requêtes post_author
+     */
+    public function filter_post_author_id($author_id, $post_id) {
+        return $author_id; // Retourner l'auteur tel quel
+    }
+    
+    /**
+     * Modifier les requêtes d'auteur
+     */
+    public function modify_author_query($query) {
+        // Ne rien modifier dans les requêtes
+        return;
+    }
+}
+
+// Initialiser la classe
+$lejournaldesactus_author_admin = new LeJournalDesActus_Author_Admin();

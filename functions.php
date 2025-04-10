@@ -34,6 +34,31 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/trending-posts.php';  // Systè
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/bookmarks.php';       // Système de favoris/bookmarks
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';       // Système de mode sombre/clair
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/page-related-posts.php'; // Articles liés pour les pages
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/author-profile-link.php'; // Lien entre utilisateurs et profils d'auteurs
+
+/**
+ * Inclure les fonctionnalités d'administration pour la gestion des auteurs
+ */
+// require get_template_directory() . '/inc/admin-author.php'; // Désactivé car problèmes de performance
+
+// Restaurer la métabox d'auteur standard de WordPress
+function lejournaldesactus_restore_default_author_metabox() {
+    // Supprimer explicitement la métabox personnalisée
+    remove_meta_box('lejournaldesactus_author_meta_box', 'post', 'normal');
+    remove_meta_box('lejournaldesactus_author_meta_box', 'post', 'side');
+    remove_meta_box('lejournaldesactus_author_meta_box', 'post', 'advanced');
+    
+    // Restaurer la métabox d'auteur standard
+    add_meta_box(
+        'authordiv',
+        __('Author'),
+        'post_author_meta_box',
+        'post',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'lejournaldesactus_restore_default_author_metabox', 20);
 
 // Inclure les fichiers de fonctions supplémentaires
 require_once get_template_directory() . '/inc/functions.php';

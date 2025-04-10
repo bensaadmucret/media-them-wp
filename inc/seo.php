@@ -328,9 +328,8 @@ class LeJournalDesActus_SEO_Optimization {
         global $post;
         $post_id = $post->ID;
         
-        // Récupérer les données de l'auteur
-        $author_data = lejournaldesactus_get_custom_author($post_id);
-        $author_name = $author_data ? $author_data['name'] : get_the_author_meta('display_name', $post->post_author);
+        // Récupérer les données de l'auteur (utiliser l'auteur WordPress standard)
+        $author_name = get_the_author_meta('display_name', $post->post_author);
         
         // Récupérer les catégories
         $categories = get_the_category($post_id);

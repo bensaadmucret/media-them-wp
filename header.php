@@ -34,6 +34,12 @@
           // Afficher les liens vers les réseaux sociaux dans le header
           lejournaldesactus_display_social_links('header'); 
           ?>
+          
+          <!-- Bouton switch Bootstrap pour le mode sombre -->
+          <div class="form-check form-switch ms-3">
+            <input class="form-check-input" type="checkbox" id="darkModeSwitch" role="switch">
+            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+          </div>
 
           <form class="search-form ms-4" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
             <input type="text" placeholder="<?php echo esc_attr_x('Search...', 'placeholder', 'lejournaldesactus'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" name="s" class="form-control">

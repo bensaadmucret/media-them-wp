@@ -68,7 +68,7 @@
 
             <div class="post-footer">
               <div class="post-author-info">
-                <?php lejournaldesactus_display_custom_author(); ?>
+                <?php lejournaldesactus_display_default_author(); ?>
               </div>
 
               <div class="post-share">

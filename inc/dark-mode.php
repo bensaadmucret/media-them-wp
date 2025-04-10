@@ -21,8 +21,8 @@ class Lejournaldesactus_Dark_Mode {
         // Ajouter les scripts et styles
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         
-        // Ajouter le bouton de basculement dans le menu
-        add_filter('wp_nav_menu_items', array($this, 'add_dark_mode_toggle_to_menu'), 10, 2);
+        // Ajouter le bouton de basculement dans le footer
+        add_action('wp_footer', array($this, 'add_toggle_button'));
         
         // Ajouter l'action AJAX pour les utilisateurs connectés
         add_action('wp_ajax_lejournaldesactus_save_theme_preference', array($this, 'save_theme_preference'));
@@ -35,6 +35,7 @@ class Lejournaldesactus_Dark_Mode {
     public function enqueue_scripts() {
         wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array(), LEJOURNALDESACTUS_VERSION);
         wp_enqueue_script('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/js/dark-mode.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+        wp_enqueue_script('lejournaldesactus-bootstrap-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/js/bootstrap-dark-mode.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
         
         wp_localize_script('lejournaldesactus-dark-mode', 'lejournaldesactusDarkMode', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
@@ -43,15 +44,26 @@ class Lejournaldesactus_Dark_Mode {
             'lightModeText' => __('Mode clair', 'lejournaldesactus'),
             'autoModeText' => __('Mode auto', 'lejournaldesactus'),
             'toggleText' => __('Changer de thème', 'lejournaldesactus'),
+            'loggedIn' => is_user_logged_in(),
+        ));
+        
+        // Localiser le script bootstrap-dark-mode également
+        wp_localize_script('lejournaldesactus-bootstrap-dark-mode', 'lejournaldesactusDarkMode', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('lejournaldesactus_dark_mode_nonce'),
+            'loggedIn' => is_user_logged_in(),
         ));
     }
     
     /**
-     * Ajouter le bouton de basculement dans le header
+     * Ajouter le bouton de basculement dans le footer
      */
     public function add_toggle_button() {
-        // Suppression du bouton flottant qui n'est pas nécessaire
-        // Le basculement se fera uniquement via le menu
+        echo '<div class="dark-mode-toggle">';
+        echo '<a href="#" class="dark-mode-toggle-btn" title="' . esc_attr__('Changer de thème', 'lejournaldesactus') . '">';
+        echo '<i class="bi bi-circle-half"></i>';
+        echo '</a>';
+        echo '</div>';
     }
     
     /**

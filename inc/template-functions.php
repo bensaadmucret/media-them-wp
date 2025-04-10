@@ -26,9 +26,41 @@ function lejournaldesactus_post_categories() {
  * Fonction pour afficher les métadonnées d'un article
  */
 function lejournaldesactus_post_meta() {
+    global $post;
+    $author_id = $post->post_author;
+    
     echo '<div class="post-meta-details">';
     echo '<span class="post-date"><i class="bi bi-calendar"></i> ' . get_the_date() . '</span>';
-    echo '<span class="post-author"><i class="bi bi-person"></i> ' . get_the_author() . '</span>';
+    
+    // Vérifier si l'auteur a un profil personnalisé lié
+    $linked_profile_id = get_user_meta($author_id, '_linked_author_profile', true);
+    $author_name = get_the_author();
+    
+    if ($linked_profile_id) {
+        // Utiliser le profil d'auteur personnalisé
+        $profile = get_post($linked_profile_id);
+        if ($profile && $profile->post_type === 'custom_author') {
+            $author_name = $profile->post_title;
+        }
+    } else {
+        // Vérifier si le profil d'auteur a un utilisateur lié (autre direction)
+        $args = array(
+            'post_type' => 'custom_author',
+            'posts_per_page' => 1,
+            'meta_key' => '_linked_user',
+            'meta_value' => $author_id,
+        );
+        
+        $linked_profiles = get_posts($args);
+        
+        if (!empty($linked_profiles)) {
+            $profile = $linked_profiles[0];
+            $author_name = $profile->post_title;
+        }
+    }
+    
+    echo '<span class="post-author"><i class="bi bi-person"></i> ' . esc_html($author_name) . '</span>';
+    
     if (comments_open()) {
         echo '<span class="post-comments"><i class="bi bi-chat"></i> ' . get_comments_number() . '</span>';
     }
@@ -36,82 +68,89 @@ function lejournaldesactus_post_meta() {
 }
 
 /**
- * Fonction pour afficher l'auteur personnalisé dans les articles
- */
-function lejournaldesactus_display_custom_author() {
-    global $post;
-    
-    $author_data = lejournaldesactus_get_custom_author($post->ID);
-    
-    if (!$author_data) {
-        // Afficher l'auteur WordPress par défaut
-        lejournaldesactus_display_default_author();
-        return;
-    }
-    
-    ?>
-    <div class="post-author">
-        <a href="<?php echo esc_url($author_data['url']); ?>" class="author-link">
-            <?php if ($author_data['thumbnail']) : ?>
-                <img src="<?php echo esc_url($author_data['thumbnail']); ?>" alt="<?php echo esc_attr($author_data['name']); ?>" class="author-img">
-            <?php endif; ?>
-            <span class="author-name"><?php echo esc_html($author_data['name']); ?></span>
-        </a>
-        <?php if ($author_data['designation']) : ?>
-            <span class="author-designation"><?php echo esc_html($author_data['designation']); ?></span>
-        <?php endif; ?>
-    </div>
-    <?php
-}
-
-/**
  * Fonction pour afficher l'auteur WordPress par défaut
  */
 function lejournaldesactus_display_default_author() {
+    global $post;
+    $author_id = $post->post_author;
+    
+    // Vérifier si l'auteur a un profil personnalisé lié
+    $linked_profile_id = get_user_meta($author_id, '_linked_author_profile', true);
+    
+    if ($linked_profile_id) {
+        // Utiliser le profil d'auteur personnalisé
+        $profile = get_post($linked_profile_id);
+        if ($profile && $profile->post_type === 'custom_author') {
+            // Récupérer les métadonnées du profil
+            $author_name = $profile->post_title;
+            $author_url = get_permalink($profile->ID);
+            $author_image = get_the_post_thumbnail_url($profile->ID, 'thumbnail');
+            $author_designation = get_post_meta($profile->ID, '_author_designation', true);
+            
+            ?>
+            <div class="post-author">
+                <a href="<?php echo esc_url($author_url); ?>" class="author-link">
+                    <?php if ($author_image) : ?>
+                        <img src="<?php echo esc_url($author_image); ?>" alt="<?php echo esc_attr($author_name); ?>" class="author-img">
+                    <?php else : ?>
+                        <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
+                    <?php endif; ?>
+                    <span class="author-name"><?php echo esc_html($author_name); ?></span>
+                </a>
+                <?php if ($author_designation) : ?>
+                    <span class="author-designation"><?php echo esc_html($author_designation); ?></span>
+                <?php endif; ?>
+            </div>
+            <?php
+            return;
+        }
+    }
+    
+    // Vérifier si le profil d'auteur a un utilisateur lié (autre direction)
+    $args = array(
+        'post_type' => 'custom_author',
+        'posts_per_page' => 1,
+        'meta_key' => '_linked_user',
+        'meta_value' => $author_id,
+    );
+    
+    $linked_profiles = get_posts($args);
+    
+    if (!empty($linked_profiles)) {
+        $profile = $linked_profiles[0];
+        // Récupérer les métadonnées du profil
+        $author_name = $profile->post_title;
+        $author_url = get_permalink($profile->ID);
+        $author_image = get_the_post_thumbnail_url($profile->ID, 'thumbnail');
+        $author_designation = get_post_meta($profile->ID, '_author_designation', true);
+        
+        ?>
+        <div class="post-author">
+            <a href="<?php echo esc_url($author_url); ?>" class="author-link">
+                <?php if ($author_image) : ?>
+                    <img src="<?php echo esc_url($author_image); ?>" alt="<?php echo esc_attr($author_name); ?>" class="author-img">
+                <?php else : ?>
+                    <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
+                <?php endif; ?>
+                <span class="author-name"><?php echo esc_html($author_name); ?></span>
+            </a>
+            <?php if ($author_designation) : ?>
+                <span class="author-designation"><?php echo esc_html($author_designation); ?></span>
+            <?php endif; ?>
+        </div>
+        <?php
+        return;
+    }
+    
+    // Sinon, afficher l'auteur WordPress standard
     ?>
     <div class="post-author">
-        <a href="<?php echo esc_url(get_author_posts_url(get_the_author_meta('ID'))); ?>" class="author-link">
-            <?php echo get_avatar(get_the_author_meta('ID'), 50, '', '', array('class' => 'author-img')); ?>
+        <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>" class="author-link">
+            <?php echo get_avatar($author_id, 50, '', '', array('class' => 'author-img')); ?>
             <span class="author-name"><?php the_author(); ?></span>
         </a>
     </div>
     <?php
-}
-
-/**
- * Fonction pour récupérer les données d'un auteur personnalisé
- */
-function lejournaldesactus_get_custom_author($post_id) {
-    $author_id = get_post_meta($post_id, '_custom_author', true);
-    
-    if (!$author_id) {
-        return false;
-    }
-    
-    $author = get_post($author_id);
-    
-    if (!$author || $author->post_type !== 'custom_author') {
-        return false;
-    }
-    
-    $author_data = array(
-        'id' => $author->ID,
-        'name' => $author->post_title,
-        'url' => get_permalink($author->ID),
-        'designation' => get_post_meta($author->ID, '_author_designation', true),
-        'bio_short' => get_post_meta($author->ID, '_author_bio_short', true),
-        'articles_count' => get_post_meta($author->ID, '_author_articles_count', true),
-        'awards' => get_post_meta($author->ID, '_author_awards', true),
-        'followers' => get_post_meta($author->ID, '_author_followers', true),
-        'expertise' => get_post_meta($author->ID, '_author_expertise', true),
-        'twitter' => get_post_meta($author->ID, '_author_twitter', true),
-        'facebook' => get_post_meta($author->ID, '_author_facebook', true),
-        'instagram' => get_post_meta($author->ID, '_author_instagram', true),
-        'linkedin' => get_post_meta($author->ID, '_author_linkedin', true),
-        'thumbnail' => get_the_post_thumbnail_url($author->ID, 'full'),
-    );
-    
-    return $author_data;
 }
 
 /**
@@ -121,8 +160,7 @@ function lejournaldesactus_get_author_posts($author_id, $limit = 4) {
     $args = array(
         'post_type' => 'post',
         'posts_per_page' => $limit,
-        'meta_key' => '_custom_author',
-        'meta_value' => $author_id,
+        'author' => $author_id,
         'orderby' => 'date',
         'order' => 'DESC',
     );
