@@ -15,9 +15,12 @@
             'post__in' => get_option('sticky_posts'),
           );
           $featured_query = new WP_Query($featured_args);
+
+          $excluded_ids = array(); // Initialiser un tableau pour stocker les IDs à exclure
           
           if ($featured_query->have_posts()) :
             while ($featured_query->have_posts()) : $featured_query->the_post();
+              $excluded_ids[] = get_the_ID(); // Ajouter l'ID de l'article mis en avant au tableau
           ?>
                     <div class="hero-post">
                         <div class="post-meta">
@@ -58,7 +61,7 @@
           // Articles récents pour la sidebar
           $recent_args = array(
             'posts_per_page' => 3,
-            'post__not_in' => get_option('sticky_posts'),
+            'post__not_in' => array_merge(get_option('sticky_posts'), $excluded_ids),
           );
           $recent_query = new WP_Query($recent_args);
           
