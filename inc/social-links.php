@@ -86,6 +86,18 @@ function lejournaldesactus_social_links_customizer($wp_customize) {
         'section'  => 'lejournaldesactus_social_links_section',
         'type'     => 'checkbox',
     ));
+    
+    // Option pour activer/désactiver les réseaux sociaux dans le menu mobile
+    $wp_customize->add_setting('lejournaldesactus_show_social_mobile', array(
+        'default'           => true,
+        'sanitize_callback' => 'lejournaldesactus_sanitize_checkbox',
+    ));
+    
+    $wp_customize->add_control('lejournaldesactus_show_social_mobile', array(
+        'label'    => __('Afficher dans le menu mobile', 'lejournaldesactus'),
+        'section'  => 'lejournaldesactus_social_links_section',
+        'type'     => 'checkbox',
+    ));
 }
 add_action('customize_register', 'lejournaldesactus_social_links_customizer');
 
@@ -97,27 +109,27 @@ add_action('customize_register', 'lejournaldesactus_social_links_customizer');
 function lejournaldesactus_get_social_links() {
     $social_networks = array(
         'facebook'  => array(
-            'url'   => get_theme_mod('lejournaldesactus_social_facebook', ''),
+            'url'   => get_theme_mod('lejournaldesactus_social_facebook', 'https://facebook.com'),
             'icon'  => 'bi bi-facebook',
             'label' => __('Facebook', 'lejournaldesactus'),
         ),
         'twitter'   => array(
-            'url'   => get_theme_mod('lejournaldesactus_social_twitter', ''),
+            'url'   => get_theme_mod('lejournaldesactus_social_twitter', 'https://twitter.com'),
             'icon'  => 'bi bi-twitter',
             'label' => __('Twitter', 'lejournaldesactus'),
         ),
         'instagram' => array(
-            'url'   => get_theme_mod('lejournaldesactus_social_instagram', ''),
+            'url'   => get_theme_mod('lejournaldesactus_social_instagram', 'https://instagram.com'),
             'icon'  => 'bi bi-instagram',
             'label' => __('Instagram', 'lejournaldesactus'),
         ),
         'linkedin'  => array(
-            'url'   => get_theme_mod('lejournaldesactus_social_linkedin', ''),
+            'url'   => get_theme_mod('lejournaldesactus_social_linkedin', 'https://linkedin.com'),
             'icon'  => 'bi bi-linkedin',
             'label' => __('LinkedIn', 'lejournaldesactus'),
         ),
         'youtube'   => array(
-            'url'   => get_theme_mod('lejournaldesactus_social_youtube', ''),
+            'url'   => get_theme_mod('lejournaldesactus_social_youtube', 'https://youtube.com'),
             'icon'  => 'bi bi-youtube',
             'label' => __('YouTube', 'lejournaldesactus'),
         ),
@@ -142,11 +154,13 @@ function lejournaldesactus_get_social_links() {
 /**
  * Affiche les liens vers les réseaux sociaux
  * 
- * @param string $location Emplacement des liens (header, footer, article)
+ * @param string $location Emplacement des liens (header, footer, article, mobile)
  */
 function lejournaldesactus_display_social_links($location = 'header') {
     // Vérifier si l'affichage est activé pour cet emplacement
-    $show_social = get_theme_mod('lejournaldesactus_show_social_' . $location, true);
+    // Pour le menu mobile, utiliser la même configuration que le header
+    $check_location = ($location === 'mobile') ? 'mobile' : $location;
+    $show_social = get_theme_mod('lejournaldesactus_show_social_' . $check_location, true);
     
     if (!$show_social) {
         return;
@@ -164,6 +178,8 @@ function lejournaldesactus_display_social_links($location = 'header') {
         $class .= ' d-none d-lg-block';
     } elseif ($location === 'footer') {
         $class .= ' d-flex mt-4';
+    } elseif ($location === 'mobile') {
+        $class .= ' mobile-social-icons';
     }
     
     echo '<div class="' . esc_attr($class) . '">';

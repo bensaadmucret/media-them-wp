@@ -1,0 +1,398 @@
+/**
+ * Styles pour le mode clair
+ * Fichier dédié aux styles spécifiques du mode clair
+ */
+
+/* ======================================
+   1. VARIABLES CSS
+====================================== */
+:root {
+    /* Variables pour le mode clair */
+    --light-body-bg: #ffffff;
+    --light-text-color: #212529;
+    --light-heading-color: #212529;
+    --light-link-color: #007bff;
+    --light-link-hover-color: #0056b3;
+    --light-card-bg: rgb(243, 245, 245);
+    --light-card-border: #dee2e6;
+    --light-border-color: #dee2e6;
+    --light-shadow-color: rgba(0, 0, 0, 0.1);
+    --light-input-bg: #f8f9fa;
+    --light-input-text: #495057;
+    --light-input-border: #ced4da;
+    --light-btn-primary-bg: #007bff;
+    --light-btn-primary-text: #ffffff;
+    --light-btn-primary-border: #007bff;
+    --light-btn-primary-hover-bg: #0069d9;
+    --light-btn-primary-hover-text: #ffffff;
+    --light-btn-primary-hover-border: #0062cc;
+    --light-btn-secondary-bg: #6c757d;
+    --light-btn-secondary-text: #ffffff;
+    --light-btn-secondary-border: #6c757d;
+    --light-btn-secondary-hover-bg: #5a6268;
+    --light-btn-secondary-hover-text: #ffffff;
+    --light-btn-secondary-hover-border: #545b62;
+    --light-dropdown-bg: #ffffff;
+    --light-dropdown-text: #212529;
+    --light-dropdown-hover-bg: #f8f9fa;
+    --light-dropdown-hover-text: #007bff;
+    --light-dropdown-border: #dee2e6;
+    
+    /* Variables pour les titres et sections en mode clair */
+    --light-article-title-color: #212529;
+    --light-article-title-hover-color: #007bff;
+    --light-header-text-color: #212529;
+    --light-header-bg-color: #ffffff;
+    --light-homepage-title-color: #212529;
+    --light-homepage-title-hover-color: #007bff;
+    --light-sidebar-title-color: #212529;
+    --light-sidebar-title-hover-color: #007bff;
+}
+
+/* ======================================
+   2. STYLES DE BASE
+====================================== */
+body:not([data-theme="dark"]) {
+    background-color: var(--light-body-bg);
+    color: var(--light-text-color);
+}
+
+body:not([data-theme="dark"]) h1, 
+body:not([data-theme="dark"]) h2, 
+body:not([data-theme="dark"]) h3, 
+body:not([data-theme="dark"]) h4, 
+body:not([data-theme="dark"]) h5, 
+body:not([data-theme="dark"]) h6 {
+    color: var(--light-heading-color);
+}
+
+body:not([data-theme="dark"]) a {
+    color: var(--light-link-color);
+    transition: color 0.3s ease;
+}
+
+body:not([data-theme="dark"]) a:hover {
+    color: var(--light-link-hover-color);
+}
+
+body:not([data-theme="dark"]) .card {
+    background-color: var(--light-card-bg);
+    border-color: var(--light-card-border);
+}
+
+body:not([data-theme="dark"]) input, 
+body:not([data-theme="dark"]) textarea, 
+body:not([data-theme="dark"]) select {
+    background-color: var(--light-input-bg);
+    color: var(--light-input-text);
+    border-color: var(--light-input-border);
+}
+
+body:not([data-theme="dark"]) .btn-primary {
+    background-color: var(--light-btn-primary-bg);
+    color: var(--light-btn-primary-text);
+    border-color: var(--light-btn-primary-border);
+}
+
+body:not([data-theme="dark"]) .btn-primary:hover {
+    background-color: var(--light-btn-primary-hover-bg);
+    color: var(--light-btn-primary-hover-text);
+    border-color: var(--light-btn-primary-hover-border);
+}
+
+body:not([data-theme="dark"]) .btn-secondary {
+    background-color: var(--light-btn-secondary-bg);
+    color: var(--light-btn-secondary-text);
+    border-color: var(--light-btn-secondary-border);
+}
+
+body:not([data-theme="dark"]) .btn-secondary:hover {
+    background-color: var(--light-btn-secondary-hover-bg);
+    color: var(--light-btn-secondary-hover-text);
+    border-color: var(--light-btn-secondary-hover-border);
+}
+
+body:not([data-theme="dark"]) .dropdown-menu {
+    background-color: var(--light-dropdown-bg);
+    border-color: var(--light-dropdown-border);
+}
+
+body:not([data-theme="dark"]) .dropdown-item {
+    color: var(--light-dropdown-text);
+}
+
+body:not([data-theme="dark"]) .dropdown-item:hover {
+    background-color: var(--light-dropdown-hover-bg);
+    color: var(--light-dropdown-hover-text);
+}
+
+/* ======================================
+   3. STYLES SPÉCIFIQUES POUR LES SECTIONS
+====================================== */
+/* Styles spécifiques pour l'en-tête en mode clair */
+body:not([data-theme="dark"]) .header-section {
+    background-color: var(--light-header-bg-color);
+    color: var(--light-header-text-color);
+}
+
+/* Styles spécifiques pour la navigation de l'en-tête en mode clair */
+body:not([data-theme="dark"]) .header-navigation,
+body:not([data-theme="dark"]) .header-menu-items {
+    /* Commenté pour éviter le conflit avec les styles du menu desktop */
+    /* background-color: var(--light-header-bg-color); */
+    /* Utilisation de la couleur du texte noir pour les liens */
+    color: #000000;
+}
+
+/* ======================================
+   4. STYLES POUR LES TITRES
+====================================== */
+/* Titres pour les articles en mode clair */
+body:not([data-theme="dark"]) .article-title,
+body:not([data-theme="dark"]) .article-content .article-title {
+    color: var(--light-article-title-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Effet hover pour les titres d'articles en mode clair */
+body:not([data-theme="dark"]) .article-title a:hover,
+body:not([data-theme="dark"]) .article-content .article-title a:hover {
+    color: var(--light-article-title-hover-color);
+    text-decoration: none;
+}
+
+/* Titres pour la page d'accueil en mode clair */
+body:not([data-theme="dark"]) .homepage-post-title,
+body:not([data-theme="dark"]) .homepage-featured-post .homepage-post-title {
+    color: var(--light-homepage-title-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Effet hover pour les titres de la page d'accueil en mode clair */
+body:not([data-theme="dark"]) .homepage-post-title a:hover,
+body:not([data-theme="dark"]) .homepage-featured-post .homepage-post-title a:hover {
+    color: var(--light-homepage-title-hover-color);
+    text-decoration: none;
+}
+
+/* Titres pour la barre latérale en mode clair */
+body:not([data-theme="dark"]) .homepage-sidebar-title,
+body:not([data-theme="dark"]) .homepage-sidebar-post .homepage-sidebar-title {
+    color: var(--light-sidebar-title-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Effet hover pour les titres de la barre latérale en mode clair */
+body:not([data-theme="dark"]) .homepage-sidebar-title a:hover,
+body:not([data-theme="dark"]) .homepage-sidebar-post .homepage-sidebar-title a:hover {
+    color: var(--light-sidebar-title-hover-color);
+    text-decoration: none;
+}
+
+/* ======================================
+   5. STYLES POUR LES ÉLÉMENTS SPÉCIFIQUES
+====================================== */
+/* Styles pour les articles en mode clair */
+body:not([data-theme="dark"]) .article-content {
+    background-color: var(--light-body-bg);
+    color: var(--light-text-color);
+}
+
+body:not([data-theme="dark"]) .article-meta {
+    color: #6c757d; /* Couleur grise pour les métadonnées */
+}
+
+body:not([data-theme="dark"]) .article-body {
+    color: var(--light-text-color);
+}
+
+body:not([data-theme="dark"]) .article-footer {
+    border-top: 1px solid var(--light-border-color);
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+/* Styles pour la page d'accueil en mode clair */
+body:not([data-theme="dark"]) .main-content {
+    background-color: var(--light-body-bg);
+}
+
+body:not([data-theme="dark"]) .homepage-hero {
+    background-color: #f8f9fa; /* Fond légèrement gris pour la section héros */
+    padding: 2rem 0;
+}
+
+body:not([data-theme="dark"]) .homepage-featured-post {
+    background-color: var(--light-body-bg);
+    border: 1px solid var(--light-border-color);
+    border-radius: 0.25rem;
+    padding: 1.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+body:not([data-theme="dark"]) .homepage-post-image img {
+    border-radius: 0.25rem;
+}
+
+body:not([data-theme="dark"]) .homepage-post-excerpt {
+    color: var(--light-text-color);
+    margin: 1rem 0;
+}
+
+body:not([data-theme="dark"]) .homepage-sidebar-post {
+    border-bottom: 1px solid var(--light-border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+body:not([data-theme="dark"]) .homepage-posts-section {
+    padding: 2rem 0;
+}
+
+/* ======================================
+   6. STYLES POUR LES FORMULAIRES
+====================================== */
+body:not([data-theme="dark"]) .form-control {
+    background-color: var(--light-input-bg);
+    color: var(--light-input-text);
+    border-color: var(--light-input-border);
+}
+
+body:not([data-theme="dark"]) .form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+body:not([data-theme="dark"]) .form-check-input {
+    border-color: var(--light-input-border);
+}
+
+body:not([data-theme="dark"]) .form-check-input:checked {
+    background-color: var(--light-btn-primary-bg);
+    border-color: var(--light-btn-primary-border);
+}
+
+/* ======================================
+   7. STYLES POUR LES BOUTONS ET LIENS D'ACTION
+====================================== */
+body:not([data-theme="dark"]) .read-more {
+    color: var(--light-link-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body:not([data-theme="dark"]) .read-more:hover {
+    color: var(--light-link-hover-color);
+    text-decoration: underline;
+}
+
+body:not([data-theme="dark"]) .social-share a {
+    color: #6c757d;
+    margin-left: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+body:not([data-theme="dark"]) .social-share a:hover {
+    color: var(--light-link-hover-color);
+}
+
+/* ======================================
+   8. STYLES POUR LES WIDGETS ET LA BARRE LATÉRALE
+====================================== */
+body:not([data-theme="dark"]) .widget {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: var(--light-card-bg);
+    border-radius: 0.25rem;
+    border: 1px solid var(--light-card-border);
+}
+
+body:not([data-theme="dark"]) .widget-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-border-color);
+}
+
+/* ======================================
+   9. STYLES POUR LES COMMENTAIRES
+====================================== */
+body:not([data-theme="dark"]) .comments-area {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--light-border-color);
+}
+
+body:not([data-theme="dark"]) .comment-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+body:not([data-theme="dark"]) .comment {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--light-card-bg);
+    border-radius: 0.25rem;
+    border: 1px solid var(--light-card-border);
+}
+
+body:not([data-theme="dark"]) .comment-author {
+    font-weight: 600;
+}
+
+body:not([data-theme="dark"]) .comment-metadata {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+}
+
+body:not([data-theme="dark"]) .comment-content {
+    margin-top: 0.5rem;
+}
+
+/* ======================================
+   10. STYLES POUR LE PIED DE PAGE
+====================================== */
+body:not([data-theme="dark"]) .site-footer {
+    background-color: #f8f9fa;
+    color: var(--light-text-color);
+    padding: 3rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--light-border-color);
+}
+
+body:not([data-theme="dark"]) .footer-widget-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+body:not([data-theme="dark"]) .footer-menu {
+    list-style: none;
+    padding-left: 0;
+}
+
+body:not([data-theme="dark"]) .footer-menu li {
+    margin-bottom: 0.5rem;
+}
+
+body:not([data-theme="dark"]) .footer-menu a {
+    color: var(--light-text-color);
+    text-decoration: none;
+}
+
+body:not([data-theme="dark"]) .footer-menu a:hover {
+    color: var(--light-link-hover-color);
+    text-decoration: underline;
+}
+
+body:not([data-theme="dark"]) .site-info {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--light-border-color);
+    font-size: 0.875rem;
+    color: #6c757d;
+}

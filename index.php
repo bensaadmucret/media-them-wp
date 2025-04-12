@@ -1,9 +1,9 @@
 <?php get_header(); ?>
 
-<main id="main">
+<main id="main" class="main-content">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero">
+    <section id="hero" class="hero homepage-hero">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -22,20 +22,20 @@
             while ($featured_query->have_posts()) : $featured_query->the_post();
               $excluded_ids[] = get_the_ID(); // Ajouter l'ID de l'article mis en avant au tableau
           ?>
-                    <div class="hero-post">
+                    <div class="hero-post homepage-featured-post">
                         <div class="post-meta">
                             <?php lejournaldesactus_post_categories(); ?>
                         </div>
-                        <h1 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+                        <h1 class="post-title homepage-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
                         <?php lejournaldesactus_post_meta(); ?>
-                        <div class="post-img">
+                        <div class="post-img homepage-post-image">
                             <?php if (has_post_thumbnail()) : ?>
                             <a href="<?php the_permalink(); ?>" class="img-link">
                                 <?php the_post_thumbnail('full', array('class' => 'img-fluid')); ?>
                             </a>
                             <?php endif; ?>
                         </div>
-                        <div class="post-content">
+                        <div class="post-content homepage-post-excerpt">
                             <?php the_excerpt(); ?>
                         </div>
                         <div class="d-flex align-items-center justify-content-between">
@@ -68,7 +68,7 @@
           if ($recent_query->have_posts()) :
             while ($recent_query->have_posts()) : $recent_query->the_post();
           ?>
-                    <div class="post-entry-1">
+                    <div class="post-entry-1 homepage-sidebar-post">
                         <?php if (has_post_thumbnail()) : ?>
                         <a href="<?php the_permalink(); ?>" class="post-img">
                             <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
@@ -77,7 +77,7 @@
                         <div class="post-meta">
                             <?php lejournaldesactus_post_categories(); ?>
                         </div>
-                        <h2 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                        <h2 class="post-title homepage-sidebar-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                         <?php lejournaldesactus_post_meta(); ?>
                     </div>
                     <?php
@@ -91,7 +91,7 @@
     </section><!-- /Hero Section -->
 
     <!-- Posts Section -->
-    <section id="posts" class="posts">
+    <section id="posts" class="posts homepage-posts-section">
         <div class="container" data-aos="fade-up">
             <div class="section-header d-flex justify-content-between align-items-center mb-5">
                 <h2><?php echo get_theme_mod('lejournaldesactus_latest_posts_title', esc_html__('Articles récents', 'lejournaldesactus')); ?>

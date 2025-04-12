@@ -1,0 +1,355 @@
+/**
+ * Footer Styles
+ * Version moderne et optimisée
+ */
+
+/* ======================================
+   1. STYLES GÉNÉRAUX DU FOOTER
+====================================== */
+.footer {
+  background-color: var(--background-footer);
+  font-size: 14px;
+  position: relative;
+  color: var(--default-color);
+}
+
+.footer .footer-top {
+  padding-top: 50px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* ======================================
+   2. LOGO ET INFORMATIONS DU SITE
+====================================== */
+.footer .footer-about .logo {
+  line-height: 1;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.footer .footer-about .logo img {
+  max-height: 40px;
+  margin-right: 6px;
+}
+
+.footer .footer-about .logo span {
+  color: var(--heading-color);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-family: var(--heading-font);
+}
+
+.footer .footer-about p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-family: var(--heading-font);
+}
+
+/* ======================================
+   3. LIENS SOCIAUX
+====================================== */
+.footer .social-links {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer .social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  font-size: 16px;
+  color: var(--icon-color);
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.footer .social-links a:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* ======================================
+   4. TITRES DES SECTIONS
+====================================== */
+.footer h4 {
+  font-size: 16px;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  color: var(--heading-color);
+}
+
+.footer h4::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: var(--primary-color);
+  bottom: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.footer .footer-links:hover h4::after {
+  width: 70px;
+}
+
+/* ======================================
+   5. LIENS DU FOOTER
+====================================== */
+.footer .footer-links {
+  margin-bottom: 30px;
+}
+
+.footer .footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer .footer-links ul i {
+  padding-right: 2px;
+  font-size: 12px;
+  line-height: 0;
+  color: var(--primary-color);
+}
+
+.footer .footer-links ul li {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border-color);
+  transition: padding-left 0.3s ease;
+}
+
+.footer .footer-links ul li:first-child {
+  padding-top: 0;
+}
+
+.footer .footer-links ul li:last-child {
+  border-bottom: none;
+}
+
+.footer .footer-links ul li:hover {
+  padding-left: 5px;
+}
+
+.footer .footer-links ul a {
+  color: var(--text-color);
+  display: inline-block;
+  line-height: 1;
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.footer .footer-links ul a:hover {
+  color: var(--primary-color);
+}
+
+/* ======================================
+   6. COPYRIGHT ET CRÉDITS
+====================================== */
+.footer .copyright {
+  padding: 25px 0;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.footer .copyright p {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.footer .copyright .sitename {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.footer .credits {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-muted, var(--default-color));
+  opacity: 0.8;
+}
+
+.footer .credits a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .credits a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+/* ======================================
+   7. BOUTON DE RETOUR EN HAUT
+====================================== */
+.scroll-top {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  right: 15px;
+  bottom: -15px;
+  z-index: 99999;
+  background-color: var(--primary-color);
+  width: 44px;
+  height: 44px;
+  border-radius: 50px;
+  transition: all 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-top i {
+  font-size: 24px;
+  color: var(--contrast-color);
+  line-height: 0;
+}
+
+.scroll-top:hover {
+  background-color: var(--secondary-color);
+  color: var(--contrast-color);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.scroll-top.active {
+  visibility: visible;
+  opacity: 1;
+  bottom: 15px;
+}
+
+/* ======================================
+   8. RESPONSIVE DESIGN
+====================================== */
+@media (max-width: 991px) {
+  .footer .footer-about {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer .footer-top {
+    padding-top: 30px;
+  }
+  
+  .footer .footer-links {
+    margin-bottom: 20px;
+  }
+  
+  .footer h4 {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 575px) {
+  .footer .copyright {
+    text-align: center;
+  }
+  
+  .footer .social-links {
+    justify-content: center;
+  }
+  
+  .footer h4 {
+    text-align: center;
+  }
+  
+  .footer h4::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .footer .footer-links ul li {
+    justify-content: center;
+  }
+}
+
+/* ======================================
+   9. DARK MODE STYLES
+====================================== */
+body.dark-mode .footer,
+html[data-theme="dark"] .footer {
+  background-color: #121212;
+  color: var(--dark-text);
+  border-top: 1px solid #333333;
+}
+
+/* Titre du footer en mode sombre */
+body.dark-mode .footer h4,
+html[data-theme="dark"] .footer h4 {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Liens du footer en mode sombre */
+body.dark-mode .footer .footer-links ul a,
+html[data-theme="dark"] .footer .footer-links ul a {
+  color: #cccccc;
+}
+
+body.dark-mode .footer .footer-links ul a:hover,
+html[data-theme="dark"] .footer .footer-links ul a:hover {
+  color: var(--primary-color);
+}
+
+/* Bordures en mode sombre */
+body.dark-mode .footer .footer-links ul li,
+html[data-theme="dark"] .footer .footer-links ul li {
+  border-bottom-color: #333333;
+}
+
+/* Icônes sociales du footer en mode sombre */
+body.dark-mode .footer .social-links a,
+html[data-theme="dark"] .footer .social-links a {
+  border-color: #444444;
+  background-color: #222222;
+}
+
+body.dark-mode .footer .social-links a:hover,
+html[data-theme="dark"] .footer .social-links a:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(247, 88, 21, 0.1);
+}
+
+/* Copyright du footer en mode sombre */
+body.dark-mode .footer .copyright,
+html[data-theme="dark"] .footer .copyright {
+  border-top-color: #333333;
+}
+
+body.dark-mode .footer .copyright p,
+html[data-theme="dark"] .footer .copyright p {
+  color: #aaaaaa;
+}
+
+body.dark-mode .footer .credits,
+html[data-theme="dark"] .footer .credits {
+  color: #888888;
+}
+
+/* Bouton de retour en haut en mode sombre */
+body.dark-mode .scroll-top,
+html[data-theme="dark"] .scroll-top {
+  background: rgba(247, 88, 21, 0.8);
+}
+
+body.dark-mode .scroll-top:hover,
+html[data-theme="dark"] .scroll-top:hover {
+  background: var(--primary-color);
+}

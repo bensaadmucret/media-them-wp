@@ -1,68 +1,401 @@
 /**
  * Styles pour le mode sombre/clair
+ * Version nettoyée et optimisée
  */
 
-/* Bouton de basculement */
-.dark-mode-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
+/* ======================================
+   1. VARIABLES CSS - SYSTÈME DE COULEURS COHÉRENT
+====================================== */
+:root {
+    /* Palette de couleurs principale */
+    --primary-color: #f75815; /* Orange - Couleur d'accent principale */
+    --secondary-color: #A2F8B5; /* Vert clair - Couleur d'accent secondaire */
+    --tertiary-color: #FFF44F; /* Jaune - Couleur d'accent tertiaire */
+    
+    /* Variables pour le mode clair */
+    --light-bg: #ffffff;
+    --light-text: #212529;
+    --light-heading: #212529;
+    --light-link: #f75815; /* Orange */
+    --light-link-hover: #A2F8B5; /* Vert clair */
+    --light-card-bg: rgb(243, 245, 245);
+    --light-card-border: #dee2e6;
+    --light-border: #dee2e6;
+    --light-shadow: rgba(0, 0, 0, 0.1);
+    --light-input-bg: #f8f9fa;
+    --light-input-text: #495057;
+    --light-input-border: #ced4da;
+    --light-header-bg: #ffffff;
+    --light-header-text: #212529;
+    --light-icon: #212529;
+    --light-icon-hover: #f75815; /* Orange */
+    
+    /* Variables pour le mode sombre */
+    --dark-bg: #000000; /* Noir au lieu de #121212 */
+    --dark-text: #e0e0e0;
+    --dark-heading: #f5f5f5;
+    --dark-link: #f75815; /* Orange */
+    --dark-link-hover: #A2F8B5; /* Vert clair */
+    --dark-card-bg: #1e1e1e;
+    --dark-card-border: #333333;
+    --dark-border: #333333;
+    --dark-shadow: rgba(0, 0, 0, 0.3);
+    --dark-input-bg: #2d2d2d;
+    --dark-input-text: #e0e0e0;
+    --dark-input-border: #444444;
+    --dark-header-bg: #000000;
+    --dark-header-text: #e0e0e0;
+    --dark-icon: var(--tertiary-color); /* Jaune */
+    --dark-icon-hover: #f75815; /* Orange */
+    
+    /* Application des variables en mode clair (par défaut) */
+    --body-bg: var(--light-bg);
+    --text-color: var(--light-text);
+    --heading-color: var(--light-heading);
+    --link-color: var(--light-link);
+    --link-hover-color: var(--light-link-hover);
+    --card-bg: var(--light-card-bg);
+    --card-border: var(--light-card-border);
+    --border-color: var(--light-border);
+    --shadow-color: var(--light-shadow);
+    --input-bg: var(--light-input-bg);
+    --input-text: var(--light-input-text);
+    --input-border: var(--light-input-border);
+    --header-bg-color: var(--light-header-bg);
+    --header-text-color: var(--light-header-text);
+    --icon-color: var(--light-icon);
+    --icon-hover-color: var(--light-icon-hover);
+    
+    /* Variables pour les titres et sections */
+    --dark-mode-title-color: var(--primary-color); /* Orange */
+    --dark-mode-title-hover-color: var(--secondary-color); /* Vert clair */
+    --article-title-color: var(--primary-color); /* Orange */
+    --article-title-hover-color: var(--secondary-color); /* Vert clair */
+    --homepage-title-color: var(--primary-color); /* Orange */
+    --homepage-title-hover-color: var(--secondary-color); /* Vert clair */
+    --sidebar-title-color: var(--primary-color); /* Orange */
+    --sidebar-title-hover-color: var(--secondary-color); /* Vert clair */
 }
 
+/* Application des variables en mode sombre */
+[data-theme="dark"] {
+    --body-bg: var(--dark-bg);
+    --text-color: var(--dark-text);
+    --heading-color: var(--dark-heading);
+    --link-color: var(--dark-link);
+    --link-hover-color: var(--dark-link-hover);
+    --card-bg: var(--dark-card-bg);
+    --card-border: var(--dark-card-border);
+    --border-color: var(--dark-border);
+    --shadow-color: var(--dark-shadow);
+    --input-bg: var(--dark-input-bg);
+    --input-text: var(--dark-input-text);
+    --input-border: var(--dark-input-border);
+    --header-bg-color: var(--dark-header-bg);
+    --header-text-color: var(--dark-text);
+    --icon-color: var(--dark-icon);
+    --icon-hover-color: var(--dark-icon-hover);
+    
+    /* Surcharge des variables du thème principal */
+    --background-color: var(--dark-bg);
+    --default-color: var(--dark-text);
+    --heading-color: var(--dark-heading);
+    --surface-color: var(--dark-card-bg);
+    --contrast-color: #ffffff;
+}
+
+/* ======================================
+   2. STYLES DE BASE
+====================================== */
+/* Transition fluide pour tous les éléments */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Styles de base pour le mode sombre - RENFORCÉS */
+html[data-theme="dark"] body,
+body.dark-mode,
+[data-theme="dark"],
+html.dark-mode,
+html[data-theme="dark"],
+.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Styles spécifiques pour le body en mode sombre - Force l'application */
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Styles pour les liens en mode sombre */
+html[data-theme="dark"] a,
+body.dark-mode a,
+html[data-theme="dark"] a:link,
+body.dark-mode a:link,
+html[data-theme="dark"] a:visited,
+body.dark-mode a:visited {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+html[data-theme="dark"] a:hover,
+body.dark-mode a:hover,
+html[data-theme="dark"] a:active,
+body.dark-mode a:active {
+    color: var(--link-hover-color);
+    text-decoration: none;
+}
+
+/* Styles pour le wrapper en mode sombre */
+html[data-theme="dark"] .wrapper,
+body.dark-mode .wrapper {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* ======================================
+   3. ICÔNES ET ÉLÉMENTS INTERACTIFS
+====================================== */
+/* Styles cohérents pour les icônes en mode clair */
+.bi,
+.bi-list,
+.bi-x,
+.bi-search,
+.mobile-nav-toggle,
+.social-links i,
+.header-social-links i {
+    color: var(--icon-color);
+    transition: color 0.3s ease;
+}
+
+.bi:hover,
+.bi-list:hover,
+.bi-search:hover,
+.mobile-nav-toggle:hover,
+.social-links i:hover,
+.header-social-links i:hover {
+    color: var(--icon-hover-color);
+}
+
+/* Styles cohérents pour les icônes en mode sombre */
+html[data-theme="dark"] .bi,
+html[data-theme="dark"] .bi-list,
+html[data-theme="dark"] .bi-x,
+html[data-theme="dark"] .bi-search,
+html[data-theme="dark"] .mobile-nav-toggle,
+body.dark-mode .bi,
+body.dark-mode .bi-list,
+body.dark-mode .bi-x,
+body.dark-mode .bi-search {
+    color: var(--dark-icon);
+}
+
+/* Exception pour l'icône mobile - toujours visible en mode sombre */
+html[data-theme="dark"] .mobile-nav-toggle,
+body.dark-mode .mobile-nav-toggle,
+html[data-theme="dark"] .bi-list.mobile-nav-toggle,
+body.dark-mode .bi-list.mobile-nav-toggle {
+    color: var(--tertiary-color) !important; /* Jaune */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Exception pour l'icône de recherche dans le bouton de recherche - toujours noire */
+html[data-theme="dark"] .search-form .btn .bi-search,
+body.dark-mode .search-form .btn .bi-search {
+    color: #000000 !important;
+}
+
+/* Exception pour les icônes des réseaux sociaux - garder leurs couleurs d'origine */
+html[data-theme="dark"] .social-links i,
+html[data-theme="dark"] .header-social-links i,
+html[data-theme="dark"] .mobile-social-links i,
+html[data-theme="dark"] .footer-social-links i,
+html[data-theme="dark"] .fa-facebook,
+html[data-theme="dark"] .fa-twitter,
+html[data-theme="dark"] .fa-instagram,
+html[data-theme="dark"] .fa-linkedin,
+html[data-theme="dark"] .fa-youtube,
+html[data-theme="dark"] .fa-pinterest,
+html[data-theme="dark"] .fa-tiktok,
+body.dark-mode .social-links i,
+body.dark-mode .header-social-links i,
+body.dark-mode .mobile-social-links i,
+body.dark-mode .footer-social-links i,
+body.dark-mode .fa-facebook,
+body.dark-mode .fa-twitter,
+body.dark-mode .fa-instagram,
+body.dark-mode .fa-linkedin,
+body.dark-mode .fa-youtube,
+body.dark-mode .fa-pinterest,
+body.dark-mode .fa-tiktok {
+    color: inherit !important;
+}
+
+/* Couleurs spécifiques pour les réseaux sociaux */
+.fa-facebook, .fa-facebook-f {
+    color: #1877f2 !important;
+}
+.fa-twitter, .fa-twitter-square {
+    color: #1da1f2 !important;
+}
+.fa-instagram {
+    color: #e1306c !important;
+}
+.fa-linkedin, .fa-linkedin-in {
+    color: #0077b5 !important;
+}
+.fa-youtube {
+    color: #ff0000 !important;
+}
+.fa-pinterest, .fa-pinterest-p {
+    color: #bd081c !important;
+}
+.fa-tiktok {
+    color: #000000 !important;
+}
+
+html[data-theme="dark"] .bi:hover,
+html[data-theme="dark"] .bi-list:hover,
+html[data-theme="dark"] .bi-x:hover,
+html[data-theme="dark"] .bi-search:hover,
+html[data-theme="dark"] .mobile-nav-toggle:hover,
+body.dark-mode .bi:hover,
+body.dark-mode .bi-list:hover,
+body.dark-mode .bi-x:hover,
+body.dark-mode .bi-search:hover,
+body.dark-mode .mobile-nav-toggle:hover {
+    color: var(--dark-icon-hover);
+}
+
+/* Exception pour l'icône de recherche dans le bouton de recherche au survol - toujours noire */
+html[data-theme="dark"] .search-form .btn:hover .bi-search,
+body.dark-mode .search-form .btn:hover .bi-search {
+    color: #000000 !important;
+}
+
+/* Exception pour les icônes des réseaux sociaux au survol */
+html[data-theme="dark"] .social-links i:hover,
+html[data-theme="dark"] .header-social-links i:hover,
+html[data-theme="dark"] .mobile-social-links i:hover,
+html[data-theme="dark"] .footer-social-links i:hover,
+body.dark-mode .social-links i:hover,
+body.dark-mode .header-social-links i:hover,
+body.dark-mode .mobile-social-links i:hover,
+body.dark-mode .footer-social-links i:hover {
+    opacity: 0.8 !important;
+    color: inherit !important;
+}
+
+/* Styles spécifiques pour l'icône de fermeture en mode sombre */
+body.dark-mode .mobile-nav-toggle.bi-x,
+html body.dark-mode .mobile-nav-toggle.bi-x,
+body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x,
+html body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x,
+[data-theme="dark"] .mobile-nav-toggle.bi-x,
+html[data-theme="dark"] .mobile-nav-toggle.bi-x,
+[data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x,
+html[data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x {
+  color: #ffffff !important;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7) !important;
+}
+
+body.dark-mode .mobile-nav-toggle.bi-x:hover,
+html body.dark-mode .mobile-nav-toggle.bi-x:hover,
+body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+html body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+[data-theme="dark"] .mobile-nav-toggle.bi-x:hover,
+html[data-theme="dark"] .mobile-nav-toggle.bi-x:hover,
+[data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+html[data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x:hover {
+  color: var(--tertiary-color) !important;
+}
+
+/* ======================================
+   4. BOUTON DE BASCULEMENT DARK MODE
+====================================== */
+/* Bouton de basculement */
 .dark-mode-toggle-btn {
+    position: relative;
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 10px var(--shadow-color);
+    background: transparent;
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease;
+    outline: none;
 }
 
 .dark-mode-toggle-btn:hover {
-    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.dark-mode-toggle-btn .light-icon,
-.dark-mode-toggle-btn .dark-icon {
+[data-theme="dark"] .dark-mode-toggle-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode-toggle-btn .dark-icon,
+.dark-mode-toggle-btn .light-icon {
     position: absolute;
-    font-size: 18px;
+    font-size: 20px;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.dark-mode-toggle-btn .light-icon {
-    color: #f39c12;
-}
-
 .dark-mode-toggle-btn .dark-icon {
-    color: #3498db;
+    opacity: 1;
+    transform: rotate(0) scale(1);
 }
 
-/* Afficher l'icône appropriée en fonction du mode */
-[data-theme="dark"] .dark-mode-toggle-btn .dark-icon {
+.dark-mode-toggle-btn .light-icon {
     opacity: 0;
     transform: rotate(90deg) scale(0);
 }
 
-[data-theme="dark"] .dark-mode-toggle-btn .light-icon {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-}
-
 [data-theme="dark"] .dark-mode-toggle-btn .dark-icon {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-}
-
-[data-theme="dark"] .dark-mode-toggle-btn .light-icon {
     opacity: 0;
     transform: rotate(-90deg) scale(0);
+}
+
+[data-theme="dark"] .dark-mode-toggle-btn .light-icon {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+/* Amélioration de la lisibilité du switch de mode sombre */
+.form-check-input {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Style du switch en mode sombre */
+html[data-theme="dark"] .form-check-input,
+body.dark-mode .form-check-input {
+    background-color: #444444;
+    border-color: #666666;
+}
+
+html[data-theme="dark"] .form-check-input:checked,
+body.dark-mode .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 /* Bouton de basculement dans le header */
@@ -77,49 +410,45 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background: none;
+    background: transparent;
     border: none;
-    padding: 0;
-    color: var(--heading-color);
     cursor: pointer;
-    transition: all 0.2s ease;
+    font-size: 18px;
+    color: var(--icon-color);
+    transition: all 0.3s ease;
+    padding: 0;
+    margin: 0;
+    outline: none;
 }
 
 .dark-mode-toggle-wrapper .dark-mode-toggle:hover,
 .dark-mode-toggle-wrapper .btn-icon:hover {
-    transform: rotate(30deg);
-    opacity: 0.8;
-}
-
-.dark-mode-toggle-wrapper .dark-mode-toggle i,
-.dark-mode-toggle-wrapper .btn-icon i {
-    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--icon-hover-color);
 }
 
 [data-theme="dark"] .dark-mode-toggle-wrapper .dark-mode-toggle,
-[data-theme="dark"] .dark-mode-toggle-wrapper .btn-icon {
-    color: #f5f5f5;
+[data-theme="dark"] .dark-mode-toggle-wrapper .btn-icon,
+body.dark-mode .dark-mode-toggle-wrapper .dark-mode-toggle,
+body.dark-mode .dark-mode-toggle-wrapper .btn-icon {
+    color: var(--dark-icon);
 }
 
-/* Effet de focus pour l'accessibilité */
+[data-theme="dark"] .dark-mode-toggle-wrapper .dark-mode-toggle:hover,
+[data-theme="dark"] .dark-mode-toggle-wrapper .btn-icon:hover,
+body.dark-mode .dark-mode-toggle-wrapper .dark-mode-toggle:hover,
+body.dark-mode .dark-mode-toggle-wrapper .btn-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--dark-icon-hover);
+}
+
 .dark-mode-toggle-wrapper .dark-mode-toggle:focus,
 .dark-mode-toggle-wrapper .btn-icon:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-/* Animation subtile pour le changement de mode */
-.dark-mode-toggle-wrapper .dark-mode-toggle i,
-.dark-mode-toggle-wrapper .btn-icon i {
-    transition: transform 0.3s ease;
-}
-
-[data-theme="dark"] .dark-mode-toggle-wrapper .dark-mode-toggle i,
-[data-theme="dark"] .dark-mode-toggle-wrapper .btn-icon i {
-    transform: rotate(180deg);
 }
 
 /* Menu déroulant pour le sélecteur de thème */
@@ -132,65 +461,45 @@
     border: 1px solid var(--border-color);
     border-radius: 4px;
     box-shadow: 0 2px 10px var(--shadow-color);
-    padding: 10px 0;
-    min-width: 150px;
     z-index: 1000;
+    min-width: 180px;
     display: none;
+    overflow: hidden;
 }
 
 .theme-dropdown.show {
     display: block;
-    animation: fadeInUp 0.3s ease;
 }
 
 .theme-dropdown-item {
     display: flex;
     align-items: center;
-    padding: 8px 15px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease;
     color: var(--text-color);
 }
 
 .theme-dropdown-item:hover {
-    background-color: var(--input-bg);
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .theme-dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .theme-dropdown-item i {
     margin-right: 10px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .theme-dropdown-item.active {
-    font-weight: bold;
-    background-color: var(--input-bg);
+    background-color: rgba(0, 123, 255, 0.1);
+    font-weight: 600;
 }
 
-/* Animation pour le menu déroulant */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Item de menu pour le basculement de thème */
-.menu-item-dark-mode {
-    position: relative;
-}
-
-.dark-mode-menu-toggle {
-    display: flex;
-    align-items: center;
-}
-
-.dark-mode-menu-toggle i {
-    margin-right: 5px;
-    font-size: 16px;
+[data-theme="dark"] .theme-dropdown-item.active {
+    background-color: rgba(0, 123, 255, 0.2);
 }
 
 /* Notification de changement de thème */
@@ -200,1320 +509,212 @@
     right: 20px;
     padding: 10px 15px;
     background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
+    color: var(--text-color);
     border-radius: 4px;
     box-shadow: 0 2px 10px var(--shadow-color);
-    color: var(--text-color);
-    font-size: 14px;
-    z-index: 1000;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    transform: translateY(100px);
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .theme-notification.show {
-    opacity: 1;
     transform: translateY(0);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .dark-mode-toggle {
-        bottom: 15px;
-        right: 15px;
-    }
-    
-    .dark-mode-toggle-btn {
-        width: 35px;
-        height: 35px;
-    }
-    
-    .theme-notification {
-        bottom: 60px;
-        right: 15px;
-        font-size: 12px;
-        padding: 8px 12px;
-    }
-}
-
-/* Variables CSS pour les couleurs */
-:root {
-    /* Variables pour le mode clair */
-    --body-bg: #ffffff;
-    --text-color: #212529;
-    --heading-color: #212529;
-    --link-color: #007bff;
-    --link-hover-color: #0056b3;
-    --card-bg: rgb(243, 245, 245);
-    --card-border: #dee2e6;
-    --input-bg: #ffffff;
-    --input-border: #ced4da;
-    --input-text: #495057;
-    --button-primary-bg: #007bff;
-    --button-primary-text: #ffffff;
-    --button-secondary-bg: #6c757d;
-    --button-secondary-text: #ffffff;
-    --header-bg: #ffffff;
-    --header-text: #212529;
-    --footer-bg: #f8f9fa;
-    --footer-text: #212529;
-    --sidebar-bg: #f8f9fa;
-    --sidebar-text: #212529;
-    --border-color: #dee2e6;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --blockquote-bg: #f8f9fa;
-    --blockquote-border: #dee2e6;
-    --code-bg: #f8f9fa;
-    --code-text: #e83e8c;
-    --table-header-bg: #f8f9fa;
-    --table-border: #dee2e6;
-    --table-bg: #ffffff;
-    --nav-bg: #ffffff;
-    --nav-text: #212529;
-    --nav-hover-bg: #f8f9fa;
-    --nav-hover-text: #007bff;
-    --dropdown-bg: #ffffff;
-    --dropdown-text: #212529;
-    --dropdown-hover-bg: #f8f9fa;
-    --dropdown-hover-text: #007bff;
-    --dropdown-border: #dee2e6;
-}
-
-[data-theme="dark"] {
-    /* Variables pour le mode sombre */
-    --body-bg: #121212;
-    --text-color: #e0e0e0;
-    --heading-color: #f5f5f5;
-    --link-color: #2b4158;
-    --link-hover-color: #29b6f6;
-    --card-bg: #1e1e1e;
-    --card-border: #333333;
-    --input-bg: #2d2d2d;
-    --input-border: #444444;
-    --input-text: #e0e0e0;
-    --button-primary-bg: #5c6bc0;
-    --button-primary-text: #ffffff;
-    --button-secondary-bg: #546e7a;
-    --button-secondary-text: #ffffff;
-    --header-bg: #1e1e1e;
-    --header-text: #e0e0e0;
-    --footer-bg: #1e1e1e;
-    --footer-text: #e0e0e0;
-    --sidebar-bg: #1e1e1e;
-    --sidebar-text: #e0e0e0;
-    --border-color: #333333;
-    --shadow-color: rgba(0, 0, 0, 0.5);
-    --blockquote-bg: #2d2d2d;
-    --blockquote-border: #444444;
-    --code-bg: #2d2d2d;
-    --code-text: #f48fb1;
-    --table-header-bg: #2d2d2d;
-    --table-border: #444444;
-    --table-bg: #1e1e1e;
-    --nav-bg: #1e1e1e;
-    --nav-text: #e0e0e0;
-    --nav-hover-bg: #2d2d2d;
-    --nav-hover-text: #4fc3f7;
-    --dropdown-bg: #1e1e1e;
-    --dropdown-text: #e0e0e0;
-    --dropdown-hover-bg: #2d2d2d;
-    --dropdown-hover-text: #4fc3f7;
-    --dropdown-border: #444444;
-}
-
-/* Transition douce entre les modes */
-body {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Styles de base qui utilisent les variables */
-body {
-    background-color: var(--body-bg);
-    color: var(--text-color);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: var(--heading-color);
-}
-
-a:hover {
-    color: var(--link-hover-color);
-}
-
-.card {
-    background-color: var(--card-bg);
-    border-color: var(--card-border);
-}
-
-input, textarea, select {
-    background-color: var(--input-bg);
-    border-color: var(--input-border);
-    color: var(--input-text);
-}
-
-.btn-primary {
-    background-color: var(--button-primary-bg);
-    color: var(--button-primary-text);
-}
-
-.btn-secondary {
-    background-color: var(--button-secondary-bg);
-    color: var(--button-secondary-text);
-}
-
-header {
-    background-color: var(--header-bg);
-    color: var(--header-text);
-}
-
-footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
-}
-
-.sidebar {
-    background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-}
-
-/* Forcer le fond sombre et les couleurs de texte claires */
-[data-theme="dark"] {
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
-
-[data-theme="dark"] body {
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
-
-/* Forcer les couleurs du header */
-[data-theme="dark"] header,
-[data-theme="dark"] .header,
-[data-theme="dark"] #header,
-[data-theme="dark"] .site-header,
-[data-theme="dark"] #site-header,
-[data-theme="dark"] .top-header,
-[data-theme="dark"] .main-header {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-}
-
-/* Forcer les couleurs des liens de navigation */
-[data-theme="dark"] .nav-link,
-[data-theme="dark"] .menu-item a,
-[data-theme="dark"] .navbar-nav a,
-[data-theme="dark"] .main-navigation a,
-[data-theme="dark"] .primary-menu a,
-[data-theme="dark"] .secondary-menu a,
-[data-theme="dark"] .top-menu a,
-[data-theme="dark"] .header-menu a,
-[data-theme="dark"] .footer-menu a {
-    color: #e0e0e0 !important;
-}
-
-[data-theme="dark"] .nav-link:hover,
-[data-theme="dark"] .menu-item a:hover,
-[data-theme="dark"] .navbar-nav a:hover,
-[data-theme="dark"] .main-navigation a:hover,
-[data-theme="dark"] .primary-menu a:hover,
-[data-theme="dark"] .secondary-menu a:hover,
-[data-theme="dark"] .top-menu a:hover,
-[data-theme="dark"] .header-menu a:hover,
-[data-theme="dark"] .footer-menu a:hover {
-    color: #90caf9 !important;
-}
-
-/* Forcer les couleurs du pied de page */
-[data-theme="dark"] footer,
-[data-theme="dark"] .footer,
-[data-theme="dark"] #footer,
-[data-theme="dark"] .site-footer,
-[data-theme="dark"] #site-footer {
-    background-color: #1a1a1a !important;
-    color: #e0e0e0 !important;
-}
-
-/* Forcer les couleurs du titre du site dans le footer */
-[data-theme="dark"] footer .site-title,
-[data-theme="dark"] footer .site-title a,
-[data-theme="dark"] .footer .site-title,
-[data-theme="dark"] .footer .site-title a,
-[data-theme="dark"] #footer .site-title,
-[data-theme="dark"] #footer .site-title a,
-[data-theme="dark"] .site-footer .site-title,
-[data-theme="dark"] .site-footer .site-title a,
-[data-theme="dark"] #site-footer .site-title,
-[data-theme="dark"] #site-footer .site-title a,
-[data-theme="dark"] footer .site-name,
-[data-theme="dark"] footer .site-name a,
-[data-theme="dark"] .footer .site-name,
-[data-theme="dark"] .footer .site-name a,
-[data-theme="dark"] #footer .site-name,
-[data-theme="dark"] #footer .site-name a,
-[data-theme="dark"] .site-footer .site-name,
-[data-theme="dark"] .site-footer .site-name a,
-[data-theme="dark"] #site-footer .site-name,
-[data-theme="dark"] #site-footer .site-name a,
-[data-theme="dark"] footer .navbar-brand,
-[data-theme="dark"] footer .navbar-brand a,
-[data-theme="dark"] .footer .navbar-brand,
-[data-theme="dark"] .footer .navbar-brand a,
-[data-theme="dark"] #footer .navbar-brand,
-[data-theme="dark"] #footer .navbar-brand a,
-[data-theme="dark"] .site-footer .navbar-brand,
-[data-theme="dark"] .site-footer .navbar-brand a,
-[data-theme="dark"] #site-footer .navbar-brand,
-[data-theme="dark"] #site-footer .navbar-brand a,
-[data-theme="dark"] footer .logo-text,
-[data-theme="dark"] footer .logo-text a,
-[data-theme="dark"] .footer .logo-text,
-[data-theme="dark"] .footer .logo-text a,
-[data-theme="dark"] #footer .logo-text,
-[data-theme="dark"] #footer .logo-text a,
-[data-theme="dark"] .site-footer .logo-text,
-[data-theme="dark"] .site-footer .logo-text a,
-[data-theme="dark"] #site-footer .logo-text,
-[data-theme="dark"] #site-footer .logo-text a,
-[data-theme="dark"] footer .footer-logo,
-[data-theme="dark"] footer .footer-logo a,
-[data-theme="dark"] .footer .footer-logo,
-[data-theme="dark"] .footer .footer-logo a,
-[data-theme="dark"] #footer .footer-logo,
-[data-theme="dark"] #footer .footer-logo a,
-[data-theme="dark"] .site-footer .footer-logo,
-[data-theme="dark"] .site-footer .footer-logo a,
-[data-theme="dark"] #site-footer .footer-logo,
-[data-theme="dark"] #site-footer .footer-logo a {
-    color: #f5f5f5 !important;
-}
-
-/* Forcer les couleurs des conteneurs principaux */
-[data-theme="dark"] .container,
-[data-theme="dark"] .container-fluid,
-[data-theme="dark"] .row,
-[data-theme="dark"] .col,
-[data-theme="dark"] .wrapper,
-[data-theme="dark"] #wrapper,
-[data-theme="dark"] .content,
-[data-theme="dark"] #content,
-[data-theme="dark"] .content-area,
-[data-theme="dark"] #primary,
-[data-theme="dark"] .site-content,
-[data-theme="dark"] #main,
-[data-theme="dark"] .main,
-[data-theme="dark"] #main-content,
-[data-theme="dark"] .main-content,
-[data-theme="dark"] article,
-[data-theme="dark"] section,
-[data-theme="dark"] .section,
-[data-theme="dark"] div[class*="content"],
-[data-theme="dark"] div[id*="content"],
-[data-theme="dark"] div[class*="container"],
-[data-theme="dark"] div[id*="container"],
-[data-theme="dark"] div[class*="wrapper"],
-[data-theme="dark"] div[id*="wrapper"],
-[data-theme="dark"] div[class*="main"],
-[data-theme="dark"] div[id*="main"],
-[data-theme="dark"] .page,
-[data-theme="dark"] #page,
-[data-theme="dark"] .site,
-[data-theme="dark"] #site,
-[data-theme="dark"] body > div,
-[data-theme="dark"] html > body {
-    /* background-color: #121212 !important; */
-    color: #e0e0e0 !important;
-}
-
-/* Forcer les couleurs des articles */
-[data-theme="dark"] article{
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
-[data-theme="dark"] section{
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
-[data-theme="dark"] .dark-mode-row{
-    background-color: #121212 !important;
-    color: #e0e0e0 !important;
-}
-[data-theme="dark"] span{
-    color: #fff44f !important;
-}
-
-[data-theme="dark"] #navmenu > ul > li > a{
-    color: #170d0d !important;
-}
-
-[data-theme="dark"] .dark-mode-text{
-    color: #0f0e07 !important;
-}
-
-[data-theme="dark"] .bookmark-button.bookmarked {
-    background-color: #2d2d2d !important;
-    color: #f39c12 !important;
-    border-color: #f39c12 !important;
-}
-
-
-
-/* Forcer les couleurs des cartes et articles */
-[data-theme="dark"] .card,
-[data-theme="dark"] .post,
-[data-theme="dark"] .article,
-[data-theme="dark"] .entry,
-[data-theme="dark"] .widget,
-[data-theme="dark"] .sidebar,
-[data-theme="dark"] .widget-area,
-[data-theme="dark"] .panel,
-[data-theme="dark"] .box {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-    border-color: #333333 !important;
-}
-
-/* Forcer les couleurs des titres */
-[data-theme="dark"] h1, 
-[data-theme="dark"] h2, 
-[data-theme="dark"] h3, 
-[data-theme="dark"] h4, 
-[data-theme="dark"] h5, 
-[data-theme="dark"] h6,
-[data-theme="dark"] .h1, 
-[data-theme="dark"] .h2, 
-[data-theme="dark"] .h3, 
-[data-theme="dark"] .h4, 
-[data-theme="dark"] .h5, 
-[data-theme="dark"] .h6,
-[data-theme="dark"] .entry-title, 
-[data-theme="dark"] .page-title, 
-[data-theme="dark"] .post-title, 
-[data-theme="dark"] .widget-title {
-    color: #f5f5f5 !important;
-}
-
-/* Forcer les couleurs des liens */
-[data-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item) {
-    color: #A2F8B5 !important;
-}
-
-[data-theme="dark"] a:hover:not(.btn):not(.nav-link):not(.dropdown-item) {
-    color:color-mix(in srgb, var(--nav-hover-color), #000 10%)   !important;
-}
-
-[data-theme="dark"] .menu-item > a {
-    color: #040704 !important;
-}
-
-
-/* Forcer les couleurs des formulaires */
-[data-theme="dark"] input,
-[data-theme="dark"] textarea,
-[data-theme="dark"] select,
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .input-group,
-[data-theme="dark"] .custom-select {
-    background-color: #2d2d2d !important;
-    color: #e0e0e0 !important;
-    border-color: #444444 !important;
-}
-
-/* Améliorer la lisibilité des placeholders */
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder,
-[data-theme="dark"] select::placeholder,
-[data-theme="dark"] .form-control::placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input::-webkit-input-placeholder,
-[data-theme="dark"] textarea::-webkit-input-placeholder,
-[data-theme="dark"] select::-webkit-input-placeholder,
-[data-theme="dark"] .form-control::-webkit-input-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input::-moz-placeholder,
-[data-theme="dark"] textarea::-moz-placeholder,
-[data-theme="dark"] select::-moz-placeholder,
-[data-theme="dark"] .form-control::-moz-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input:-ms-input-placeholder,
-[data-theme="dark"] textarea:-ms-input-placeholder,
-[data-theme="dark"] select:-ms-input-placeholder,
-[data-theme="dark"] .form-control:-ms-input-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input:-moz-placeholder,
-[data-theme="dark"] textarea:-moz-placeholder,
-[data-theme="dark"] select:-moz-placeholder,
-[data-theme="dark"] .form-control:-moz-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-/* Force les couleurs pour les éléments avec des styles inline */
-[data-theme="dark"] [style*="color"] {
-    color: var(--text-color) !important;
-}
-
-[data-theme="dark"] [style*="background"] {
-    background-color: var(--card-bg) !important;
-}
-
-[data-theme="dark"] [style*="border"] {
-    border-color: var(--border-color) !important;
-}
-
-[data-theme="dark"] .author-profile .author-card .author-stats .stat-item .purecounter p {
-    font-size: 0.85rem;
-    margin: 0;
-    background-color: var(--bs-secondary-color) !important;
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-}
-
-/* Exceptions pour les réseaux sociaux - préserver leurs couleurs originales */
-[data-theme="dark"] .social-icons a,
-[data-theme="dark"] .social-links a,
-[data-theme="dark"] .social-media a,
-[data-theme="dark"] .social-navigation a,
-[data-theme="dark"] .social-menu a,
-[data-theme="dark"] .social-list a,
-[data-theme="dark"] .social a,
-[data-theme="dark"] a.social-icon,
-[data-theme="dark"] a.social-link,
-[data-theme="dark"] .fa-facebook,
-[data-theme="dark"] .fa-facebook-f,
-[data-theme="dark"] .fa-twitter,
-[data-theme="dark"] .fa-instagram,
-[data-theme="dark"] .fa-linkedin,
-[data-theme="dark"] .fa-linkedin-in,
-[data-theme="dark"] .fa-youtube,
-[data-theme="dark"] .fa-pinterest,
-[data-theme="dark"] .fa-pinterest-p,
-[data-theme="dark"] .fa-snapchat,
-[data-theme="dark"] .fa-snapchat-ghost,
-[data-theme="dark"] .fa-tiktok,
-[data-theme="dark"] .fa-whatsapp,
-[data-theme="dark"] .fa-telegram,
-[data-theme="dark"] .fa-reddit,
-[data-theme="dark"] .fa-discord,
-[data-theme="dark"] .fa-twitch,
-[data-theme="dark"] .fa-github,
-[data-theme="dark"] .fa-gitlab,
-[data-theme="dark"] .fa-bitbucket,
-[data-theme="dark"] .fa-medium,
-[data-theme="dark"] .fa-slack,
-[data-theme="dark"] .fa-dribbble,
-[data-theme="dark"] .fa-behance,
-[data-theme="dark"] .fa-flickr,
-[data-theme="dark"] .fa-vimeo,
-[data-theme="dark"] .fa-vimeo-v,
-[data-theme="dark"] .fa-tumblr,
-[data-theme="dark"] .bi-facebook,
-[data-theme="dark"] .bi-twitter,
-[data-theme="dark"] .bi-instagram,
-[data-theme="dark"] .bi-linkedin,
-[data-theme="dark"] .bi-youtube,
-[data-theme="dark"] .bi-pinterest,
-[data-theme="dark"] .bi-snapchat,
-[data-theme="dark"] .bi-tiktok,
-[data-theme="dark"] .bi-whatsapp,
-[data-theme="dark"] .bi-telegram,
-[data-theme="dark"] .bi-reddit,
-[data-theme="dark"] .bi-discord,
-[data-theme="dark"] .bi-twitch,
-[data-theme="dark"] .bi-github,
-[data-theme="dark"] .bi-gitlab,
-[data-theme="dark"] .bi-medium,
-[data-theme="dark"] .bi-slack,
-[data-theme="dark"] .bi-dribbble,
-[data-theme="dark"] .bi-behance,
-[data-theme="dark"] .fa-flickr,
-[data-theme="dark"] .bi-vimeo,
-[data-theme="dark"] .bi-tumblr {
-    color: inherit !important;
-}
-
-/* Couleurs spécifiques pour les réseaux sociaux */
-[data-theme="dark"] .facebook-icon,
-[data-theme="dark"] .facebook-link,
-[data-theme="dark"] .fa-facebook,
-[data-theme="dark"] .fa-facebook-f,
-[data-theme="dark"] .bi-facebook {
-    color: #1877f2 !important;
-}
-
-[data-theme="dark"] .twitter-icon,
-[data-theme="dark"] .twitter-link,
-[data-theme="dark"] .fa-twitter,
-[data-theme="dark"] .bi-twitter {
-    color: #1da1f2 !important;
-}
-
-[data-theme="dark"] .instagram-icon,
-[data-theme="dark"] .instagram-link,
-[data-theme="dark"] .fa-instagram,
-[data-theme="dark"] .bi-instagram {
-    color: #e4405f !important;
-}
-
-[data-theme="dark"] .linkedin-icon,
-[data-theme="dark"] .linkedin-link,
-[data-theme="dark"] .fa-linkedin,
-[data-theme="dark"] .fa-linkedin-in,
-[data-theme="dark"] .bi-linkedin {
-    color: #0077b5 !important;
-}
-
-[data-theme="dark"] .youtube-icon,
-[data-theme="dark"] .youtube-link,
-[data-theme="dark"] .fa-youtube,
-[data-theme="dark"] .bi-youtube {
-    color: #ff0000 !important;
-}
-
-[data-theme="dark"] .pinterest-icon,
-[data-theme="dark"] .pinterest-link,
-[data-theme="dark"] .fa-pinterest,
-[data-theme="dark"] .fa-pinterest-p,
-[data-theme="dark"] .bi-pinterest {
-    color: #bd081c !important;
-}
-
-[data-theme="dark"] .snapchat-icon,
-[data-theme="dark"] .snapchat-link,
-[data-theme="dark"] .fa-snapchat,
-[data-theme="dark"] .fa-snapchat-ghost,
-[data-theme="dark"] .bi-snapchat {
-    color: #fffc00 !important;
-}
-
-[data-theme="dark"] .whatsapp-icon,
-[data-theme="dark"] .whatsapp-link,
-[data-theme="dark"] .fa-whatsapp,
-[data-theme="dark"] .bi-whatsapp {
-    color: #25d366 !important;
-}
-
-[data-theme="dark"] .telegram-icon,
-[data-theme="dark"] .telegram-link,
-[data-theme="dark"] .fa-telegram,
-[data-theme="dark"] .bi-telegram {
-    color: #0088cc !important;
-}
-
-/* Préserver les couleurs des boutons de partage */
-[data-theme="dark"] .share-buttons a,
-[data-theme="dark"] .share-links a,
-[data-theme="dark"] .share-icons a,
-[data-theme="dark"] .share-social a,
-[data-theme="dark"] .share a,
-[data-theme="dark"] a.share-button,
-[data-theme="dark"] a.share-link,
-[data-theme="dark"] a.share-icon,
-[data-theme="dark"] .share-facebook,
-[data-theme="dark"] .share-twitter,
-[data-theme="dark"] .share-instagram,
-[data-theme="dark"] .share-linkedin,
-[data-theme="dark"] .share-pinterest,
-[data-theme="dark"] .share-whatsapp,
-[data-theme="dark"] .share-telegram,
-[data-theme="dark"] .share-email {
-    color: inherit !important;
-}
-
-/* Forcer les couleurs des boutons de favoris */
-[data-theme="dark"] .bookmark-button,
-[data-theme="dark"] .bookmark-icon,
-[data-theme="dark"] .bookmark-link,
-[data-theme="dark"] .bookmark-toggle,
-[data-theme="dark"] .add-bookmark,
-[data-theme="dark"] .remove-bookmark {
-    background-color: transparent !important;
-    color: #e0e0e0 !important;
-    border-color: #444444 !important;
-}
-
-[data-theme="dark"] .bookmark-button:hover,
-[data-theme="dark"] .bookmark-icon:hover,
-[data-theme="dark"] .bookmark-link:hover,
-[data-theme="dark"] .bookmark-toggle:hover,
-[data-theme="dark"] .add-bookmark:hover,
-[data-theme="dark"] .remove-bookmark:hover {
-    background-color: #2d2d2d !important;
-    color: #4fc3f7 !important;
-}
-
-[data-theme="dark"] .bookmark-icon.bookmarked,
-[data-theme="dark"] .bookmark-link.bookmarked,
-[data-theme="dark"] .bookmark-toggle.bookmarked,
-[data-theme="dark"] .add-bookmark.bookmarked,
-[data-theme="dark"] .remove-bookmark.bookmarked {
-    background-color: #2d2d2d !important;
-    color: #4fc3f7 !important;
-    border-color: #4fc3f7 !important;
-}
-
-/* Styles pour les éléments spécifiques au thème */
-[data-theme="dark"] .trending-posts,
-[data-theme="dark"] .bookmark-item,
-[data-theme="dark"] .bookmark-content,
-[data-theme="dark"] .bookmark-title,
-[data-theme="dark"] .bookmark-excerpt,
-[data-theme="dark"] .bookmark-meta,
-[data-theme="dark"] .bookmark-category,
-[data-theme="dark"] .bookmark-date,
-[data-theme="dark"] .bookmark-remove,
-[data-theme="dark"] .bookmarks-container,
-[data-theme="dark"] .bookmarks-title,
-[data-theme="dark"] .bookmarks-empty,
-[data-theme="dark"] .bookmarks-list {
-    color: var(--text-color) !important;
-    background-color: #121212 !important;
-    border-color: #333333 !important;
-}
-
-/* Forcer les styles pour author-bio avec une spécificité plus élevée */
-[data-theme="dark"] .author-profile .author-card .author-info .author-bio,
-[data-theme="dark"] .author-profile-section .author-card .author-info .author-bio,
-[data-theme="dark"] #author-profile .author-card .author-info .author-bio,
-[data-theme="dark"] .author-profile-1 .author-card .author-info .author-bio,
-[data-theme="dark"] .author-profile .author-card .author-info .author-bio p,
-[data-theme="dark"] section.author-profile .author-card .author-info .author-bio {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border-color: var(--card-border) !important;
-}
-
-/* Styles pour le contenu principal de l'auteur */
-[data-theme="dark"] .content-body,
-[data-theme="dark"] .author-content .content-body,
-[data-theme="dark"] .author-content .content-body p {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-}
-
-/* Forcer les couleurs des articles de l'auteur en mode sombre */
-[data-theme="dark"] .article-card {
-    background-color: var(--card-bg) !important;
-    border-color: var(--card-border) !important;
-}
-
-[data-theme="dark"] .article-card .article-details h5 a {
-    color: var(--heading-color) !important;
-}
-
-[data-theme="dark"] .article-card .post-category {
-    background-color: var(--input-bg) !important;
-    color: var(--text-color) !important;
-}
-
-[data-theme="dark"] .article-card .post-meta {
-    color: var(--text-muted) !important;
-}
-
-/* Styles plus spécifiques pour author-bio */
-[data-theme="dark"] .author-bio,
-[data-theme="dark"] .author-info .author-bio,
-[data-theme="dark"] .author-profile .author-bio,
-[data-theme="dark"] .author-card .author-bio,
-[data-theme="dark"] .author-bio p {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-}
-
-/* Forcer les couleurs de la section newsletter et CTA */
-[data-theme="dark"] .newsletter,
-[data-theme="dark"] .newsletter-section,
-[data-theme="dark"] .newsletter-container,
-[data-theme="dark"] .newsletter-wrapper,
-[data-theme="dark"] .newsletter-block,
-[data-theme="dark"] .newsletter-widget,
-[data-theme="dark"] .widget_newsletter,
-[data-theme="dark"] .widget-newsletter,
-[data-theme="dark"] #newsletter,
-[data-theme="dark"] .subscribe,
-[data-theme="dark"] .subscribe-section,
-[data-theme="dark"] .subscribe-container,
-[data-theme="dark"] .subscribe-wrapper,
-[data-theme="dark"] .subscribe-block,
-[data-theme="dark"] .subscribe-widget,
-[data-theme="dark"] .widget_subscribe,
-[data-theme="dark"] .widget-subscribe,
-[data-theme="dark"] #subscribe,
-[data-theme="dark"] div[class*="newsletter"],
-[data-theme="dark"] div[id*="newsletter"],
-[data-theme="dark"] div[class*="subscribe"],
-[data-theme="dark"] div[id*="subscribe"],
-[data-theme="dark"] form[class*="newsletter"],
-[data-theme="dark"] form[id*="newsletter"],
-[data-theme="dark"] form[class*="subscribe"],
-[data-theme="dark"] form[id*="subscribe"],
-[data-theme="dark"] #cta,
-[data-theme="dark"] .cta,
-[data-theme="dark"] .cta-section,
-[data-theme="dark"] #cta .newsletter,
-[data-theme="dark"] #cta .newsletter form,
-[data-theme="dark"] .cta .newsletter,
-[data-theme="dark"] .cta .newsletter form,
-[data-theme="dark"] .cta-section .newsletter,
-[data-theme="dark"] .cta-section .newsletter form {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-    border-color: #333333 !important;
-}
-
-[data-theme="dark"] .newsletter *,
-[data-theme="dark"] .newsletter-section *,
-[data-theme="dark"] .subscribe *,
-[data-theme="dark"] .subscribe-section * {
-    color: #e0e0e0 !important;
-}
-
-[data-theme="dark"] .newsletter h1,
-[data-theme="dark"] .newsletter h2,
-[data-theme="dark"] .newsletter h3,
-[data-theme="dark"] .newsletter h4,
-[data-theme="dark"] .newsletter h5,
-[data-theme="dark"] .newsletter h6,
-[data-theme="dark"] .newsletter-section h1,
-[data-theme="dark"] .newsletter-section h2,
-[data-theme="dark"] .newsletter-section h3,
-[data-theme="dark"] .newsletter-section h4,
-[data-theme="dark"] .newsletter-section h5,
-[data-theme="dark"] .newsletter-section h6,
-[data-theme="dark"] .subscribe h1,
-[data-theme="dark"] .subscribe h2,
-[data-theme="dark"] .subscribe h3,
-[data-theme="dark"] .subscribe h4,
-[data-theme="dark"] .subscribe h5,
-[data-theme="dark"] .subscribe h6,
-[data-theme="dark"] .subscribe-section h1,
-[data-theme="dark"] .subscribe-section h2,
-[data-theme="dark"] .subscribe-section h3,
-[data-theme="dark"] .subscribe-section h4,
-[data-theme="dark"] .subscribe-section h5,
-[data-theme="dark"] .subscribe-section h6 {
-    color: #f5f5f5 !important;
-}
-
-/* Styles de la newsletter ajoutés depuis add_color_variables */
-[data-theme="dark"] .newsletter,
-[data-theme="dark"] .newsletter-section,
-[data-theme="dark"] .newsletter-container,
-[data-theme="dark"] .newsletter-wrapper,
-[data-theme="dark"] .newsletter-block,
-[data-theme="dark"] .newsletter-widget,
-[data-theme="dark"] .widget_newsletter,
-[data-theme="dark"] .widget-newsletter,
-[data-theme="dark"] #newsletter,
-[data-theme="dark"] .subscribe,
-[data-theme="dark"] .subscribe-section,
-[data-theme="dark"] .subscribe-container,
-[data-theme="dark"] .subscribe-wrapper,
-[data-theme="dark"] .subscribe-block,
-[data-theme="dark"] .subscribe-widget,
-[data-theme="dark"] .widget_subscribe,
-[data-theme="dark"] .widget-subscribe,
-[data-theme="dark"] #subscribe,
-[data-theme="dark"] div[class*="newsletter"],
-[data-theme="dark"] div[id*="newsletter"],
-[data-theme="dark"] div[class*="subscribe"],
-[data-theme="dark"] div[id*="subscribe"] {
-    background-color: #1e1e1e !important;
-    color: #e0e0e0 !important;
-    border-color: #333333 !important;
-}
-
-[data-theme="dark"] .newsletter *,
-[data-theme="dark"] .newsletter-section *,
-[data-theme="dark"] .subscribe *,
-[data-theme="dark"] .subscribe-section * {
-    color: #e0e0e0 !important;
-}
-
-[data-theme="dark"] .newsletter h1,
-[data-theme="dark"] .newsletter h2,
-[data-theme="dark"] .newsletter h3,
-[data-theme="dark"] .newsletter h4,
-[data-theme="dark"] .newsletter h5,
-[data-theme="dark"] .newsletter h6,
-[data-theme="dark"] .newsletter-section h1,
-[data-theme="dark"] .newsletter-section h2,
-[data-theme="dark"] .newsletter-section h3,
-[data-theme="dark"] .newsletter-section h4,
-[data-theme="dark"] .newsletter-section h5,
-[data-theme="dark"] .newsletter-section h6,
-[data-theme="dark"] .subscribe h1,
-[data-theme="dark"] .subscribe h2,
-[data-theme="dark"] .subscribe h3,
-[data-theme="dark"] .subscribe h4,
-[data-theme="dark"] .subscribe h5,
-[data-theme="dark"] .subscribe h6,
-[data-theme="dark"] .subscribe-section h1,
-[data-theme="dark"] .subscribe-section h2,
-[data-theme="dark"] .subscribe-section h3,
-[data-theme="dark"] .subscribe-section h4,
-[data-theme="dark"] .subscribe-section h5,
-[data-theme="dark"] .subscribe-section h6 {
-    color: #f5f5f5 !important;
-}
-
-/* Styles pour les formulaires dans CTA */
-[data-theme="dark"] #cta form,
-[data-theme="dark"] .cta form,
-[data-theme="dark"] .cta-section form,
-[data-theme="dark"] #cta .newsletter form,
-[data-theme="dark"] .cta .newsletter form,
-[data-theme="dark"] .cta-section .newsletter form,
-[data-theme="dark"] #cta form.newsletter,
-[data-theme="dark"] .cta form.newsletter,
-[data-theme="dark"] .cta-section form.newsletter {
-    background-color: #1e1e1e !important;
-    border-color: #333333 !important;
-}
-
-[data-theme="dark"] #cta input,
-[data-theme="dark"] .cta input,
-[data-theme="dark"] .cta-section input,
-[data-theme="dark"] #cta .form-control,
-[data-theme="dark"] .cta .form-control,
-[data-theme="dark"] .cta-section .form-control,
-[data-theme="dark"] #cta .input-group,
-[data-theme="dark"] .cta .input-group,
-[data-theme="dark"] .cta-section .input-group {
-    background-color: #2d2d2d !important;
-    color: #e0e0e0 !important;
-    border-color: #444444 !important;
-}
-
-/* Exception pour conserver la couleur jaune de la barre de navigation */
-[data-theme="dark"] .header .nav-wrap {
-  background-color: #FFF44F !important;
-}
-
-/* Styles spécifiques pour les images en mode sombre */
-[data-theme="dark"] img:not(.no-dark-filter) {
-    filter: brightness(0.9);
-}
-
-/* Sélecteurs supplémentaires pour s'assurer que tous les textes changent de couleur en mode sombre */
-[data-theme="dark"] p,
-[data-theme="dark"] span,
-[data-theme="dark"] div,
-[data-theme="dark"] li,
-[data-theme="dark"] td,
-[data-theme="dark"] th,
-[data-theme="dark"] label,
-[data-theme="dark"] blockquote,
-[data-theme="dark"] figcaption,
-[data-theme="dark"] .entry-content,
-[data-theme="dark"] .entry-title,
-[data-theme="dark"] .widget-title,
-[data-theme="dark"] .post-title,
-[data-theme="dark"] .post-content,
-[data-theme="dark"] .post-meta,
-[data-theme="dark"] .comment-content,
-[data-theme="dark"] .comment-author,
-[data-theme="dark"] .comment-metadata,
-[data-theme="dark"] .site-title,
-[data-theme="dark"] .site-description,
-[data-theme="dark"] .nav-link,
-[data-theme="dark"] .dropdown-item,
-[data-theme="dark"] .menu-item a {
-    color: #e0e0e0 !important;
-}
-
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] h5,
-[data-theme="dark"] h6,
-[data-theme="dark"] .h1,
-[data-theme="dark"] .h2,
-[data-theme="dark"] .h3,
-[data-theme="dark"] .h4,
-[data-theme="dark"] .h5,
-[data-theme="dark"] .h6 {
-    color: var(--heading-color);
-}
-
-[data-theme="dark"] a:not(.btn):not(.nav-link):not(.dropdown-item) {
-    color: var(--link-color);
-}
-
-[data-theme="dark"] a:hover:not(.btn):not(.nav-link):not(.dropdown-item) {
-    color: var(--link-hover-color);
-}
-
-/* Améliorer la lisibilité des placeholders */
-[data-theme="dark"] input::placeholder,
-[data-theme="dark"] textarea::placeholder,
-[data-theme="dark"] select::placeholder,
-[data-theme="dark"] .form-control::placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input::-webkit-input-placeholder,
-[data-theme="dark"] textarea::-webkit-input-placeholder,
-[data-theme="dark"] select::-webkit-input-placeholder,
-[data-theme="dark"] .form-control::-webkit-input-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-[data-theme="dark"] input::-moz-placeholder,
-[data-theme="dark"] textarea::-moz-placeholder,
-[data-theme="dark"] select::-moz-placeholder,
-[data-theme="dark"] .form-control::-moz-placeholder {
-    color: #aaaaaa !important;
-    opacity: 1 !important;
-}
-
-/* Bouton switch pour le mode sombre */
-.dark-mode-switch-wrapper {
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-}
-
-.dark-mode-switch {
-    display: flex;
-    align-items: center;
-}
-
-.switch-label {
-    margin-right: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--heading-color);
-}
-
-/* Le conteneur du switch */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-}
-
-/* Masquer la checkbox HTML par défaut */
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-/* Le slider */
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-input:checked + .slider {
-    background-color: #2b4158;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #2b4158;
-}
-
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
-
-/* Slider arrondi */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-/* Styles pour le mode sombre */
-[data-theme="dark"] .switch-label {
-    color: #f5f5f5;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .dark-mode-switch-wrapper {
-        margin-left: 10px;
-    }
-    
-    .switch-label {
-        font-size: 12px;
-    }
-    
-    .switch {
-        width: 40px;
-        height: 20px;
-    }
-    
-    .slider:before {
-        height: 14px;
-        width: 14px;
-        left: 3px;
-        bottom: 3px;
-    }
-    
-    input:checked + .slider:before {
-        transform: translateX(20px);
-    }
-}
-
-/* Bouton mode sombre style Futura Sciences */
-.dark-mode-futura {
-    display: flex;
-    align-items: center;
-}
-
-.dark-mode-futura-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f5f5f5;
-    color: #333;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.dark-mode-futura-btn:hover {
-    background-color: #e9e9e9;
-}
-
-.dark-mode-futura-btn:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 0;
-    background-color: #2b4158;
-    transition: width 0.3s ease;
-    z-index: 0;
-}
-
-.dark-mode-futura-btn span {
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-}
-
-/* Style pour le mode sombre */
-[data-theme="dark"] .dark-mode-futura-btn {
-    background-color: #2b4158;
-    color: #fff;
-}
-
-[data-theme="dark"] .dark-mode-futura-btn:before {
-    width: 100%;
-}
-
-[data-theme="dark"] .dark-mode-futura-btn span {
-    color: #fff;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .dark-mode-futura-btn {
-        padding: 4px 10px;
-        font-size: 12px;
-    }
-}
-
-/* Styles pour le switch Bootstrap de mode sombre */
-.form-switch .form-check-input {
-    width: 3em;
-    height: 1.5em;
-    cursor: pointer;
-}
-
-.form-switch .form-check-label {
-    margin-left: 0.5em;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--heading-color);
-    cursor: pointer;
-}
-
-/* Style pour le mode sombre */
-[data-theme="dark"] .form-switch .form-check-label {
-    color: #f5f5f5;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .form-switch .form-check-input {
-        width: 2.5em;
-        height: 1.25em;
-    }
-    
-    .form-switch .form-check-label {
-        font-size: 12px;
-    }
-}
-
-/* Notification de changement de thème */
-.theme-notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    border-radius: 4px;
-    z-index: 9999;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.theme-notification.show {
     opacity: 1;
-    transform: translateY(0);
 }
 
-[data-theme="dark"] .theme-notification {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #333;
+.theme-notification i {
+    margin-right: 10px;
+    font-size: 18px;
 }
 
-/* Styles pour le menu de basculement */
-.dark-mode-menu-toggle {
-    display: flex;
-    align-items: center;
+/* ======================================
+   5. HEADER ET NAVIGATION
+====================================== */
+
+/* Styles pour l'en-tête en mode sombre */
+html[data-theme="dark"] .header-section,
+body.dark-mode .header-section {
+    background-color: var(--dark-header-bg);
+    color: var(--header-text-color);
 }
 
-.dark-mode-menu-toggle i {
-    margin-right: 5px;
+/* ======================================
+   5. STYLES POUR LES TITRES
+====================================== */
+/* Titres d'articles en mode sombre */
+html[data-theme="dark"] .article-title,
+body.dark-mode .article-title,
+html[data-theme="dark"] .post-title,
+body.dark-mode .post-title,
+html[data-theme="dark"] h1.article-title,
+body.dark-mode h1.article-title,
+html[data-theme="dark"] h2.article-title,
+body.dark-mode h2.article-title {
+    color: var(--article-title-color);
+    -webkit-text-fill-color: var(--article-title-color);
+    text-decoration: none;
 }
 
-/* Styles pour les éléments author-card et author-content en mode sombre */
-[data-theme="dark"] .panel,
-[data-theme="dark"] .box,
-[data-theme="dark"] .block {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border-color: var(--card-border) !important;
+/* Effet hover pour les titres d'articles en mode sombre */
+html[data-theme="dark"] .article-title a:hover,
+body.dark-mode .article-title a:hover,
+html[data-theme="dark"] .post-title a:hover,
+body.dark-mode .post-title a:hover,
+html[data-theme="dark"] h1.article-title a:hover,
+body.dark-mode h1.article-title a:hover,
+html[data-theme="dark"] h2.article-title a:hover,
+body.dark-mode h2.article-title a:hover {
+    color: var(--article-title-hover-color);
+    -webkit-text-fill-color: var(--article-title-hover-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .author-card,
-[data-theme="dark"] .author-content {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border-color: var(--card-border) !important;
+/* Titres pour la page d'accueil en mode sombre */
+html[data-theme="dark"] .homepage-post-title,
+body.dark-mode .homepage-post-title,
+html[data-theme="dark"] .homepage-featured-post .homepage-post-title,
+body.dark-mode .homepage-featured-post .homepage-post-title {
+    color: var(--homepage-title-color);
+    -webkit-text-fill-color: var(--homepage-title-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .author-card h2,
-[data-theme="dark"] .author-content h3,
-[data-theme="dark"] .author-content h4 {
-    color: var(--heading-color) !important;
+/* Effet hover pour les titres de la page d'accueil en mode sombre */
+html[data-theme="dark"] .homepage-post-title a:hover,
+body.dark-mode .homepage-post-title a:hover,
+html[data-theme="dark"] .homepage-featured-post .homepage-post-title a:hover,
+body.dark-mode .homepage-featured-post .homepage-post-title a:hover {
+    color: var(--homepage-title-hover-color);
+    -webkit-text-fill-color: var(--homepage-title-hover-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .author-card .designation,
-[data-theme="dark"] .author-card .author-bio,
-[data-theme="dark"] .author-stats p {
-    color: var(--text-color) !important;
+/* Titres pour la barre latérale en mode sombre */
+html[data-theme="dark"] .homepage-sidebar-title,
+body.dark-mode .homepage-sidebar-title,
+html[data-theme="dark"] .homepage-sidebar-post .homepage-sidebar-title,
+body.dark-mode .homepage-sidebar-post .homepage-sidebar-title {
+    color: var(--sidebar-title-color);
+    -webkit-text-fill-color: var(--sidebar-title-color);
+    text-decoration: none;
+    transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
 }
 
-[data-theme="dark"] .author-stats h4 {
-    color: var(--heading-color) !important;
+/* Effet hover pour les titres de la barre latérale en mode sombre */
+html[data-theme="dark"] .homepage-sidebar-title a:hover,
+body.dark-mode .homepage-sidebar-title a:hover,
+html[data-theme="dark"] .homepage-sidebar-post .homepage-sidebar-title a:hover,
+body.dark-mode .homepage-sidebar-post .homepage-sidebar-title a:hover {
+    color: var(--sidebar-title-hover-color);
+    -webkit-text-fill-color: var(--sidebar-title-hover-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .social-links a {
-    color: var(--link-color) !important;
+/* ======================================
+   6. RÉTROCOMPATIBILITÉ
+====================================== */
+/* Règles génériques pour les titres (pour la rétrocompatibilité) */
+html[data-theme="dark"] .single .entry-title,
+body.dark-mode .single .entry-title,
+html[data-theme="dark"] .single-post .entry-title,
+body.dark-mode .single-post .entry-title,
+html[data-theme="dark"] .blog-details .article-content .content-header .title,
+body.dark-mode .blog-details .article-content .content-header .title,
+html[data-theme="dark"] .single .article-content .content-header .title,
+body.dark-mode .single .article-content .content-header .title,
+html[data-theme="dark"] .single-post .article-content .content-header .title,
+body.dark-mode .single-post .article-content .content-header .title,
+html[data-theme="dark"] .title,
+body.dark-mode .title {
+    color: var(--dark-mode-title-color);
+    -webkit-text-fill-color: var(--dark-mode-title-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .social-links a:hover {
-    color: var(--link-hover-color) !important;
+html[data-theme="dark"] .single .entry-title a:hover,
+body.dark-mode .single .entry-title a:hover,
+html[data-theme="dark"] .single-post .entry-title a:hover,
+body.dark-mode .single-post .entry-title a:hover,
+html[data-theme="dark"] .blog-details .article-content .content-header .title a:hover,
+body.dark-mode .blog-details .article-content .content-header .title a:hover,
+html[data-theme="dark"] .single .article-content .content-header .title a:hover,
+body.dark-mode .single .article-content .content-header .title a:hover,
+html[data-theme="dark"] .single-post .article-content .content-header .title a:hover,
+body.dark-mode .single-post .article-content .content-header .title a:hover,
+html[data-theme="dark"] .title a:hover,
+body.dark-mode .title a:hover {
+    color: var(--dark-mode-title-hover-color);
+    -webkit-text-fill-color: var(--dark-mode-title-hover-color);
+    text-decoration: none;
 }
 
-[data-theme="dark"] .expertise-areas .tags span {
-    background-color: var(--input-bg) !important;
-    color: var(--text-color) !important;
+/* Règles supplémentaires pour forcer l'effet de survol */
+html[data-theme="dark"] a.post-title:hover,
+body.dark-mode a.post-title:hover,
+html[data-theme="dark"] .post-title a:hover,
+body.dark-mode .post-title a:hover,
+html[data-theme="dark"] h1.post-title a:hover,
+body.dark-mode h1.post-title a:hover,
+html[data-theme="dark"] h2.post-title a:hover,
+body.dark-mode h2.post-title a:hover {
+    color: var(--dark-mode-title-hover-color);
+    -webkit-text-fill-color: var(--dark-mode-title-hover-color);
+    text-decoration: none;
 }
 
-/* Styles pour la section des auteurs en mode sombre */
-[data-theme="dark"] .authors .author-card {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    border-color: var(--card-border) !important;
-    padding: 2rem !important;
+/* Liens spéciaux en mode sombre */
+.dark-mode-link {
+  color: var(--dark-text) !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-info {
-    background-color: var(--card-bg) !important;
-    color: var(--text-color) !important;
-    padding: 1.5rem !important;
-    width: 100% !important;
+.dark-mode-link:hover {
+  color: var(--primary-color) !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-info h3 a {
-    color: var(--heading-color) !important;
+body.dark-mode .dark-mode-link,
+[data-theme="dark"] .dark-mode-link {
+  color: var(--light-text) !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-info h3 a:hover {
-    color: var(--link-hover-color) !important;
+body.dark-mode .dark-mode-link:hover,
+[data-theme="dark"] .dark-mode-link:hover {
+  color: var(--tertiary-color) !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-info .designation {
-    color: var(--text-muted) !important;
+/* Styles spécifiques pour le menu mobile en mode sombre */
+body.dark-mode .mobile-menu-header,
+[data-theme="dark"] .mobile-menu-header {
+  background-color: #222222;
+  border-color: #333333;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-[data-theme="dark"] .authors .author-card .author-info .author-bio {
-    color: var(--text-color) !important;
+body.dark-mode .mobile-menu-list,
+[data-theme="dark"] .mobile-menu-list {
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-meta {
-    border-top-color: var(--card-border) !important;
+body.dark-mode .mobile-menu-list li,
+[data-theme="dark"] .mobile-menu-list li {
+  border-bottom-color: #333333 !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-meta .read-more {
-    color: #A2F8B5 !important;
-    font-weight: 600 !important;
+body.dark-mode .mobile-menu-list a,
+[data-theme="dark"] .mobile-menu-list a {
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
 }
 
-[data-theme="dark"] .authors .author-card .author-meta .read-more:hover {
-    color: #7FDFA0 !important;
-    text-decoration: underline !important;
+body.dark-mode .mobile-menu-list a:hover,
+[data-theme="dark"] .mobile-menu-list a:hover {
+  color: var(--tertiary-color) !important;
+  background-color: rgba(255, 244, 79, 0.1) !important;
 }

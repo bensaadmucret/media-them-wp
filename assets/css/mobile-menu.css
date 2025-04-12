@@ -1,0 +1,827 @@
+/**
+ * Mobile Menu CSS
+ * Version moderne et optimisée
+ */
+
+/* ===== VARIABLES CSS - SYSTÈME DE COULEURS COHÉRENT ===== */
+:root {
+  /* Palette de couleurs principale */
+  --primary-color: #f75815; /* Orange - Couleur d'accent principale */
+  --secondary-color: #A2F8B5; /* Vert clair - Couleur d'accent secondaire */
+  --tertiary-color: #FFF44F; /* Jaune - Couleur d'accent tertiaire */
+  
+  /* Variables pour le mode clair */
+  --light-bg: #ffffff;
+  --light-text: #212529;
+  --light-header-bg: var(--tertiary-color);
+  
+  /* Variables pour le mode sombre */
+  --dark-bg: #121212;
+  --dark-text: #e0e0e0;
+  --dark-header-bg: #222222;
+}
+
+/* ===== OVERLAY STYLES ===== */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 996; /* Réduit pour être derrière le menu */
+  background-color: var(--tertiary-color); /* Jaune */
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  pointer-events: none; /* Désactiver les interactions par défaut */
+}
+
+body.mobile-nav-active .mobile-nav-overlay {
+  opacity: 0.95;
+  visibility: visible;
+  pointer-events: none; /* Garder les interactions désactivées même quand visible */
+}
+
+/* Garantir que l'overlay est jaune en mode sombre - PRIORITÉ MAXIMALE */
+html[data-theme="dark"] .mobile-nav-overlay,
+body.dark-mode .mobile-nav-overlay,
+html body.dark-mode .mobile-nav-overlay,
+html[data-theme="dark"] body .mobile-nav-overlay,
+body.mobile-nav-active.dark-mode .mobile-nav-overlay,
+body.mobile-nav-active[data-theme="dark"] .mobile-nav-overlay,
+html body.mobile-nav-active.dark-mode .mobile-nav-overlay,
+html body.mobile-nav-active[data-theme="dark"] .mobile-nav-overlay {
+  background-color: var(--tertiary-color);
+}
+
+body.mobile-nav-active.dark-mode .mobile-nav-overlay,
+body.mobile-nav-active[data-theme="dark"] .mobile-nav-overlay,
+html body.mobile-nav-active.dark-mode .mobile-nav-overlay,
+html body.mobile-nav-active[data-theme="dark"] .mobile-nav-overlay {
+  opacity: 0.95;
+  visibility: visible;
+}
+
+/* ===== MENU TRANSITION ===== */
+.header-section .nav-wrap {
+  transition: all 0.3s ease;
+}
+
+/* ===== POSITIONNEMENT DU BOUTON MENU MOBILE ===== */
+.bi-list.mobile-nav-toggle.d-xl-none {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  margin: 0;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: block;
+  width: auto;
+  height: auto;
+  color: var(--light-text);
+  transition: color 0.3s ease;
+}
+
+/* Masquer le bouton hamburger quand le menu est ouvert */
+body.mobile-nav-active .mobile-nav-toggle.d-xl-none {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.bi-list.mobile-nav-toggle.d-xl-none:hover {
+  color: var(--primary-color);
+}
+
+/* ===== MASQUAGE DU BOUTON MOBILE EN MODE DESKTOP ===== */
+@media (min-width: 992px) {
+  .bi-list.mobile-nav-toggle.d-xl-none,
+  .mobile-nav-toggle.d-xl-none,
+  .mobile-menu-header,
+  .mobile-social-links,
+  .mobile-nav-overlay {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* ===== AJUSTEMENT DU CONTENEUR PRINCIPAL ===== */
+.header-section .top-row .d-flex.align-items-center {
+  position: relative;
+  padding-right: 50px; /* Espace pour le bouton mobile */
+}
+
+/* ===== AJUSTEMENT DU BOUTON DE MODE SOMBRE ===== */
+.form-check.form-switch {
+  margin-right: 10px;
+}
+
+/* ===== AJUSTEMENT DU FORMULAIRE DE RECHERCHE ===== */
+.header-section .search-form {
+  margin-right: 0;
+  max-width: 200px;
+}
+
+/* ===== STYLES POUR LES ÉCRANS PLUS PETITS ===== */
+@media (max-width: 767px) {
+  /* Réduire la taille du formulaire de recherche */
+  .header-section .search-form {
+    max-width: 150px;
+  }
+  
+  /* Ajuster la position du bouton mobile */
+  .bi-list.mobile-nav-toggle.d-xl-none {
+    right: 10px;
+  }
+}
+
+/* ===== STYLES POUR LES TRÈS PETITS ÉCRANS ===== */
+@media (max-width: 575px) {
+  /* Réorganiser les éléments */
+  .header-section .top-row .d-flex.align-items-center {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding-right: 40px;
+  }
+  
+  /* Ajuster le bouton de mode sombre */
+  .form-check.form-switch {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  /* Mettre le formulaire de recherche sur toute la largeur */
+  .header-section .search-form {
+    width: 100%;
+    max-width: none;
+    margin-top: 10px;
+    order: 2;
+  }
+}
+
+/* Ajustements spécifiques pour les écrans de moins de 600px */
+@media (max-width: 600px) {
+  /* Améliorer l'alignement du bouton switch */
+  .form-check.form-switch {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+  }
+  
+  .form-check-input {
+    margin-right: 5px;
+    position: relative;
+    top: 0;
+  }
+  
+  .form-check-label {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  
+  /* Ajuster l'espacement des éléments */
+  .header-section .top-row .d-flex.align-items-center {
+    gap: 10px;
+  }
+  
+  /* Améliorer la disposition des éléments */
+  .header-section .top-row {
+    padding: 10px 0;
+  }
+}
+
+/* ===== MENU MOBILE ===== */
+@media (max-width: 991px) {
+  body.mobile-nav-active {
+    overflow: hidden;
+  }
+
+  /* Le header-section doit être positionné au-dessus de l'overlay */
+  body.mobile-nav-active .header-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 997;
+  }
+  
+  /* Conteneur du menu mobile */
+  .mobile-menu-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    transition: right 0.3s ease;
+    background-color: #ffffff;
+    overflow-y: auto;
+    z-index: 999;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.mobile-nav-active .mobile-menu-header {
+    right: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Titre du menu mobile */
+  .mobile-menu-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-menu-title h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #212529;
+  }
+
+  .mobile-menu-close {
+    font-size: 24px;
+    cursor: pointer;
+    color: #212529;
+    transition: color 0.3s ease;
+  }
+
+  .mobile-menu-close:hover {
+    color: var(--primary-color);
+  }
+
+  /* Contenu du menu mobile */
+  .header-menu-items {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+  }
+
+  /* Liens sociaux en bas du menu */
+  .mobile-menu-header .mobile-social-links {
+    margin-top: auto;
+    padding: 15px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 1000;
+    background-color: #ffffff !important;
+  }
+
+  .mobile-menu-header .mobile-social-links .social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+    background-color: transparent !important;
+  }
+
+  .mobile-menu-header .mobile-social-links a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    margin: 0 4px !important;
+    color: #212529 !important;
+    font-size: 16px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    border-radius: 50% !important;
+    background-color: transparent !important;
+    border: 1px solid #dee2e6 !important;
+    padding: 0 !important;
+  }
+
+  .mobile-menu-header .mobile-social-links a:hover {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    background-color: transparent !important;
+  }
+
+  /* Styles pour le mode sombre */
+  body.dark-mode .mobile-menu-header,
+  [data-theme="dark"] .mobile-menu-header {
+    background-color: #222222;
+    border-color: #333333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  body.dark-mode .mobile-menu-title,
+  [data-theme="dark"] .mobile-menu-title {
+    border-color: #333333;
+  }
+
+  body.dark-mode .mobile-menu-title h3,
+  [data-theme="dark"] .mobile-menu-title h3,
+  body.dark-mode .mobile-menu-close,
+  [data-theme="dark"] .mobile-menu-close {
+    color: #e0e0e0;
+  }
+
+  body.dark-mode .mobile-menu-close:hover,
+  [data-theme="dark"] .mobile-menu-close:hover {
+    color: var(--primary-color);
+  }
+
+  body.dark-mode .mobile-menu-header .mobile-social-links,
+  [data-theme="dark"] .mobile-menu-header .mobile-social-links {
+    border-color: #333333;
+    background-color: #222222 !important;
+  }
+
+  body.dark-mode .mobile-menu-header .mobile-social-links a,
+  [data-theme="dark"] .mobile-menu-header .mobile-social-links a {
+    color: #cccccc !important;
+    border-color: #444444 !important;
+    background-color: transparent !important;
+  }
+
+  body.dark-mode .mobile-menu-header .mobile-social-links a:hover,
+  [data-theme="dark"] .mobile-menu-header .mobile-social-links a:hover {
+    color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    background-color: transparent !important;
+  }
+
+  /* Masquer le menu desktop quand le menu mobile est actif */
+  body.mobile-nav-active .header-section .nav-wrap,
+  body.mobile-nav-active .header .nav-wrap {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  /* Masquer le menu desktop en mode mobile */
+  .header-section .nav-wrap,
+  .header .nav-wrap {
+    display: none;
+  }
+  
+  /* Masquer le contenu du menu mobile par défaut */
+  .mobile-menu-header,
+  .mobile-social-links {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  
+  /* Afficher le contenu du menu mobile uniquement quand il est activé */
+  body.mobile-nav-active .mobile-menu-header,
+  body.mobile-nav-active .mobile-social-links {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  
+  /* Styles spécifiques pour la liste du menu mobile */
+  .mobile-menu-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  .mobile-menu-list li {
+    margin-bottom: 15px !important;
+    border-bottom: none !important; /* Suppression de la bordure */
+    padding-bottom: 0 !important;
+  }
+  
+  .mobile-menu-list li:last-child {
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+  }
+  
+  .mobile-menu-list a {
+    color: var(--light-text) !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    display: block !important;
+    transition: color 0.3s ease !important;
+    padding: 8px 10px !important;
+    border-radius: 4px !important;
+  }
+  
+  .mobile-menu-list a:hover {
+    color: var(--primary-color) !important;
+    background-color: rgba(247, 88, 21, 0.1) !important;
+  }
+  
+  /* Styles du menu mobile */
+  .mobile-menu-header {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 540px;
+    border-radius: 6px;
+    background-color: var(--light-bg);
+    overflow-y: auto;
+    z-index: 999;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Conteneur du titre et de la croix en flexbox */
+  .mobile-menu-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style du titre */
+  .mobile-menu-title h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--light-text);
+  }
+  
+  /* Style de la croix de fermeture */
+  .mobile-menu-close {
+    font-size: 24px;
+    color: var(--light-text);
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .mobile-menu-close:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Styles pour le mode sombre */
+  body.dark-mode .mobile-menu-title,
+  [data-theme="dark"] .mobile-menu-title {
+    border-bottom-color: #333333;
+  }
+  
+  body.dark-mode .mobile-menu-title h3,
+  [data-theme="dark"] .mobile-menu-title h3 {
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode .mobile-menu-close,
+  [data-theme="dark"] .mobile-menu-close {
+    color: #ffffff;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  }
+  
+  body.dark-mode .mobile-menu-close:hover,
+  [data-theme="dark"] .mobile-menu-close:hover {
+    color: var(--tertiary-color);
+  }
+  
+  body.mobile-nav-active .mobile-menu-header {
+    display: block;
+  }
+  
+  /* Styles pour le menu mobile en mode sombre */
+  body.dark-mode .mobile-menu-header,
+  [data-theme="dark"] .mobile-menu-header {
+    background-color: #222222;
+    border-color: #333333;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  body.dark-mode .mobile-menu-header h3,
+  [data-theme="dark"] .mobile-menu-header h3 {
+    color: #e0e0e0;
+    border-bottom-color: #333333;
+  }
+  
+  body.dark-mode .mobile-menu-list li,
+  [data-theme="dark"] .mobile-menu-list li {
+    border-bottom-color: #333333 !important;
+  }
+  
+  body.dark-mode .mobile-menu-list a,
+  [data-theme="dark"] .mobile-menu-list a {
+    color: #e0e0e0 !important;
+  }
+  
+  body.dark-mode .mobile-menu-list a:hover,
+  [data-theme="dark"] .mobile-menu-list a:hover {
+    color: var(--tertiary-color) !important;
+    background-color: rgba(255, 244, 79, 0.1) !important;
+  }
+  
+  /* Mobile social links */
+  .mobile-social-links {
+    display: none;
+    position: static;
+    bottom: auto;
+    left: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 15px;
+    margin-top: 20px;
+    z-index: 1000;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+
+  .mobile-menu-header .header-menu-items {
+    margin-bottom: 80px;
+  }
+
+  .mobile-menu-header .mobile-social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    color: var(--light-text);
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+  }
+
+  .mobile-menu-header .mobile-social-links a:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  /* Styles pour le mode sombre */
+  body.dark-mode .mobile-social-links,
+  [data-theme="dark"] .mobile-social-links {
+    border-top-color: #333333;
+  }
+
+  body.dark-mode .mobile-menu-header .mobile-social-links a,
+  [data-theme="dark"] .mobile-menu-header .mobile-social-links a {
+    color: #cccccc;
+    border-color: #444444;
+  }
+
+  body.dark-mode .mobile-menu-header .mobile-social-links a:hover,
+  [data-theme="dark"] .mobile-menu-header .mobile-social-links a:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  /* Supprimer les anciens styles pour éviter les conflits */
+  .header-section .mobile-social-links a,
+  .header-section .mobile-social-links a:hover,
+  body.dark-mode .header-section .mobile-social-links a,
+  [data-theme="dark"] .header-section .mobile-social-links a,
+  body.dark-mode .header-section .mobile-social-links a:hover,
+  [data-theme="dark"] .header-section .mobile-social-links a:hover {
+    display: none;
+  }
+  
+  /* Styles pour le bouton du menu mobile */
+  .mobile-nav-toggle {
+    display: block;
+    font-size: 28px;
+    cursor: pointer;
+    border: 0;
+    background: none;
+    color: var(--light-text);
+    line-height: 0;
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 999;
+  }
+  
+  .mobile-nav-toggle:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Style pour l'icône de fermeture */
+  .mobile-nav-toggle.bi-x {
+    font-size: 32px;
+    color: #000000 !important; /* Noir pour assurer la lisibilité en mode clair */
+    padding: 8px;
+    transition: color 0.3s ease;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7); /* Ombre légère pour améliorer le contraste */
+  }
+  
+  .mobile-nav-toggle.bi-x:hover {
+    color: var(--primary-color) !important;
+  }
+  
+  /* Style pour l'icône de fermeture en mode sombre - SÉLECTEUR TRÈS SPÉCIFIQUE */
+  html body.dark-mode .mobile-nav-toggle.bi-x,
+  html body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x,
+  html[data-theme="dark"] body .mobile-nav-toggle.bi-x,
+  html[data-theme="dark"] body.mobile-nav-active .mobile-nav-toggle.bi-x,
+  body.dark-mode .mobile-nav-toggle.bi-x,
+  body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x,
+  [data-theme="dark"] .mobile-nav-toggle.bi-x,
+  [data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x {
+    color: #ffffff !important;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.7) !important;
+  }
+  
+  /* Style pour l'icône de fermeture au survol en mode sombre - SÉLECTEUR TRÈS SPÉCIFIQUE */
+  html body.dark-mode .mobile-nav-toggle.bi-x:hover,
+  html body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+  html[data-theme="dark"] body .mobile-nav-toggle.bi-x:hover,
+  html[data-theme="dark"] body.mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+  body.dark-mode .mobile-nav-toggle.bi-x:hover,
+  body.dark-mode.mobile-nav-active .mobile-nav-toggle.bi-x:hover,
+  [data-theme="dark"] .mobile-nav-toggle.bi-x:hover,
+  [data-theme="dark"].mobile-nav-active .mobile-nav-toggle.bi-x:hover {
+    color: var(--tertiary-color) !important;
+  }
+  
+  /* Styles pour les éléments du menu mobile en mode sombre */
+  .dark-mode-menu {
+    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .dark-mode-link {
+    color: var(--dark-text);
+    font-weight: 600;
+    text-shadow: none;
+    background-color: transparent !important;
+  }
+  
+  .dark-mode-link:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+    background-color: transparent !important;
+  }
+  
+  /* Forcer la transparence pour tous les éléments du menu mobile */
+  .mobile-menu-list,
+  .mobile-menu-list li,
+  .mobile-menu-list a,
+  .mobile-menu-list li a,
+  .mobile-menu-header .header-menu-items,
+  .mobile-menu-header .header-menu-items ul,
+  .mobile-menu-header .header-menu-items li,
+  .mobile-menu-header .header-menu-items a {
+    background-color: transparent !important;
+  }
+  
+  /* Forcer la transparence en mode sombre */
+  body.dark-mode .mobile-menu-list,
+  body.dark-mode .mobile-menu-list li,
+  body.dark-mode .mobile-menu-list a,
+  body.dark-mode .mobile-menu-list li a,
+  body.dark-mode .mobile-menu-header .header-menu-items,
+  body.dark-mode .mobile-menu-header .header-menu-items ul,
+  body.dark-mode .mobile-menu-header .header-menu-items li,
+  body.dark-mode .mobile-menu-header .header-menu-items a,
+  [data-theme="dark"] .mobile-menu-list,
+  [data-theme="dark"] .mobile-menu-list li,
+  [data-theme="dark"] .mobile-menu-list a,
+  [data-theme="dark"] .mobile-menu-list li a,
+  [data-theme="dark"] .mobile-menu-header .header-menu-items,
+  [data-theme="dark"] .mobile-menu-header .header-menu-items ul,
+  [data-theme="dark"] .mobile-menu-header .header-menu-items li,
+  [data-theme="dark"] .mobile-menu-header .header-menu-items a {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+  
+  /* Ciblage direct des éléments du menu avec la classe menu-item */
+  body.dark-mode .menu-item,
+  body.dark-mode .menu-item a,
+  body.dark-mode li.menu-item,
+  body.dark-mode li.menu-item a,
+  body.dark-mode .menu-item-type-post_type,
+  body.dark-mode .menu-item-object-page,
+  [data-theme="dark"] .menu-item,
+  [data-theme="dark"] .menu-item a,
+  [data-theme="dark"] li.menu-item,
+  [data-theme="dark"] li.menu-item a,
+  [data-theme="dark"] .menu-item-type-post_type,
+  [data-theme="dark"] .menu-item-object-page {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+  
+  /* Surcharge avec !important pour tous les éléments du menu */
+  .menu-item,
+  .menu-item a,
+  li.menu-item,
+  li.menu-item a,
+  .menu-item-type-post_type,
+  .menu-item-object-page,
+  .menu-item-home,
+  .current-menu-item,
+  .current_page_item {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+  
+  .dark-mode-title {
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: none;
+  }
+  
+  .dark-mode-icon {
+    color: #000000;
+    text-shadow: none;
+  }
+  
+  .dark-mode-social {
+    background-color: var(--dark-header-bg);
+    border: none;
+    box-shadow: none;
+  }
+  
+  .dark-mode-social a {
+    color: var(--dark-text);
+    font-weight: 600;
+    text-shadow: none;
+  }
+  
+  .dark-mode-social a:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Styles pour le menu mobile en mode sombre */
+  body.mobile-nav-active.dark-mode .header-menu-items,
+  body.mobile-nav-active[data-theme="dark"] .header-menu-items,
+  html body.mobile-nav-active.dark-mode .header-menu-items {
+    background-color: var(--dark-header-bg);
+    border: none;
+    box-shadow: none;
+    position: relative;
+  }
+  
+  body.mobile-nav-active.dark-mode .header-menu-items > ul > li > a,
+  body.mobile-nav-active[data-theme="dark"] .header-menu-items > ul > li > a,
+  html body.mobile-nav-active.dark-mode .header-menu-items > ul > li > a {
+    color: var(--dark-text);
+    font-weight: 600;
+    text-shadow: none;
+  }
+  
+  body.mobile-nav-active.dark-mode .header-menu-items > ul > li > a:hover,
+  body.mobile-nav-active[data-theme="dark"] .header-menu-items > ul > li > a:hover,
+  html body.mobile-nav-active.dark-mode .header-menu-items > ul > li > a:hover {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+  
+  body.mobile-nav-active.dark-mode .mobile-social-links,
+  body.mobile-nav-active[data-theme="dark"] .mobile-social-links,
+  html body.mobile-nav-active.dark-mode .mobile-social-links {
+    background-color: var(--dark-header-bg);
+    border: none;
+    box-shadow: none;
+    position: relative;
+  }
+  
+  body.mobile-nav-active.dark-mode .header-section .mobile-menu-header h3,
+  body.mobile-nav-active[data-theme="dark"] .header-section .mobile-menu-header h3,
+  html body.mobile-nav-active.dark-mode .header-section .mobile-menu-header h3,
+  html body.mobile-nav-active[data-theme="dark"] .header-section .mobile-menu-header h3 {
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: none;
+  }
+  
+  body.mobile-nav-active.dark-mode .header-section .mobile-nav-toggle,
+  body.mobile-nav-active[data-theme="dark"] .header-section .mobile-nav-toggle,
+  html body.mobile-nav-active.dark-mode .header-section .mobile-nav-toggle,
+  html body.mobile-nav-active[data-theme="dark"] .header-section .mobile-nav-toggle {
+    color: #000000;
+    font-size: 32px;
+    padding: 8px;
+    border-radius: 0;
+    background-color: transparent;
+  }
+}

@@ -1,6 +1,6 @@
 /* Styles pour les cartes, widgets et articles */
 .widget {
-    background-color: #f8f9fa;
+    background-color: transparent;
     border-color: var(--card-border);
     padding: 1rem;
   }
@@ -49,22 +49,6 @@
     padding: 5px 0;
     display: flex;
     align-items: center;
-}
-
-.footer-widget ul li:before {
-    content: "\F282";
-    font-family: "bootstrap-icons";
-    font-size: 14px;
-    margin-right: 10px;
-    color: rgba(var(--color-primary-rgb), 0.8);
-}
-
-.footer-widget ul li a {
-    color: rgba(var(--color-white-rgb), 0.7);
-    transition: 0.3s;
-    display: inline-block;
-    line-height: 1;
-    text-decoration: none;
 }
 
 .footer-widget ul li a:hover {

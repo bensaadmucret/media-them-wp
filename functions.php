@@ -16,6 +16,9 @@ define('LEJOURNALDESACTUS_THEME_URI', get_template_directory_uri());
 // Inclure la classe WP_Bootstrap_Navwalker
 require_once LEJOURNALDESACTUS_THEME_DIR . '/class-wp-bootstrap-navwalker.php';
 
+// Inclure la classe Custom_Menu_Walker pour le menu mobile
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-menu-walker.php';
+
 // Inclure les fichiers de fonctionnalités
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/setup.php';           // Configuration de base du thème
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/security.php';        // Fonctions de sécurité
@@ -26,6 +29,7 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-header.php';
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-authors.php';  // Fonctions pour les auteurs personnalisés
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer.php';      // Personnalisation du thème
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';       // Système de mode sombre/clair
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/css-loader.php';      // Chargeur CSS centralisé
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/admin-functions.php'; // Nouvelles fonctions d'administration
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/maintenance-mode.php'; // Mode maintenance
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/related-posts.php';   // Articles liés intelligents
@@ -66,6 +70,9 @@ add_action('add_meta_boxes', 'lejournaldesactus_restore_default_author_metabox',
 
 // Inclure les fichiers de fonctions supplémentaires
 require_once get_template_directory() . '/inc/functions.php';
+
+// Inclure le fichier de gestion du crédit photo
+require get_template_directory() . '/inc/featured-image-credit.php';
 
 // Inclure la configuration spécifique au site si elle existe
 if (file_exists(get_template_directory() . '/site-specific.php')) {

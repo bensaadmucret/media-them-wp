@@ -1,0 +1,56 @@
+/**
+ * Header Fix CSS
+ * Styles pour corriger l'affichage du bouton de menu mobile dans le header
+ */
+
+/* Styles pour le bouton du menu mobile */
+.header .mobile-nav-toggle,
+.header .header-mobile-btn {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+  line-height: 1;
+  transition: 0.5s;
+  color: var(--header-text-color, #000);
+  margin-left: 20px;
+  z-index: 9999;
+  position: relative;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Styles spécifiques pour le bouton en mode sombre */
+body.dark-mode .header .mobile-nav-toggle,
+body.dark-mode .header .header-mobile-btn {
+  color: #fff;
+}
+
+/* S'assurer que le bouton est visible UNIQUEMENT sur les petits écrans */
+@media (max-width: 1199px) {
+  .header .mobile-nav-toggle,
+  .header .header-mobile-btn {
+    display: block;
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+  
+  /* Ajustement pour le conteneur du header */
+  .header .top-row {
+    position: relative;
+  }
+  
+  /* Styles spécifiques pour le header */
+  .header .d-flex.align-items-center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* Styles pour le bouton quand le menu est ouvert */
+body.mobile-nav-active .header .mobile-nav-toggle,
+body.mobile-nav-active .header .header-mobile-btn {
+  color: #fff;
+}

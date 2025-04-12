@@ -185,6 +185,41 @@ blockquote {
   }
 }
 
+@media (max-width: 516px) {
+  :root {
+    --base-font-size: 14px;
+    --large-font-size: 16px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+  }
+  
+  .featured-post .post-title {
+    font-size: 1.4rem;
+  }
+  
+  /* Ajustement du titre du site */
+  .sitename, 
+  .logo h1 {
+    font-size: 1.5rem !important;
+    line-height: 1.2;
+  }
+  
+  /* Ajustement de la navigation */
+  .navmenu a {
+    font-size: 0.8rem;
+  }
+}
+
 /* Sous-titres et légendes */
 .wp-caption-text,
 figcaption {

@@ -18,7 +18,7 @@ class Lejournaldesactus_Dark_Mode {
      * Initialisation de la classe
      */
     public function __construct() {
-        // Ajouter les scripts et styles
+        // Ajouter les scripts
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         
         // Ajouter l'action AJAX pour les utilisateurs connectés
@@ -27,10 +27,12 @@ class Lejournaldesactus_Dark_Mode {
     }
     
     /**
-     * Ajouter les scripts et styles
+     * Ajouter les scripts
      */
     public function enqueue_scripts() {
-        wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array(), LEJOURNALDESACTUS_VERSION);
+        // Les styles CSS sont maintenant gérés dans le fichier css-loader.php
+        
+        // Scripts JS pour le mode sombre
         wp_enqueue_script('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/js/dark-mode.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
         wp_enqueue_script('lejournaldesactus-bootstrap-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/js/bootstrap-dark-mode.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
         
@@ -131,3 +133,27 @@ class Lejournaldesactus_Dark_Mode {
 
 // Initialiser la classe
 $lejournaldesactus_dark_mode = new Lejournaldesactus_Dark_Mode();
+
+/**
+ * Vérifier si le mode sombre est actif
+ * 
+ * @return bool True si le mode sombre est actif, false sinon
+ */
+function is_dark_mode_active() {
+    // Vérifier si le cookie existe
+    if (isset($_COOKIE['lejournaldesactus_theme']) && $_COOKIE['lejournaldesactus_theme'] === 'dark') {
+        return true;
+    }
+    
+    // Vérifier si l'utilisateur est connecté et a une préférence
+    if (is_user_logged_in()) {
+        $user_id = get_current_user_id();
+        $theme = get_user_meta($user_id, 'lejournaldesactus_theme_preference', true);
+        
+        if ($theme === 'dark') {
+            return true;
+        }
+    }
+    
+    return false;
+}
