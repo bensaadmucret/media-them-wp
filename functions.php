@@ -82,5 +82,8 @@ if (file_exists(get_template_directory() . '/site-specific.php')) {
 // Inclure le générateur de sitemap
 require_once get_template_directory() . '/inc/sitemap.php';
 
+// Inclure les outils SEO supplémentaires (robots.txt, etc.)
+require_once get_template_directory() . '/inc/seo-tools.php';
+
 // Inclure les widgets personnalisés
 require_once get_template_directory() . '/inc/widgets/selected-pages-widget.php';

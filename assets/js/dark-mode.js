@@ -4,6 +4,31 @@
     // Variables
     var currentTheme = 'light';
     
+    // Fonction pour appliquer le thème
+    function applyTheme(theme) {
+        // Appliquer le thème à l'élément HTML
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Ajouter/supprimer la classe dark-mode sur le body
+        if (theme === 'dark') {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+        
+        // Mettre à jour le switch Bootstrap si présent
+        var darkModeSwitch = document.getElementById('darkModeSwitch');
+        if (darkModeSwitch) {
+            darkModeSwitch.checked = theme === 'dark';
+        }
+        
+        // Déclencher un événement personnalisé pour informer les autres scripts
+        var event = new CustomEvent('themeChanged', { detail: { theme: theme } });
+        document.dispatchEvent(event);
+        
+        currentTheme = theme;
+    }
+    
     // Exécution immédiate pour appliquer le thème avant tout rendu
     (function() {
         var savedTheme = localStorage.getItem('lejournaldesactus_theme');
@@ -18,16 +43,7 @@
         }
         
         // Appliquer le thème immédiatement
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        // Ajouter/supprimer la classe dark-mode sur le body
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-        
-        currentTheme = savedTheme;
+        applyTheme(savedTheme);
     })();
     
     // Initialisation
@@ -37,14 +53,7 @@
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
                 if (!localStorage.getItem('lejournaldesactus_theme')) {
                     var newTheme = e.matches ? 'dark' : 'light';
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                    
-                    // Ajouter/supprimer la classe dark-mode sur le body
-                    if (newTheme === 'dark') {
-                        document.body.classList.add('dark-mode');
-                    } else {
-                        document.body.classList.remove('dark-mode');
-                    }
+                    applyTheme(newTheme);
                 }
             });
         }
@@ -57,14 +66,7 @@
             var newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             
             // Appliquer le thème
-            document.documentElement.setAttribute('data-theme', newTheme);
-            
-            // Ajouter/supprimer la classe dark-mode sur le body
-            if (newTheme === 'dark') {
-                document.body.classList.add('dark-mode');
-            } else {
-                document.body.classList.remove('dark-mode');
-            }
+            applyTheme(newTheme);
             
             // Sauvegarder la préférence
             localStorage.setItem('lejournaldesactus_theme', newTheme);

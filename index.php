@@ -23,11 +23,6 @@
               $excluded_ids[] = get_the_ID(); // Ajouter l'ID de l'article mis en avant au tableau
           ?>
                     <div class="hero-post homepage-featured-post">
-                        <div class="post-meta">
-                            <?php lejournaldesactus_post_categories(); ?>
-                        </div>
-                        <h1 class="post-title homepage-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-                        <?php lejournaldesactus_post_meta(); ?>
                         <div class="post-img homepage-post-image">
                             <?php if (has_post_thumbnail()) : ?>
                             <a href="<?php the_permalink(); ?>" class="img-link">
@@ -35,6 +30,11 @@
                             </a>
                             <?php endif; ?>
                         </div>
+                        <div class="post-meta">
+                            <?php lejournaldesactus_post_categories(); ?>
+                        </div>
+                        <h1 class="post-title homepage-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
+                        <?php lejournaldesactus_post_meta(); ?>
                         <div class="post-content homepage-post-excerpt">
                             <?php the_excerpt(); ?>
                         </div>
@@ -69,16 +69,16 @@
             while ($recent_query->have_posts()) : $recent_query->the_post();
           ?>
                     <div class="post-entry-1 homepage-sidebar-post">
-                        <?php if (has_post_thumbnail()) : ?>
-                        <a href="<?php the_permalink(); ?>" class="post-img">
-                            <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
-                        </a>
-                        <?php endif; ?>
                         <div class="post-meta">
                             <?php lejournaldesactus_post_categories(); ?>
                         </div>
                         <h2 class="post-title homepage-sidebar-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                         <?php lejournaldesactus_post_meta(); ?>
+                        <?php if (has_post_thumbnail()) : ?>
+                        <a href="<?php the_permalink(); ?>" class="post-img">
+                            <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
+                        </a>
+                        <?php endif; ?>
                     </div>
                     <?php
             endwhile;
@@ -122,6 +122,11 @@
                   // Grands articles (2 premiers)
                   echo '<div class="col-lg-6">';
                   echo '<div class="post-box post-img">';
+                  echo '<div class="post-meta">';
+                  lejournaldesactus_post_categories();
+                  echo '</div>';
+                  echo '<h3 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+                  lejournaldesactus_post_meta();
                   if (has_post_thumbnail()) {
                     echo '<div class="post-img">';
                     echo '<a href="' . get_permalink() . '" class="img-link">';
@@ -129,11 +134,6 @@
                     echo '</a>';
                     echo '</div>';
                   }
-                  echo '<div class="post-meta">';
-                  lejournaldesactus_post_categories();
-                  echo '</div>';
-                  echo '<h3 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
-                  lejournaldesactus_post_meta();
                   echo '<div class="post-content">';
                   the_excerpt();
                   echo '</div>';
@@ -156,16 +156,16 @@
                   
                   echo '<div class="col-lg-6">';
                   echo '<div class="post-entry-1">';
-                  if (has_post_thumbnail()) {
-                    echo '<a href="' . get_permalink() . '" class="post-img">';
-                    the_post_thumbnail('medium', array('class' => 'img-fluid'));
-                    echo '</a>';
-                  }
                   echo '<div class="post-meta">';
                   lejournaldesactus_post_categories();
                   echo '</div>';
                   echo '<h2 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h2>';
                   lejournaldesactus_post_meta();
+                  if (has_post_thumbnail()) {
+                    echo '<a href="' . get_permalink() . '" class="post-img">';
+                    the_post_thumbnail('medium', array('class' => 'img-fluid'));
+                    echo '</a>';
+                  }
                   echo '</div>';
                   echo '</div>';
                   

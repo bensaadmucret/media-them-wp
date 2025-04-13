@@ -192,6 +192,18 @@ function lejournaldesactus_get_reading_time($post_id = null, $format = 'minutes'
     $include_images = get_theme_mod('lejournaldesactus_reading_time_include_images', true);
     $image_time = get_theme_mod('lejournaldesactus_reading_time_image_time', 12);
     
+    // Compter les images avant de supprimer le HTML
+    $image_count = 0;
+    if ($include_images) {
+        // Compter les images dans le contenu
+        $image_count = substr_count($content, '<img');
+        
+        // Ajouter l'image mise en avant si elle existe
+        if (has_post_thumbnail($post_id)) {
+            $image_count++;
+        }
+    }
+    
     // Supprimer le HTML
     $content = wp_strip_all_tags($content);
     
@@ -202,16 +214,13 @@ function lejournaldesactus_get_reading_time($post_id = null, $format = 'minutes'
     $reading_time = $word_count / $wpm;
     
     // Ajouter du temps pour les images si nécessaire
-    if ($include_images) {
-        // Compter les images dans le contenu
-        $image_count = substr_count($content, '<img');
-        
+    if ($include_images && $image_count > 0) {
         // Ajouter le temps pour les images (en minutes)
         $reading_time += ($image_count * $image_time) / 60;
     }
     
-    // Arrondir le temps de lecture
-    $reading_time = max(1, round($reading_time));
+    // Arrondir le temps de lecture (toujours au nombre entier supérieur pour être cohérent)
+    $reading_time = max(1, ceil($reading_time));
     
     // Formater le temps de lecture
     if ($format === 'html') {
