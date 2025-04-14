@@ -63,11 +63,13 @@ class Lejournaldesactus_Sitemap {
         echo '<priority>1.0</priority>' . "\n";
         echo '</url>' . "\n";
         
-        // Ajouter les articles
+        // Ajouter les articles - limiter à 100 articles récents pour éviter les problèmes de mémoire
         $posts = get_posts(array(
             'post_type'      => 'post',
             'post_status'    => 'publish',
-            'posts_per_page' => -1,
+            'posts_per_page' => 100,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
         ));
         
         foreach ($posts as $post) {
@@ -79,11 +81,13 @@ class Lejournaldesactus_Sitemap {
             echo '</url>' . "\n";
         }
         
-        // Ajouter les pages
+        // Ajouter les pages - limiter à 50 pages
         $pages = get_posts(array(
             'post_type'      => 'page',
             'post_status'    => 'publish',
-            'posts_per_page' => -1,
+            'posts_per_page' => 50,
+            'orderby'        => 'modified',
+            'order'          => 'DESC',
         ));
         
         foreach ($pages as $page) {
@@ -95,11 +99,13 @@ class Lejournaldesactus_Sitemap {
             echo '</url>' . "\n";
         }
         
-        // Ajouter les auteurs personnalisés
+        // Ajouter les auteurs personnalisés - limiter à 30 auteurs
         $authors = get_posts(array(
             'post_type'      => 'author',
             'post_status'    => 'publish',
-            'posts_per_page' => -1,
+            'posts_per_page' => 30,
+            'orderby'        => 'modified',
+            'order'          => 'DESC',
         ));
         
         foreach ($authors as $author) {
@@ -111,9 +117,10 @@ class Lejournaldesactus_Sitemap {
             echo '</url>' . "\n";
         }
         
-        // Ajouter les catégories
+        // Ajouter les catégories - limiter à 30 catégories
         $categories = get_categories(array(
             'hide_empty' => true,
+            'number'     => 30,
         ));
         
         foreach ($categories as $category) {
@@ -124,9 +131,10 @@ class Lejournaldesactus_Sitemap {
             echo '</url>' . "\n";
         }
         
-        // Ajouter les tags
+        // Ajouter les tags - limiter à 30 tags
         $tags = get_tags(array(
             'hide_empty' => true,
+            'number'     => 30,
         ));
         
         foreach ($tags as $tag) {

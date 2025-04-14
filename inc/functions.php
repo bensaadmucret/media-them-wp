@@ -32,10 +32,14 @@ function lejournaldesactus_include_files() {
     function lejournaldesactus_force_flush_rewrite_rules() {
         global $pagenow;
         
-        // Réinitialiser les règles de réécriture uniquement lors de la première visite de l'admin après activation
-        if (is_admin() && ($pagenow == 'edit.php' || $pagenow == 'post-new.php')) {
-            delete_option('lejournaldesactus_flush_rewrite');
+        // Vérifier si les règles ont déjà été réinitialisées
+        $flushed = get_option('lejournaldesactus_flush_rewrite');
+        
+        // Réinitialiser les règles de réécriture uniquement si ce n'est pas déjà fait
+        if (is_admin() && ($pagenow == 'edit.php' || $pagenow == 'post-new.php') && !$flushed) {
             flush_rewrite_rules();
+            update_option('lejournaldesactus_flush_rewrite', true);
+            error_log('Règles de réécriture réinitialisées une seule fois.');
         }
     }
     add_action('admin_init', 'lejournaldesactus_force_flush_rewrite_rules');

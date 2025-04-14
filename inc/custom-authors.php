@@ -137,70 +137,114 @@ add_action('init', 'lejournaldesactus_flush_rewrite_rules', 20);
  */
 function lejournaldesactus_migrate_all_authors() {
     // Vérifier si la migration a déjà été effectuée
-    if (get_option('lejournaldesactus_authors_migrated') !== '1') {
-        // Récupérer tous les custom_author
-        $args = array(
-            'post_type' => 'custom_author',
-            'post_status' => 'publish',
-            'posts_per_page' => -1
-        );
-        $custom_authors = get_posts($args);
+    if (get_option('lejournaldesactus_authors_migrated')) {
+        return;
+    }
+    
+    // Vérifier si nous sommes dans un contexte d'administration
+    if (!is_admin()) {
+        return;
+    }
+    
+    // Récupérer tous les auteurs personnalisés
+    $custom_authors = get_posts(array(
+        'post_type'      => 'custom_author',
+        'post_status'    => 'publish',
+        'posts_per_page' => 50, // Limiter à 50 auteurs à la fois pour éviter les timeouts
+        'meta_query'     => array(
+            array(
+                'key'     => '_migrated_to_author',
+                'compare' => 'NOT EXISTS'
+            )
+        )
+    ));
+    
+    if (empty($custom_authors)) {
+        // Marquer la migration comme terminée
+        update_option('lejournaldesactus_authors_migrated', true);
+        return;
+    }
+    
+    $count = 0;
+    
+    foreach ($custom_authors as $author) {
+        // Vérifier si l'auteur a déjà été migré
+        $migrated = get_post_meta($author->ID, '_migrated_to_author', true);
+        if (!empty($migrated)) {
+            continue;
+        }
         
-        if (!empty($custom_authors)) {
-            foreach ($custom_authors as $author_post) {
-                // Vérifier si un author avec le même slug existe déjà
-                $existing = get_posts(array(
-                    'name' => $author_post->post_name,
-                    'post_type' => 'author',
-                    'post_status' => 'publish',
-                    'numberposts' => 1
-                ));
-                
-                if (empty($existing)) {
-                    // Créer un nouveau post de type 'author'
-                    $author_args = array(
-                        'post_title' => $author_post->post_title,
-                        'post_content' => $author_post->post_content,
-                        'post_name' => $author_post->post_name,
-                        'post_type' => 'author',
-                        'post_status' => 'publish'
-                    );
-                    
-                    // Insérer le post
-                    $author_id = wp_insert_post($author_args);
-                    
-                    if (!is_wp_error($author_id)) {
-                        // Copier toutes les métadonnées
-                        $meta_keys = get_post_custom_keys($author_post->ID);
-                        if ($meta_keys) {
-                            foreach ($meta_keys as $key) {
-                                $meta_values = get_post_custom_values($key, $author_post->ID);
-                                foreach ($meta_values as $value) {
-                                    add_post_meta($author_id, $key, maybe_unserialize($value));
-                                }
-                            }
-                        }
-                        
-                        // Copier l'image mise en avant si elle existe
-                        if (has_post_thumbnail($author_post->ID)) {
-                            $thumbnail_id = get_post_thumbnail_id($author_post->ID);
-                            set_post_thumbnail($author_id, $thumbnail_id);
-                        }
-                        
-                        error_log('Auteur migré: ' . $author_post->post_title . ' (ID: ' . $author_post->ID . ' -> ' . $author_id . ')');
-                    }
-                }
+        // Créer un nouvel auteur
+        $new_author_id = wp_insert_post(array(
+            'post_title'   => $author->post_title,
+            'post_content' => $author->post_content,
+            'post_status'  => 'publish',
+            'post_type'    => 'author',
+            'post_name'    => sanitize_title($author->post_title),
+        ));
+        
+        if (is_wp_error($new_author_id)) {
+            error_log('Erreur lors de la migration de l\'auteur ' . $author->ID . ': ' . $new_author_id->get_error_message());
+            continue;
+        }
+        
+        // Copier les métadonnées
+        $meta_keys = array(
+            '_author_role',
+            '_author_email',
+            '_author_website',
+            '_author_twitter',
+            '_author_facebook',
+            '_author_linkedin',
+            '_author_instagram',
+            '_author_articles_count',
+            '_author_bio'
+        );
+        
+        foreach ($meta_keys as $key) {
+            $value = get_post_meta($author->ID, $key, true);
+            if (!empty($value)) {
+                update_post_meta($new_author_id, $key, $value);
             }
         }
         
-        // Marquer comme fait pour ne pas le refaire
-        update_option('lejournaldesactus_authors_migrated', '1');
+        // Copier l'image mise en avant
+        $thumbnail_id = get_post_thumbnail_id($author->ID);
+        if ($thumbnail_id) {
+            set_post_thumbnail($new_author_id, $thumbnail_id);
+        }
         
-        // Journaliser l'action
-        error_log('Migration des auteurs terminée');
+        // Marquer l'ancien auteur comme migré
+        update_post_meta($author->ID, '_migrated_to_author', $new_author_id);
+        
+        // Mettre à jour les articles associés à cet auteur
+        $posts = get_posts(array(
+            'post_type'      => 'post',
+            'post_status'    => 'any',
+            'posts_per_page' => -1,
+            'meta_key'       => '_custom_author',
+            'meta_value'     => $author->ID
+        ));
+        
+        foreach ($posts as $post) {
+            update_post_meta($post->ID, '_custom_author', $new_author_id);
+        }
+        
+        $count++;
+        
+        // Limiter le nombre d'auteurs migrés par lot pour éviter les timeouts
+        if ($count >= 10) {
+            break;
+        }
+    }
+    
+    // Si tous les auteurs ont été traités, marquer la migration comme terminée
+    if (count($custom_authors) < 50 || $count < 10) {
+        update_option('lejournaldesactus_authors_migrated', true);
+        error_log('Migration des auteurs terminée. ' . $count . ' auteurs migrés.');
     }
 }
-add_action('init', 'lejournaldesactus_migrate_all_authors', 30);
+add_action('admin_init', 'lejournaldesactus_migrate_all_authors');
 
 /**
  * Ajouter les métadonnées personnalisées pour les auteurs
@@ -642,32 +686,53 @@ function lejournaldesactus_sync_post_author($post_id) {
  * Fonction pour mettre à jour le compteur d'articles pour tous les auteurs
  */
 function lejournaldesactus_update_all_authors_count() {
-    // Récupérer tous les auteurs
+    // Récupérer tous les auteurs, limité à 20 à la fois
     $authors = get_posts(array(
         'post_type' => 'author',
-        'posts_per_page' => -1,
+        'posts_per_page' => 20,
         'post_status' => 'publish',
+        'orderby' => 'ID',
+        'order' => 'ASC',
+        'meta_query' => array(
+            array(
+                'key' => '_last_count_update',
+                'compare' => 'NOT EXISTS',
+                // Ou utiliser cette ligne pour mettre à jour périodiquement
+                // 'value' => time() - 86400, // 24 heures
+                // 'compare' => '<',
+                // 'type' => 'NUMERIC'
+            )
+        )
     ));
     
+    if (empty($authors)) {
+        // Réinitialiser le marqueur pour permettre une mise à jour future
+        delete_option('lejournaldesactus_authors_count_updated');
+        return;
+    }
+    
     foreach ($authors as $author) {
-        // Compter le nombre d'articles de cet auteur
-        $args = array(
-            'post_type' => 'post',
-            'posts_per_page' => -1,
-            'meta_key' => '_custom_author',
-            'meta_value' => $author->ID,
-            'post_status' => 'publish',
-        );
-        
-        $posts = get_posts($args);
-        $count = count($posts);
+        // Utiliser une requête SQL directe pour compter les articles plus efficacement
+        global $wpdb;
+        $count = $wpdb->get_var($wpdb->prepare(
+            "SELECT COUNT(*) FROM $wpdb->postmeta 
+            JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->postmeta.post_id
+            WHERE meta_key = '_custom_author' 
+            AND meta_value = %d
+            AND $wpdb->posts.post_status = 'publish'
+            AND $wpdb->posts.post_type = 'post'",
+            $author->ID
+        ));
         
         // Mettre à jour le compteur d'articles
-        update_post_meta($author->ID, '_author_articles_count', $count);
+        update_post_meta($author->ID, '_author_articles_count', intval($count));
         
-        // Log pour le débogage
-        error_log('Mise à jour du compteur d\'articles pour l\'auteur ' . $author->ID . ': ' . $count . ' articles');
+        // Marquer cet auteur comme mis à jour
+        update_post_meta($author->ID, '_last_count_update', time());
     }
+    
+    // Marquer la mise à jour comme en cours
+    update_option('lejournaldesactus_authors_count_updated', time());
 }
 
 // Ajouter les hooks pour la synchronisation des auteurs
