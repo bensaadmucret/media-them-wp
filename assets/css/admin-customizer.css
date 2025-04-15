@@ -1,0 +1,78 @@
+/* Amélioration visuelle du Customizer WordPress pour le thème Le Journal des Actus */
+
+/* Fond du panneau Customizer */
+#customize-controls {
+    background: linear-gradient(135deg, #f8fafc 0%, #e8eaf0 100%) !important;
+    box-shadow: 0 2px 16px 0 rgba(40,40,60,0.08);
+}
+
+/* Titres de section */
+#customize-controls .customize-section-title {
+    font-weight: 700;
+    color: #f75815;
+    letter-spacing: 0.5px;
+}
+
+/* Contrôles stylés */
+#customize-controls .customize-control {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px 0 rgba(40,40,60,0.04);
+    padding: 12px 16px;
+}
+
+/* Aperçu sample police */
+#lejournaldesactus-font-sample {
+    background: #f8f6f4;
+    border: 1px solid #ececec;
+    color: #212529;
+}
+
+/* Amélioration des boutons */
+#customize-controls .button, #customize-controls .button-primary {
+    background: #f75815;
+    border: none;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 600;
+    box-shadow: 0 1px 4px 0 rgba(40,40,60,0.08);
+    transition: background 0.15s;
+}
+#customize-controls .button:hover, #customize-controls .button-primary:hover {
+    background: #d5440e;
+}
+
+/* Les inputs sortent du conteneur et prennent toute la largeur */
+#customize-controls .customize-control input[type="text"],
+#customize-controls .customize-control input[type="number"],
+#customize-controls .customize-control select,
+#customize-controls .customize-control textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-left: -16px;
+    margin-right: -16px;
+    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    font-size: 1rem;
+    transition: border 0.15s;
+}
+#customize-controls .customize-control input[type="text"]:focus,
+#customize-controls .customize-control input[type="number"]:focus,
+#customize-controls .customize-control select:focus,
+#customize-controls .customize-control textarea:focus {
+    border-color: #f75815;
+    outline: none;
+}
+
+/* Scrollbar douce */
+#customize-controls ::-webkit-scrollbar {
+    width: 8px;
+    background: #ececec;
+}
+#customize-controls ::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 8px;
+}

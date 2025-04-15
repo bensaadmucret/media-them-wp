@@ -1,0 +1,263 @@
+/* =====================
+   Styles modernes pour la zone commentaires
+   ===================== */
+
+.comments-area {
+  max-width: 720px;
+  margin: 2rem auto 2rem auto;
+  padding: 2rem 2rem 0 2rem;
+  background: var(--background-secondary, #fafbfc);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+.comments-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--heading-color, #222);
+}
+
+.comment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #ececec;
+  padding-bottom: 2rem;
+}
+
+.comment:last-child {
+  border-bottom: none;
+}
+
+.comment-author .avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  margin-right: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.comment-body {
+  flex: 1;
+}
+
+.comment-meta {
+  font-size: 0.93rem;
+  color: var(--text-muted, #888);
+  margin-bottom: 0.2rem;
+}
+
+.comment-author cite {
+  font-weight: 600;
+  color: var(--heading-color, #222);
+}
+
+.comment-content {
+  font-size: 1.05rem;
+  color: var(--text-color, #222);
+  line-height: 1.7;
+  margin-bottom: 0.7rem;
+}
+
+.comment-reply-link {
+  font-size: 0.93rem;
+  color: var(--primary-color, #007bff);
+  text-decoration: none;
+  margin-top: 0.5rem;
+  display: inline-block;
+  transition: color 0.2s;
+}
+
+.comment-reply-link:hover {
+  color: var(--nav-hover-color, #0056b3);
+  text-decoration: underline;
+}
+
+/* Formulaire de commentaire */
+.comment-respond {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.comment-reply-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.comment-form label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  background: var(--background-primary, #fff);
+  color: var(--text-color, #222);
+  transition: border-color 0.2s;
+}
+
+.comment-form input[type="text"]:focus,
+.comment-form input[type="email"]:focus,
+.comment-form input[type="url"]:focus,
+.comment-form textarea:focus {
+  border-color: var(--primary-color, #007bff);
+  outline: none;
+}
+
+.comment-form .form-submit input[type="submit"] {
+  background: #f75815;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem 2.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.comment-form .form-submit input[type="submit"]:hover {
+  background: #c7420f;
+}
+
+body.dark-mode .comment-form .form-submit input[type="submit"],
+[data-theme="dark"] .comment-form .form-submit input[type="submit"] {
+  background: #f75815;
+  color: #fff;
+}
+
+body.dark-mode .comment-form .form-submit input[type="submit"]:hover,
+[data-theme="dark"] .comment-form .form-submit input[type="submit"]:hover {
+  background: #c7420f;
+  color: #fff;
+}
+
+/* Champ captcha anti-spam */
+.lejournaldesactus-captcha-field {
+  background: #fffbe6;
+  border: 1.5px solid #f7c873;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  color: #2d2d2d;
+}
+.lejournaldesactus-captcha-question {
+  color: #e67e22;
+  font-size: 1.1em;
+  margin-right: 0.7em;
+}
+body.dark-mode .lejournaldesactus-captcha-field,
+[data-theme="dark"] .lejournaldesactus-captcha-field {
+  background: #2a2720;
+  border-color: #e67e22;
+  color: #ffe7b8;
+}
+body.dark-mode .lejournaldesactus-captcha-question,
+[data-theme="dark"] .lejournaldesactus-captcha-question {
+  color: #f7c873;
+}
+
+/* Dark mode */
+body.dark-mode .comments-area,
+[data-theme="dark"] .comments-area {
+  background: #23272e;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+}
+body.dark-mode .comment-respond,
+[data-theme="dark"] .comment-respond {
+  background: none;
+  box-shadow: none;
+}
+body.dark-mode .comment-content,
+[data-theme="dark"] .comment-content {
+  color: #d2c8c8;
+}
+body.dark-mode .comment-meta,
+[data-theme="dark"] .comment-meta {
+  color: #a7a7a7;
+}
+body.dark-mode .comment-form input,
+body.dark-mode .comment-form textarea,
+[data-theme="dark"] .comment-form input,
+[data-theme="dark"] .comment-form textarea {
+  background: #292d36;
+  color: #eee;
+  border-color: #444;
+}
+body.dark-mode .comment-form input:focus,
+body.dark-mode .comment-form textarea:focus,
+[data-theme="dark"] .comment-form input:focus,
+[data-theme="dark"] .comment-form textarea:focus {
+  border-color: #007bff;
+}
+
+/* Toast/Pop-up pour validation commentaire */
+.lejournaldesactus-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2.5rem;
+  transform: translateX(-50%) translateY(100px);
+  min-width: 260px;
+  max-width: 90vw;
+  background: #222;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  font-size: 1.1rem;
+  opacity: 0;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 0.4s, transform 0.4s;
+}
+.lejournaldesactus-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+body.dark-mode .lejournaldesactus-toast,
+[data-theme="dark"] .lejournaldesactus-toast {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 8px 32px rgba(255,255,255,0.08);
+}
+@media (max-width: 600px) {
+  .lejournaldesactus-toast {
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .comments-area, .comment-respond {
+    padding: 1rem;
+  }
+  .comment {
+    flex-direction: column;
+    padding-bottom: 1.2rem;
+  }
+  .comment-author .avatar {
+    margin-right: 0;
+    margin-bottom: 0.8rem;
+  }
+}

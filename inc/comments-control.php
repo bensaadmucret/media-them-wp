@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 function lejournaldesactus_comments_control_customizer($wp_customize) {
     // Ajouter une section pour le contrôle des commentaires
     $wp_customize->add_section('lejournaldesactus_comments_section', array(
-        'title'       => __('Contrôle des commentaires', 'lejournaldesactus'),
+        'title'       => '💬 ' . __('Contrôle des commentaires', 'lejournaldesactus'),
         'description' => __('Options pour activer ou désactiver les commentaires sur différents types de contenu.', 'lejournaldesactus'),
         'priority'    => 160,
     ));
@@ -27,7 +27,7 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_disable_all_comments', array(
-        'label'       => __('Désactiver tous les commentaires', 'lejournaldesactus'),
+        'label'       => '🚫💬 ' . __('Désactiver tous les commentaires', 'lejournaldesactus'),
         'description' => __('Désactive complètement les commentaires sur tout le site.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_comments_section',
         'type'        => 'checkbox',
@@ -41,7 +41,7 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_disable_post_comments', array(
-        'label'       => __('Désactiver les commentaires sur les articles', 'lejournaldesactus'),
+        'label'       => '🚫📰 ' . __('Désactiver les commentaires sur les articles', 'lejournaldesactus'),
         'description' => __('Désactive les commentaires uniquement sur les articles.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_comments_section',
         'type'        => 'checkbox',
@@ -58,7 +58,7 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_disable_page_comments', array(
-        'label'       => __('Désactiver les commentaires sur les pages', 'lejournaldesactus'),
+        'label'       => '🚫📄 ' . __('Désactiver les commentaires sur les pages', 'lejournaldesactus'),
         'description' => __('Désactive les commentaires uniquement sur les pages.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_comments_section',
         'type'        => 'checkbox',
@@ -75,7 +75,7 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_auto_close_comments', array(
-        'label'       => __('Fermer automatiquement les commentaires', 'lejournaldesactus'),
+        'label'       => '🕰️ ' . __('Fermer automatiquement les commentaires', 'lejournaldesactus'),
         'description' => __('Nombre de jours après publication. 0 = ne pas fermer automatiquement.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_comments_section',
         'type'        => 'number',
@@ -97,7 +97,7 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_advanced_moderation', array(
-        'label'       => __('Activer la modération avancée', 'lejournaldesactus'),
+        'label'       => '🔒 ' . __('Activer la modération avancée', 'lejournaldesactus'),
         'description' => __('Modération plus stricte des commentaires (filtre anti-spam, mots interdits, etc.).', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_comments_section',
         'type'        => 'checkbox',
@@ -114,10 +114,10 @@ function lejournaldesactus_comments_control_customizer($wp_customize) {
     ));
 
     $wp_customize->add_control('lejournaldesactus_blacklist_words', array(
-        'label'       => __('Mots interdits', 'lejournaldesactus'),
-        'description' => __('Liste de mots interdits dans les commentaires, séparés par des virgules.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_comments_section',
-        'type'        => 'textarea',
+        'label'    => '⛔️ ' . __('Mots interdits', 'lejournaldesactus'),
+        'section'  => 'lejournaldesactus_comments_section',
+        'type'     => 'textarea',
+        'description' => __('Liste de mots à bannir des commentaires.', 'lejournaldesactus'),
         'active_callback' => function() {
             return !get_theme_mod('lejournaldesactus_disable_all_comments', false) && 
                    get_theme_mod('lejournaldesactus_advanced_moderation', false);
@@ -307,7 +307,7 @@ function lejournaldesactus_add_comment_metabox() {
         
         add_meta_box(
             'lejournaldesactus_comment_control',
-            __('Contrôle des commentaires', 'lejournaldesactus'),
+            '💬 ' . __('Contrôle des commentaires', 'lejournaldesactus'),
             'lejournaldesactus_comment_metabox_callback',
             $post_type,
             'side',
@@ -327,7 +327,7 @@ function lejournaldesactus_comment_metabox_callback($post) {
     ?>
     <p>
         <input type="checkbox" id="lejournaldesactus_disable_comments" name="lejournaldesactus_disable_comments" <?php checked($disable_comments, 'on'); ?> />
-        <label for="lejournaldesactus_disable_comments"><?php _e('Désactiver les commentaires sur ce contenu', 'lejournaldesactus'); ?></label>
+        <label for="lejournaldesactus_disable_comments"><?php _e('🚫💬 Désactiver les commentaires sur ce contenu', 'lejournaldesactus'); ?></label>
     </p>
     <p class="description">
         <?php _e('Cette option remplace les paramètres globaux pour ce contenu spécifique.', 'lejournaldesactus'); ?>

@@ -1,0 +1,11 @@
+/* menu-overlay-dark.css : styles pour l'overlay du menu en mode sombre */
+.menu-overlay-dark {
+  background: rgba(18, 18, 18, 0.95);
+  color: #fff;
+}
+.menu-overlay-dark .menu-item {
+  color: #fff;
+}
+.menu-overlay-dark .menu-close {
+  color: #fff;
+}

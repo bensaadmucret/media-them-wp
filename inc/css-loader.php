@@ -29,8 +29,10 @@ class Lejournaldesactus_CSS_Loader {
         // Styles principaux
         wp_enqueue_style('lejournaldesactus-main', LEJOURNALDESACTUS_THEME_URI . '/assets/css/main.css', array(), LEJOURNALDESACTUS_VERSION);
         
-        // Style du mode sombre
-        wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array('lejournaldesactus-main'), LEJOURNALDESACTUS_VERSION);
+        // Style du mode sombre (seulement si activé dans le Customizer)
+        if (get_theme_mod('lejournaldesactus_enable_dark_mode', true)) {
+            wp_enqueue_style('lejournaldesactus-dark-mode', LEJOURNALDESACTUS_THEME_URI . '/assets/css/dark-mode.css', array('lejournaldesactus-main'), LEJOURNALDESACTUS_VERSION);
+        }
         
         // Style du footer
         wp_enqueue_style('lejournaldesactus-footer', LEJOURNALDESACTUS_THEME_URI . '/assets/css/footer.css', array('lejournaldesactus-main', 'lejournaldesactus-dark-mode'), LEJOURNALDESACTUS_VERSION);

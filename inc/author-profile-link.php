@@ -58,6 +58,9 @@ class LeJournalDesActus_Author_Profile_Link {
             'order' => 'ASC'
         ));
         
+        // Ajouter un nonce pour la sécurité
+        wp_nonce_field('save_author_profile_field_' . $user->ID, 'lejournaldesactus_author_profile_nonce');
+        
         ?>
         <h3><?php _e('Profil d\'auteur personnalisé', 'lejournaldesactus'); ?></h3>
         <table class="form-table">
@@ -85,6 +88,11 @@ class LeJournalDesActus_Author_Profile_Link {
     public function save_author_profile_field($user_id) {
         // Vérifier les permissions
         if (!current_user_can('edit_user', $user_id)) {
+            return false;
+        }
+        
+        // Vérifier le nonce
+        if (!isset($_POST['lejournaldesactus_author_profile_nonce']) || !wp_verify_nonce($_POST['lejournaldesactus_author_profile_nonce'], 'save_author_profile_field_' . $user_id)) {
             return false;
         }
         

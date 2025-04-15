@@ -1,6 +1,15 @@
 (function($) {
     'use strict';
     
+    // Ajout : reset si dark mode désactivé côté PHP (cookie supprimé et module désactivé)
+    if (typeof lejournaldesactusDarkMode === 'object' && lejournaldesactusDarkMode.forceLightMode) {
+        applyTheme('light');
+        localStorage.removeItem('lejournaldesactus_theme');
+        document.documentElement.removeAttribute('data-theme');
+        document.body.classList.remove('dark-mode');
+        document.documentElement.classList.remove('dark');
+    }
+    
     // Variables
     var currentTheme = 'light';
     

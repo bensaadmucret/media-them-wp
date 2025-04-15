@@ -33,6 +33,7 @@ function lejournaldesactus_setup() {
         'footer-services' => esc_html__('Nos Services (Footer)', 'lejournaldesactus'),
         'footer-links1' => esc_html__('Liens Footer 1', 'lejournaldesactus'),
         'footer-links2' => esc_html__('Liens Footer 2', 'lejournaldesactus'),
+        'elementor-landing' => esc_html__('Menu Landing Elementor', 'lejournaldesactus'),
     ));
     
     // Ajouter la prise en charge des formats de publication
@@ -45,6 +46,14 @@ function lejournaldesactus_setup() {
     ));
 }
 add_action('after_setup_theme', 'lejournaldesactus_setup');
+
+/**
+ * Déclarer la compatibilité avec Elementor
+ */
+function lejournaldesactus_elementor_support() {
+    add_theme_support('elementor');
+}
+add_action('after_setup_theme', 'lejournaldesactus_elementor_support');
 
 /**
  * Enregistrer les scripts et styles
@@ -104,8 +113,164 @@ function lejournaldesactus_scripts() {
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
     }
+    
+    if (is_singular() && (comments_open() || get_comments_number())) {
+        wp_enqueue_script(
+            'lejournaldesactus-comments',
+            get_template_directory_uri() . '/assets/js/comments.js',
+            array(),
+            filemtime(get_template_directory() . '/assets/js/comments.js'),
+            true
+        );
+    }
 }
 add_action('wp_enqueue_scripts', 'lejournaldesactus_scripts');
+
+// Fallback pour la fonction is_dark_mode_active() si le module dark mode est désactivé
+if (!function_exists('is_dark_mode_active')) {
+    function is_dark_mode_active() {
+        return false;
+    }
+}
+
+// Handler global pour afficher les erreurs de commentaire en toast/pop
+add_filter('wp_die_handler', function($handler) {
+    return function($message, $title = '', $args = array()) {
+        // Si l'erreur concerne les commentaires, on redirige avec le message dans l'URL
+        if (isset($_SERVER['HTTP_REFERER']) && (
+            (is_string($message) && stripos($message, 'comment') !== false) ||
+            (is_string($title) && stripos($title, 'comment') !== false)
+        )) {
+            $ref = $_SERVER['HTTP_REFERER'];
+            $msg = urlencode(strip_tags(is_array($message) ? implode(' ', $message) : $message));
+            wp_safe_redirect(add_query_arg('comment_error_msg', $msg, $ref));
+            exit;
+        }
+        // Sinon comportement normal
+        _default_wp_die_handler($message, $title, $args);
+    };
+});
+
+// --- Anti-spam commentaires : Honeypot & Anti-flood ---
+add_filter('comment_form_defaults', function($defaults) {
+    $defaults['fields']['lejournaldesactus_hp'] = '<p style="display:none !important;"><label>Ne pas remplir : <input type="text" name="lejournaldesactus_hp" value="" autocomplete="off"></label></p>';
+    $defaults['fields']['lejournaldesactus_ts'] = '<input type="hidden" name="lejournaldesactus_ts" value="' . time() . '">';
+    return $defaults;
+});
+
+add_filter('preprocess_comment', function($commentdata) {
+    // Honeypot : si le champ caché est rempli, on bloque
+    if (!empty($_POST['lejournaldesactus_hp'])) {
+        $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url();
+        wp_safe_redirect(add_query_arg('comment_error', 'honeypot', $ref));
+        exit;
+    }
+    // Anti-flood : délai minimal (5s) entre affichage et soumission
+    if (isset($_POST['lejournaldesactus_ts'])) {
+        $min_delay = 5; // secondes
+        $now = time();
+        $elapsed = $now - intval($_POST['lejournaldesactus_ts']);
+        if ($elapsed < $min_delay) {
+            $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url();
+            wp_safe_redirect(add_query_arg('comment_error', 'flood', $ref));
+            exit;
+        }
+    }
+    return $commentdata;
+}, 20);
+
+add_filter('comment_form_defaults', function($defaults) {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $a = rand(1, 9);
+        $b = rand(1, 9);
+        $question = "$a + $b = ?";
+        $expected = $a + $b;
+        $defaults['fields']['lejournaldesactus_captcha'] = '<p class="lejournaldesactus-captcha-field"><label for="lejournaldesactus_captcha">Question anti-spam : <span class="lejournaldesactus-captcha-question" style="font-weight:bold">' . $question . '</span> <input type="text" name="lejournaldesactus_captcha" id="lejournaldesactus_captcha" size="2" maxlength="2" required autocomplete="off">' . '<input type="hidden" name="lejournaldesactus_captcha_expected" value="' . $expected . '"></label></p>';
+    }
+    return $defaults;
+});
+
+add_filter('preprocess_comment', function($commentdata) {
+    // On n'utilise plus la session, mais le champ caché
+    $expected = isset($_POST['lejournaldesactus_captcha_expected']) ? intval($_POST['lejournaldesactus_captcha_expected']) : null;
+    $provided = isset($_POST['lejournaldesactus_captcha']) ? intval($_POST['lejournaldesactus_captcha']) : null;
+    if ($expected === null || $provided !== $expected) {
+        $ref = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : home_url();
+        wp_safe_redirect(add_query_arg('comment_error', 'captcha', $ref));
+        exit;
+    }
+    return $commentdata;
+});
+
+/**
+ * Helper : Générer dynamiquement le header/footer (1 ligne, 1 à 3 colonnes)
+ */
+function lejournaldesactus_render_builder_zone($zone = 'header') {
+    $data = get_theme_mod('lejournaldesactus_header_footer_builder_data', '');
+    if (!$data) return;
+    $structure = json_decode($data, true);
+    // Migration auto ancienne structure (sécurité)
+    if (is_array($structure) && isset($structure[$zone]) && !isset($structure[$zone]['columns'])) {
+        // Ancienne structure : tableau de blocs → tout dans la 1ère colonne
+        $structure[$zone] = array('columns' => [ is_array($structure[$zone]) ? $structure[$zone] : [] ]);
+    }
+    if (!is_array($structure) || !isset($structure[$zone]['columns']) || !is_array($structure[$zone]['columns'])) return;
+    echo '<div class="builder-row">';
+    foreach ($structure[$zone]['columns'] as $col) {
+        echo '<div class="builder-col">';
+        if (is_array($col)) {
+            foreach ($col as $block) {
+                switch ($block['type']) {
+                    case 'logo':
+                        echo '<div class="builder-block builder-logo">';
+                        if (has_custom_logo()) {
+                            the_custom_logo();
+                        } else {
+                            echo '<a href="'.esc_url(home_url('/')).'" class="site-title">'.get_bloginfo('name').'</a>';
+                        }
+                        echo '</div>';
+                        break;
+                    case 'menu':
+                        echo '<div class="builder-block builder-menu">';
+                        $menu_slug = isset($block['menu']) ? $block['menu'] : '';
+                        if ($menu_slug) {
+                            wp_nav_menu(array('menu' => $menu_slug, 'container' => false, 'menu_class' => 'builder-menu-list'));
+                        } else {
+                            echo '<span class="builder-menu-placeholder">Définir un menu</span>';
+                        }
+                        echo '</div>';
+                        break;
+                    case 'button':
+                        echo '<div class="builder-block builder-button">';
+                        $text = isset($block['text']) ? esc_html($block['text']) : 'Bouton';
+                        $url = isset($block['url']) ? esc_url($block['url']) : '#';
+                        echo '<a href="'.$url.'" class="builder-btn">'.$text.'</a>';
+                        echo '</div>';
+                        break;
+                    case 'social':
+                        echo '<div class="builder-block builder-social">';
+                        $links = isset($block['links']) ? explode(',', $block['links']) : [];
+                        foreach ($links as $link) {
+                            $link = trim($link);
+                            if ($link)
+                                echo '<a href="'.esc_url($link).'" target="_blank" rel="noopener" class="builder-social-link">🌐</a> ';
+                        }
+                        echo '</div>';
+                        break;
+                    case 'cta':
+                        echo '<div class="builder-block builder-cta">';
+                        $text = isset($block['text']) ? esc_html($block['text']) : 'Call to Action';
+                        $url = isset($block['url']) ? esc_url($block['url']) : '#';
+                        echo '<a href="'.$url.'" class="builder-cta-btn">'.$text.'</a>';
+                        echo '</div>';
+                        break;
+                }
+            }
+        }
+        echo '</div>';
+    }
+    echo '</div>';
+}
 
 /**
  * Enregistrer les widgets

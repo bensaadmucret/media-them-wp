@@ -45,8 +45,8 @@
     --dark-input-border: #444444;
     --dark-header-bg: #000000;
     --dark-header-text: #e0e0e0;
-    --dark-icon: var(--tertiary-color); /* Jaune */
-    --dark-icon-hover: #f75815; /* Orange */
+    --dark-icon: var(--primary-color); /* Orange du thème */
+    --dark-icon-hover: #fff44f; /* Jaune clair */
     
     /* Application des variables en mode clair (par défaut) */
     --body-bg: var(--light-bg);
@@ -717,4 +717,79 @@ body.dark-mode .mobile-menu-list a:hover,
 [data-theme="dark"] .mobile-menu-list a:hover {
   color: var(--tertiary-color) !important;
   background-color: rgba(255, 244, 79, 0.1) !important;
+}
+
+/* Correction accessibilité : bouton primaire en mode sombre */
+[data-theme="dark"] .btn-primary, body.dark-mode .btn-primary {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-color: var(--primary-color) !important;
+}
+[data-theme="dark"] .btn-primary:hover, body.dark-mode .btn-primary:hover {
+  background-color: #c7420f !important;
+  color: #fff !important;
+  border-color: #c7420f !important;
+}
+
+/* Correction accessibilité : priorité au texte blanc dans les boutons primaires même si ce sont des liens */
+[data-theme="dark"] .btn-primary, body.dark-mode .btn-primary,
+[data-theme="dark"] .btn-primary a, body.dark-mode .btn-primary a {
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  border-color: var(--primary-color) !important;
+}
+[data-theme="dark"] .btn-primary:hover, body.dark-mode .btn-primary:hover,
+[data-theme="dark"] .btn-primary a:hover, body.dark-mode .btn-primary a:hover {
+  background-color: #c7420f !important;
+  color: #fff !important;
+  border-color: #c7420f !important;
+}
+
+/* Force le texte blanc dans tous les liens à l'intérieur de .btn-primary en mode sombre */
+[data-theme="dark"] .btn-primary a, body.dark-mode .btn-primary a {
+  color: #fff !important;
+}
+
+/* Correction ultime : priorité maximale pour le texte blanc dans les boutons primaires même si ce sont des liens */
+html[data-theme="dark"] .btn-primary,
+body.dark-mode .btn-primary,
+html[data-theme="dark"] .btn-primary a,
+body.dark-mode .btn-primary a,
+html[data-theme="dark"] .btn.btn-primary,
+body.dark-mode .btn.btn-primary {
+  color: #fff !important;
+}
+html[data-theme="dark"] .btn-primary:hover,
+body.dark-mode .btn-primary:hover,
+html[data-theme="dark"] .btn-primary a:hover,
+body.dark-mode .btn-primary a:hover,
+html[data-theme="dark"] .btn.btn-primary:hover,
+body.dark-mode .btn.btn-primary:hover {
+  color: #fff !important;
+}
+
+/* Correction maximale : texte blanc sur tous les boutons primaires et leurs enfants en mode sombre, même si ce sont des liens ou des boutons */
+html[data-theme="dark"] .btn-primary,
+body.dark-mode .btn-primary,
+html[data-theme="dark"] .btn-primary a,
+body.dark-mode .btn-primary a,
+html[data-theme="dark"] a.btn-primary,
+body.dark-mode a.btn-primary,
+html[data-theme="dark"] button.btn-primary,
+body.dark-mode button.btn-primary {
+  color: #fff !important;
+}
+html[data-theme="dark"] .btn-primary:hover,
+body.dark-mode .btn-primary:hover,
+html[data-theme="dark"] .btn-primary a:hover,
+body.dark-mode .btn-primary a:hover,
+html[data-theme="dark"] a.btn-primary:hover,
+body.dark-mode a.btn-primary:hover,
+html[data-theme="dark"] button.btn-primary:hover,
+body.dark-mode button.btn-primary:hover {
+  color: #fff !important;
+}
+html[data-theme="dark"] .btn-primary *,
+body.dark-mode .btn-primary * {
+  color: #fff !important;
 }

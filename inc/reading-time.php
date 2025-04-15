@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 function lejournaldesactus_reading_time_customize_register($wp_customize) {
     // Section pour le temps de lecture
     $wp_customize->add_section('lejournaldesactus_reading_time_section', array(
-        'title'    => __('Temps de Lecture', 'lejournaldesactus'),
+        'title'    => '⏱️ ' . __('Temps de Lecture', 'lejournaldesactus'),
         'priority' => 170,
     ));
     
@@ -25,7 +25,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_show_reading_time', array(
-        'label'       => __('Afficher le temps de lecture', 'lejournaldesactus'),
+        'label'       => '⏱️ ' . __('Afficher le temps de lecture', 'lejournaldesactus'),
         'description' => __('Afficher une estimation du temps de lecture pour chaque article.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_reading_time_section',
         'type'        => 'checkbox',
@@ -38,7 +38,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_prefix', array(
-        'label'    => __('Préfixe du temps de lecture', 'lejournaldesactus'),
+        'label'    => '📝 ' . __('Préfixe du temps de lecture', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_reading_time_section',
         'type'     => 'text',
     ));
@@ -50,7 +50,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_suffix', array(
-        'label'    => __('Suffixe du temps de lecture', 'lejournaldesactus'),
+        'label'    => '🕒️ ' . __('Suffixe du temps de lecture', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_reading_time_section',
         'type'     => 'text',
     ));
@@ -62,7 +62,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_wpm', array(
-        'label'       => __('Vitesse de lecture (mots par minute)', 'lejournaldesactus'),
+        'label'       => '📊 ' . __('Vitesse de lecture (mots par minute)', 'lejournaldesactus'),
         'description' => __('La vitesse moyenne de lecture est de 200-250 mots par minute.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_reading_time_section',
         'type'        => 'number',
@@ -80,7 +80,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_include_images', array(
-        'label'       => __('Inclure les images dans le calcul', 'lejournaldesactus'),
+        'label'       => '📸 ' . __('Inclure les images dans le calcul', 'lejournaldesactus'),
         'description' => __('Ajouter du temps supplémentaire pour chaque image dans l\'article.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_reading_time_section',
         'type'        => 'checkbox',
@@ -93,7 +93,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_image_time', array(
-        'label'       => __('Temps par image (en secondes)', 'lejournaldesactus'),
+        'label'       => '⏱️ ' . __('Temps par image (en secondes)', 'lejournaldesactus'),
         'description' => __('Temps moyen passé à regarder une image.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_reading_time_section',
         'type'        => 'number',
@@ -111,7 +111,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_display', array(
-        'label'    => __('Emplacement d\'affichage', 'lejournaldesactus'),
+        'label'    => '📍 ' . __('Emplacement d\'affichage', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_reading_time_section',
         'type'     => 'select',
         'choices'  => array(
@@ -129,7 +129,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_reading_time_style', array(
-        'label'    => __('Style d\'affichage', 'lejournaldesactus'),
+        'label'    => '🎨 ' . __('Style d\'affichage', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_reading_time_section',
         'type'     => 'select',
         'choices'  => array(
@@ -146,7 +146,7 @@ function lejournaldesactus_reading_time_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'lejournaldesactus_reading_time_color', array(
-        'label'    => __('Couleur du badge/icône', 'lejournaldesactus'),
+        'label'    => '🎨 ' . __('Couleur du badge/icône', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_reading_time_section',
         'settings' => 'lejournaldesactus_reading_time_color',
     )));

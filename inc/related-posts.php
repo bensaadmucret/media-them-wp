@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 function lejournaldesactus_related_posts_customize_register($wp_customize) {
     // Section pour les articles liés
     $wp_customize->add_section('lejournaldesactus_related_posts_section', array(
-        'title'    => __('Articles Liés', 'lejournaldesactus'),
+        'title'    => '🔗 ' . __('Articles Liés', 'lejournaldesactus'),
         'priority' => 160,
     ));
     
@@ -25,7 +25,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_show_related_posts', array(
-        'label'       => __('Afficher les articles liés', 'lejournaldesactus'),
+        'label'       => '👀 ' . __('Afficher les articles liés', 'lejournaldesactus'),
         'description' => __('Afficher des suggestions d\'articles similaires à la fin de chaque article.', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_related_posts_section',
         'type'        => 'checkbox',
@@ -38,7 +38,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_title', array(
-        'label'    => __('Titre de la section', 'lejournaldesactus'),
+        'label'    => '📝 ' . __('Titre de la section', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_related_posts_section',
         'type'     => 'text',
     ));
@@ -50,7 +50,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_count', array(
-        'label'       => __('Nombre d\'articles à afficher', 'lejournaldesactus'),
+        'label'       => '📊 ' . __('Nombre d\'articles à afficher', 'lejournaldesactus'),
         'section'     => 'lejournaldesactus_related_posts_section',
         'type'        => 'number',
         'input_attrs' => array(
@@ -67,7 +67,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_method', array(
-        'label'    => __('Méthode de sélection', 'lejournaldesactus'),
+        'label'    => '🔍 ' . __('Méthode de sélection', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_related_posts_section',
         'type'     => 'select',
         'choices'  => array(
@@ -85,7 +85,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_show_thumbnail', array(
-        'label'    => __('Afficher les images miniatures', 'lejournaldesactus'),
+        'label'    => '📸 ' . __('Afficher les images miniatures', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_related_posts_section',
         'type'     => 'checkbox',
     ));
@@ -97,7 +97,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_show_date', array(
-        'label'    => __('Afficher la date de publication', 'lejournaldesactus'),
+        'label'    => '📆 ' . __('Afficher la date de publication', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_related_posts_section',
         'type'     => 'checkbox',
     ));
@@ -109,7 +109,7 @@ function lejournaldesactus_related_posts_customize_register($wp_customize) {
     ));
     
     $wp_customize->add_control('lejournaldesactus_related_posts_style', array(
-        'label'    => __('Style d\'affichage', 'lejournaldesactus'),
+        'label'    => '🎨 ' . __('Style d\'affichage', 'lejournaldesactus'),
         'section'  => 'lejournaldesactus_related_posts_section',
         'type'     => 'select',
         'choices'  => array(
