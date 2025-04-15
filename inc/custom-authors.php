@@ -427,29 +427,6 @@ add_action('save_post_custom_author', 'lejournaldesactus_save_author_data');
 // Supprimer le hook pour les posts de type 'author'
 // add_action('save_post_author', 'lejournaldesactus_save_author_data');
 
-/**
- * Ajouter un champ pour sélectionner un auteur personnalisé dans les articles
- * Cette fonction est désactivée car nous utilisons la métabox d'auteur standard de WordPress
- */
-function lejournaldesactus_add_post_author_meta_box() {
-    // Fonction désactivée
-    return;
-    
-    // Code original conservé en commentaire pour référence
-    /*
-    add_meta_box(
-        'post_custom_author',
-        __('Auteur personnalisé', 'lejournaldesactus'),
-        'lejournaldesactus_post_author_callback',
-        'post',
-        'normal',
-        'high'
-    );
-    */
-}
-
-// Désactiver l'ajout de la métabox d'auteur personnalisé
-// add_action('add_meta_boxes', 'lejournaldesactus_add_post_author_meta_box');
 
 /**
  * Callback pour afficher le sélecteur d'auteur personnalisé
