@@ -1,0 +1,79 @@
+.wp-block-lejournaldesactus-testimonials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+.testimonial-item {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 2rem;
+  max-width: 350px;
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.testimonial-img-wrap {
+  margin-bottom: 1rem;
+}
+.testimonial-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #eee;
+}
+.testimonial-name {
+  font-weight: bold;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+.testimonial-role {
+  color: #888;
+  font-size: 0.9em;
+  text-align: center;
+}
+.testimonial-text {
+  margin-top: 1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* --- Dark mode --- */
+.dark-mode .wp-block-lejournaldesactus-testimonials,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials {
+  background: none;
+}
+.dark-mode .wp-block-lejournaldesactus-testimonials .testimonial-item,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials .testimonial-item,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials .testimonial-item {
+  background: #23262e !important;
+  color: #f5f6fa !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.35);
+}
+.dark-mode .wp-block-lejournaldesactus-testimonials .testimonial-img,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials .testimonial-img,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials .testimonial-img {
+  border: 2px solid #333;
+}
+.dark-mode .wp-block-lejournaldesactus-testimonials .testimonial-name,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials .testimonial-name,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials .testimonial-name {
+  color: #fff !important;
+}
+.dark-mode .wp-block-lejournaldesactus-testimonials .testimonial-role,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials .testimonial-role,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials .testimonial-role {
+  color: #a0aec0 !important;
+}
+.dark-mode .wp-block-lejournaldesactus-testimonials .testimonial-text,
+[data-theme="dark"] .wp-block-lejournaldesactus-testimonials .testimonial-text,
+.is-dark-theme .wp-block-lejournaldesactus-testimonials .testimonial-text {
+  color: #e2e8f0 !important;
+}
+/* Debug border for dark mode test */
+.is-dark-theme .wp-block-lejournaldesactus-testimonials { outline: 2px dashed #00b8d9; }

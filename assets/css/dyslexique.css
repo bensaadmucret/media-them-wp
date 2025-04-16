@@ -1,0 +1,11 @@
+/* Police dyslexie-friendly : styles site-wide */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Regular.otf') format('opentype');
+  font-display: swap;
+}
+/* Exclure Font Awesome et autres icônes */
+body.dyslexia-font *:not(i):not(.fa):not(.fa-solid):not([class*="fa-"]) {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+  letter-spacing: 0.03em;
+}

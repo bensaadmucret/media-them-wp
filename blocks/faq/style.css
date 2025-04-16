@@ -1,0 +1,67 @@
+.wp-block-lejournaldesactus-faq {
+  width: 100%;
+  max-width: 700px;
+  margin: 2rem auto;
+}
+.faq-item {
+  border-bottom: 1px solid #eee;
+}
+.faq-question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 1rem 0;
+  cursor: pointer;
+  transition: color 0.2s;
+  color: #222;
+}
+.faq-question[aria-expanded="true"] {
+  color: #2563eb;
+}
+.faq-answer {
+  padding: 0 0 1rem 0;
+  color: #444;
+  transition: max-height 0.3s;
+}
+.faq-answer[hidden] {
+  display: none;
+}
+/* --- Dark mode --- */
+.dark-mode .wp-block-lejournaldesactus-faq,
+[data-theme="dark"] .wp-block-lejournaldesactus-faq,
+.is-dark-theme .wp-block-lejournaldesactus-faq {
+  background: none;
+}
+.dark-mode .faq-item,
+[data-theme="dark"] .faq-item,
+.is-dark-theme .faq-item {
+  border-bottom: 1px solid #333;
+}
+.dark-mode .faq-question,
+[data-theme="dark"] .faq-question,
+.is-dark-theme .faq-question {
+  color: #f5f6fa;
+}
+.dark-mode .faq-question[aria-expanded="true"],
+[data-theme="dark"] .faq-question[aria-expanded="true"],
+.is-dark-theme .faq-question[aria-expanded="true"] {
+  color: #00b8d9;
+}
+.dark-mode .faq-answer,
+[data-theme="dark"] .faq-answer,
+.is-dark-theme .faq-answer {
+  color: #e2e8f0;
+}
+
+/* === Accessibilité : Police dyslexie-friendly === */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Regular.otf') format('opentype');
+  font-display: swap;
+}
+.dyslexia-font .wp-block-lejournaldesactus-faq {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}

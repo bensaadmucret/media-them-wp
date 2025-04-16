@@ -3,7 +3,7 @@
     "@wordpress/scripts": "^30.15.0"
   },
   "scripts": {
-    "build": "wp-scripts build blocks/carousel/index.js --output-path=blocks/carousel/build/ && wp-scripts build blocks/testimonials/index.js --output-path=blocks/testimonials/build/",
-    "start": "wp-scripts start blocks/carousel/index.js --output-path=blocks/carousel/build/ && wp-scripts start blocks/testimonials/index.js --output-path=blocks/testimonials/build/"
+    "build": "wp-scripts build blocks/carousel/index.js --output-path=blocks/carousel/build/ && wp-scripts build blocks/testimonials/index.js --output-path=blocks/testimonials/build/ && wp-scripts build blocks/faq/index.js --output-path=blocks/faq/build/",
+    "start": "wp-scripts start blocks/carousel/index.js --output-path=blocks/carousel/build/ && wp-scripts start blocks/testimonials/index.js --output-path=blocks/testimonials/build/ && wp-scripts start blocks/faq/index.js --output-path=blocks/faq/build/"
   }
 }

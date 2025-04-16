@@ -1,0 +1,28 @@
+{
+  "apiVersion": 2,
+  "name": "lejournaldesactus/faq",
+  "title": "FAQ (Accordéon)",
+  "category": "widgets",
+  "icon": "editor-help",
+  "description": "Affiche une liste de questions/réponses avec accordéon accessible.",
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css",
+  "attributes": {
+    "faqs": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "question": { "type": "string" },
+          "answer": { "type": "string" },
+          "image": { "type": "string" }
+        }
+      }
+    }
+  },
+  "supports": {
+    "anchor": true
+  }
+}

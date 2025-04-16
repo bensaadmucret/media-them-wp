@@ -118,6 +118,57 @@ add_action('enqueue_block_assets', function() {
     }
 });
 
+// Enqueue FAQ block assets (editor + front)
+add_action('enqueue_block_assets', function() {
+    $dir = get_template_directory_uri() . '/blocks/faq/build';
+    $asset_file = get_template_directory() . '/blocks/faq/build/index.asset.php';
+    if (file_exists($asset_file)) {
+        $asset = include($asset_file);
+        wp_enqueue_script(
+            'lejournaldesactus-faq',
+            $dir . '/index.js',
+            $asset['dependencies'],
+            $asset['version'],
+            true
+        );
+        wp_enqueue_style(
+            'lejournaldesactus-faq',
+            $dir . '/style-index.css',
+            array(),
+            $asset['version']
+        );
+        // Enqueue le JS d'accordéon pour le front uniquement
+        if (!is_admin()) {
+            wp_enqueue_script(
+                'lejournaldesactus-faq-frontend',
+                get_template_directory_uri() . '/blocks/faq/frontend.js',
+                array(),
+                $asset['version'],
+                true
+            );
+        }
+    }
+});
+
+// Enqueue accessibility toggles JS et font dyslexique
+add_action('wp_enqueue_scripts', function() {
+    // JS pour les toggles accessibilité
+    wp_enqueue_script(
+        'lejournaldesactus-accessibility-toggles',
+        get_template_directory_uri() . '/assets/accessibility-toggles.js',
+        array(),
+        filemtime(get_template_directory() . '/assets/accessibility-toggles.js'),
+        true
+    );
+    // Font OpenDyslexic (si présente dans /fonts/)
+    wp_enqueue_style(
+        'lejournaldesactus-opendyslexic',
+        get_template_directory_uri() . '/fonts/OpenDyslexic-Regular.otf',
+        array(),
+        null
+    );
+});
+
 // =========================
 // 1. Customizer Section Design
 // =========================

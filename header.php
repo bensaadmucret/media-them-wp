@@ -43,6 +43,12 @@
             <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
           </div>
 
+          <!-- Boutons d'accessibilité -->
+          <!-- Suppression du bouton contraste élevé -->
+          <button id="toggle-dyslexia" aria-pressed="false" class="btn btn-outline-secondary ms-2" type="button" style="min-width:44px;min-height:44px;" title="Police dyslexie" aria-label="Activer la police dyslexie-friendly">
+            <i class="fa-solid fa-font"></i>
+          </button>
+
           <form class="search-form ms-4" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
             <input type="text" placeholder="<?php echo esc_attr_x('Search...', 'placeholder', 'lejournaldesactus'); ?>" value="<?php echo esc_attr(get_search_query()); ?>" name="s" class="form-control">
             <button type="submit" class="btn btn-accent"><i class="bi bi-search"></i></button>
