@@ -95,6 +95,29 @@ add_filter(
     2
 );
 
+// Enqueue testimonials block assets (editor + front)
+add_action('enqueue_block_assets', function() {
+    // Path to built JS and CSS
+    $dir = get_template_directory_uri() . '/blocks/testimonials/build';
+    $asset_file = get_template_directory() . '/blocks/testimonials/build/index.asset.php';
+    if (file_exists($asset_file)) {
+        $asset = include($asset_file);
+        wp_enqueue_script(
+            'lejournaldesactus-testimonials',
+            $dir . '/index.js',
+            $asset['dependencies'],
+            $asset['version'],
+            true
+        );
+        wp_enqueue_style(
+            'lejournaldesactus-testimonials',
+            $dir . '/style-index.css',
+            array(),
+            $asset['version']
+        );
+    }
+});
+
 // =========================
 // 1. Customizer Section Design
 // =========================

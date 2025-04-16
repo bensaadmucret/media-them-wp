@@ -32,3 +32,35 @@
 .wp-block-lejournaldesactus-carousel .swiper-pagination-bullet-active {
   background: #2563eb;
 }
+
+/* --- Dark mode --- */
+.dark-mode .wp-block-lejournaldesactus-carousel,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel {
+  background: #21242a;
+}
+.dark-mode .wp-block-lejournaldesactus-carousel .swiper-slide,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel .swiper-slide {
+  background: #23262e;
+  color: #f5f6fa;
+}
+.dark-mode .wp-block-lejournaldesactus-carousel img,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel img {
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+.dark-mode .wp-block-lejournaldesactus-carousel .swiper-button-next,
+.dark-mode .wp-block-lejournaldesactus-carousel .swiper-button-prev,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel .swiper-button-next,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel .swiper-button-prev {
+  background: rgba(40,40,50,0.7);
+  color: #fff;
+}
+.dark-mode .wp-block-lejournaldesactus-carousel .swiper-pagination-bullet,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel .swiper-pagination-bullet {
+  background: #fff;
+  opacity: 0.6;
+}
+.dark-mode .wp-block-lejournaldesactus-carousel .swiper-pagination-bullet-active,
+[data-theme="dark"] .wp-block-lejournaldesactus-carousel .swiper-pagination-bullet-active {
+  background: #00b8d9;
+  opacity: 1;
+}
