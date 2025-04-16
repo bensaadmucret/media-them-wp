@@ -1,0 +1,18 @@
+{
+  "apiVersion": 2,
+  "name": "lejournaldesactus/carousel",
+  "title": "Carrousel d’images",
+  "category": "media",
+  "icon": "images-alt2",
+  "description": "Carrousel d’images moderne avec Swiper, possibilité de lien par image.",
+  "attributes": {
+    "images": {
+      "type": "array",
+      "default": []
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/style-index.css",
+  "style": "file:./build/style-index.css",
+  "script": "file:./frontend.js"
+}

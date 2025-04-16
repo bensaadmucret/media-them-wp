@@ -55,6 +55,45 @@ require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/page-related-posts.php'; // Art
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/author-profile-link.php'; // Lien entre utilisateurs et profils d'auteurs
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/login-customizer.php'; // Personnalisation de la page de connexion
 
+// Enregistrement du bloc Gutenberg Carrousel
+add_action('init', function() {
+    register_block_type( get_template_directory() . '/blocks/carousel' );
+});
+
+// Charger Swiper uniquement si le bloc carousel est présent dans le contenu
+add_action('wp_enqueue_scripts', function() {
+    if (is_admin()) return;
+    global $post;
+    if (empty($post)) return;
+    if (has_block('lejournaldesactus/carousel', $post)) {
+        wp_enqueue_style('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.css', array(), LEJOURNALDESACTUS_VERSION);
+        wp_enqueue_script('swiper', LEJOURNALDESACTUS_THEME_URI . '/assets/vendor/swiper/swiper-bundle.min.js', array('jquery'), LEJOURNALDESACTUS_VERSION, true);
+        wp_enqueue_script(
+            'lejournaldesactu-carousel-frontend',
+            get_template_directory_uri() . '/blocks/carousel/frontend.js',
+            array('swiper'),
+            filemtime(get_template_directory() . '/blocks/carousel/frontend.js'),
+            true
+        );
+    }
+});
+
+// S'assurer que le script frontend du bloc dépend de Swiper
+add_filter(
+    'block_type_metadata_settings',
+    function( $settings, $block_type ) {
+        if ( $block_type->name === 'lejournaldesactus/carousel' ) {
+            if ( isset( $settings['script'] ) ) {
+                if ( is_array( $settings['script'] ) && isset( $settings['script']['deps'] ) ) {
+                    $settings['script']['deps'][] = 'swiper';
+                }
+            }
+        }
+        return $settings;
+    },
+    10,
+    2
+);
 
 // =========================
 // 1. Customizer Section Design

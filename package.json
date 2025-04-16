@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@wordpress/scripts": "^30.15.0"
+  },
+  "scripts": {
+    "build": "wp-scripts build blocks/carousel/index.js --output-path=blocks/carousel/build/",
+    "start": "wp-scripts start blocks/carousel/index.js --output-path=blocks/carousel/build/"
+  }
+}
