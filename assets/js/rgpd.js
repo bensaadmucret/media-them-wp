@@ -29,14 +29,59 @@ function initCookieBanner() {
     const acceptButton = document.getElementById('accept-cookies');
     if (acceptButton) {
         acceptButton.addEventListener('click', () => {
-            // Définir le cookie d'acceptation
             setCookie(
                 lejournaldesactus_rgpd.cookie_name,
                 'true',
                 lejournaldesactus_rgpd.cookie_expiry
             );
-            
-            // Masquer la bannière avec animation
+            cookieBanner.classList.remove('active');
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 500);
+        });
+    }
+
+    // Gérer le clic sur le bouton de refus
+    const refuseButton = document.getElementById('refuse-cookies');
+    if (refuseButton) {
+        refuseButton.addEventListener('click', () => {
+            setCookie(
+                lejournaldesactus_rgpd.cookie_name,
+                'refused',
+                lejournaldesactus_rgpd.cookie_expiry
+            );
+            cookieBanner.classList.remove('active');
+            setTimeout(() => {
+                cookieBanner.style.display = 'none';
+            }, 500);
+        });
+    }
+
+    // Gérer le clic sur le bouton "Personnaliser"
+    const customizeButton = document.getElementById('customize-cookies');
+    const preferencesModal = document.getElementById('cookie-preferences-modal');
+    if (customizeButton && preferencesModal) {
+        customizeButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            preferencesModal.style.display = 'flex';
+        });
+    }
+    // Fermer la popin de préférences
+    const closePreferences = document.getElementById('close-cookie-preferences');
+    if (closePreferences && preferencesModal) {
+        closePreferences.addEventListener('click', function(e) {
+            e.preventDefault();
+            preferencesModal.style.display = 'none';
+        });
+    }
+    // Enregistrer les préférences (prochaine étape : gestion du consentement par finalité)
+    const savePreferences = document.getElementById('save-cookie-preferences');
+    if (savePreferences && preferencesModal) {
+        savePreferences.addEventListener('click', function(e) {
+            e.preventDefault();
+            // À compléter : enregistrer les préférences dans des cookies
+            preferencesModal.style.display = 'none';
+            // Optionnel : masquer aussi la bannière si besoin
             cookieBanner.classList.remove('active');
             setTimeout(() => {
                 cookieBanner.style.display = 'none';
@@ -89,7 +134,6 @@ function initDataRequestForm() {
                 }
             })
             .catch(error => {
-                console.error('Erreur:', error);
                 messageContainer.classList.remove('success');
                 messageContainer.classList.add('error');
                 messageContainer.innerHTML = 'Une erreur est survenue. Veuillez réessayer.';

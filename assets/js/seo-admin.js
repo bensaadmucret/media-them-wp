@@ -131,11 +131,7 @@
         var wordCount = plainContent.split(/\s+/).length;
         var keywordDensity = (keywordCount / wordCount) * 100;
         
-        // Mettre à jour l'interface utilisateur avec les résultats
-        // Cette partie peut être développée davantage selon les besoins
-        console.log('Mot-clé dans le titre: ' + keywordInTitle);
-        console.log('Mot-clé dans le contenu: ' + keywordInContent);
-        console.log('Densité du mot-clé: ' + keywordDensity.toFixed(2) + '%');
+        // Suppression de tous les logs
     }
 
 })(jQuery);

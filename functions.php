@@ -17,43 +17,93 @@ define('LEJOURNALDESACTUS_THEME_URI', get_template_directory_uri());
 require_once LEJOURNALDESACTUS_THEME_DIR . '/class-wp-bootstrap-navwalker.php';
 
 // Inclure la classe Custom_Menu_Walker pour le menu mobile
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-menu-walker.php';
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/menu/custom-menu-walker.php';
 
 // Inclure les fichiers de fonctionnalités
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/setup.php';           // Configuration de base du thème
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/security.php';        // Fonctions de sécurité
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/seo.php';             // Optimisation SEO
+// require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/security.php';        // Fonctions de sécurité (ancien, supprimé car le fichier n'existe plus)
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/seo/seo.php';             // Optimisation SEO (corrigé, déplacé dans inc/seo/)
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/template-functions.php'; // Fonctions liées aux templates
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/template-tags.php'; 
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-header.php'; 
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/custom-authors.php';  // Fonctions pour les auteurs personnalisés
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer.php';      // Personnalisation du thème
-
-if (get_theme_mod('lejournaldesactus_enable_dark_mode', true)) {
-    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/dark-mode.php';
-}
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/authors/custom-authors.php';  // Fonctions pour les auteurs personnalisés (corrigé, déplacé dans inc/authors/)
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer/appearance.php';
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer/templates.php';
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/css-loader.php';      // Chargeur CSS centralisé
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/admin-functions.php'; // Nouvelles fonctions d'administration
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/admin/admin-functions.php'; // Nouvelles fonctions d'administration
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/maintenance-mode.php'; // Mode maintenance
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/related-posts.php';   // Articles liés intelligents
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/related-posts.php';   // Articles liés intelligents (corrigé, déplacé dans inc/post/)
 if (get_theme_mod('lejournaldesactus_enable_reading_time', true)) {
-    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/reading-time.php';    // Temps de lecture estimé
+    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/reading-time.php';    // Temps de lecture estimé (chemin corrigé)
 }
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/widgets.php';         // Widgets avancés
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/comments-control.php'; // Contrôle des commentaires
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/rgpd.php';            // Gestion RGPD
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/comments-control.php'; // Contrôle des commentaires
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/security/rgpd.php';            // Gestion RGPD
 if (get_theme_mod('lejournaldesactus_enable_newsletter', true)) {
-    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/newsletter.php';      // Système de newsletter
+    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/process-newsletter/newsletter.php';      // Système de newsletter
 }
 if (get_theme_mod('lejournaldesactus_enable_trending_posts', true)) {
-    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/trending-posts.php';  // Système d'articles tendance
+    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/trending-posts.php';  // Système d'articles tendance
 }
 if (get_theme_mod('lejournaldesactus_enable_bookmarks', true)) {
-    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/bookmarks.php';       // Système de favoris/bookmarks
+    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/bookmarks.php';       // Système de favoris/bookmarks
 }
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/page-related-posts.php'; // Articles liés pour les pages
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/author-profile-link.php'; // Lien entre utilisateurs et profils d'auteurs
-require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/login-customizer.php'; // Personnalisation de la page de connexion
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/post/page-related-posts.php'; // Articles liés pour les pages
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/authors/author-profile-link.php'; // Lien entre utilisateurs et profils d'auteurs
+// Charger Kirki embarqué si le plugin n'est pas actif
+if ( ! class_exists( 'Kirki' ) ) {
+    require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/kirki/kirki.php';
+}
+require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer/login-customizer.php'; // Personnalisation de la page de connexion
+
+// Ajout dynamique de classes body selon la mise en page
+add_filter('body_class', function($classes) {
+    $site_width = get_theme_mod('lejournaldesactus_site_width', 'full');
+    if ($site_width === 'boxed') {
+        $classes[] = 'site-boxed';
+    } else {
+        $classes[] = 'site-fullwidth';
+    }
+    return $classes;
+});
+
+// Désactiver toutes les notices admin de Kirki
+add_filter( 'kirki_show_notice', '__return_false' );
+
+// Masquer les notices spécifiques de Kirki via CSS au cas où
+add_action( 'admin_enqueue_scripts', function() {
+    echo '<style>
+        .kirki-admin-notice,
+        .kirki-discount-notice {
+            display: none !important;
+        }
+    </style>';
+});
+
+// Inclusion automatique des modules organisés par familles
+foreach (glob(get_template_directory() . '/inc/customizer/*.php') as $file) {
+    // On évite de charger deux fois la config Kirki
+    if (basename($file) !== 'kirki-config.php') {
+        require_once $file;
+    }
+}
+foreach (glob(get_template_directory() . '/inc/seo/*.php') as $file) {
+    require_once $file;
+}
+foreach (glob(get_template_directory() . '/inc/newsletter/*.php') as $file) {
+    require_once $file;
+}
+foreach (glob(get_template_directory() . '/inc/widgets/*.php') as $file) {
+    require_once $file;
+}
+foreach (glob(get_template_directory() . '/inc/security/*.php') as $file) {
+    require_once $file;
+}
+foreach (glob(get_template_directory() . '/inc/admin/*.php') as $file) {
+    require_once $file;
+}
+foreach (glob(get_template_directory() . '/inc/social/*.php') as $file) {
+    require_once $file;
+}
 
 // Enregistrement du bloc Gutenberg Carrousel
 add_action('init', function() {
@@ -82,7 +132,7 @@ add_action('wp_enqueue_scripts', function() {
 add_filter(
     'block_type_metadata_settings',
     function( $settings, $block_type ) {
-        if ( $block_type->name === 'lejournaldesactus/carousel' ) {
+        if ( is_object($block_type) && isset($block_type->name) && $block_type->name === 'lejournaldesactus/carousel' ) {
             if ( isset( $settings['script'] ) ) {
                 if ( is_array( $settings['script'] ) && isset( $settings['script']['deps'] ) ) {
                     $settings['script']['deps'][] = 'swiper';
@@ -150,7 +200,7 @@ add_action('enqueue_block_assets', function() {
     }
 });
 
-// Enqueue accessibility toggles JS et font dyslexique
+// Enqueue accessibility toggles JS 
 add_action('wp_enqueue_scripts', function() {
     // JS pour les toggles accessibilité
     wp_enqueue_script(
@@ -160,124 +210,23 @@ add_action('wp_enqueue_scripts', function() {
         filemtime(get_template_directory() . '/assets/accessibility-toggles.js'),
         true
     );
-    // Font OpenDyslexic (si présente dans /fonts/)
-    wp_enqueue_style(
-        'lejournaldesactus-opendyslexic',
-        get_template_directory_uri() . '/fonts/OpenDyslexic-Regular.otf',
-        array(),
-        null
-    );
 });
 
-// =========================
-// 1. Customizer Section Design
-// =========================
-add_action('customize_register', function($wp_customize) {
-    // Section Design améliorée
-    $wp_customize->add_section('lejournaldesactus_design', array(
-        'title'    => '🎨 ' . __('Design du site', 'lejournaldesactus'),
-        'priority' => 30,
-        'description' => __('Personnalisez l’apparence générale de votre site en temps réel. Astuce : combinez couleurs, polices et arrondis pour un look unique !','lejournaldesactus'),
-    ));
+// Enqueue le JS accessibilité (boutons + / -)
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_script('lejda-accessibility', get_template_directory_uri() . '/assets/js/accessibility.js', [], null, true);
+});
 
-    // Couleurs principales
-    $wp_customize->add_setting('lejournaldesactus_primary_color', array(
-        'default'   => '#f75815',
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'lejournaldesactus_primary_color', array(
-        'label'       => '🎨 ' . __('Couleur principale', 'lejournaldesactus'),
-        'description' => __('Utilisée pour les boutons, liens actifs et éléments interactifs.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_primary_color',
-    )));
+// Passer l'option mode sombre auto au JS et enqueue le script
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_script('lejda-darkmode-auto', get_template_directory_uri() . '/assets/js/darkmode-auto.js', [], null, true);
+    $enabled = get_theme_mod('lejournaldesactus_blog_darkmode_auto', false) ? 'true' : 'false';
+    wp_add_inline_script('lejda-darkmode-auto', 'window.lejda_darkmode_auto = ' . $enabled . ';');
+});
 
-    $wp_customize->add_setting('lejournaldesactus_secondary_color', array(
-        'default'   => '#A2F8B5',
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'lejournaldesactus_secondary_color', array(
-        'label'       => '🌱 ' . __('Couleur secondaire', 'lejournaldesactus'),
-        'description' => __('Accent sur certains boutons, liens ou backgrounds.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_secondary_color',
-    )));
-
-    $wp_customize->add_setting('lejournaldesactus_bg_color', array(
-        'default'   => '#ffffff',
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'lejournaldesactus_bg_color', array(
-        'label'       => '🖼️ ' . __('Couleur de fond', 'lejournaldesactus'),
-        'description' => __('Arrière-plan principal du site.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_bg_color',
-    )));
-
-    $wp_customize->add_setting('lejournaldesactus_text_color', array(
-        'default'   => '#212529',
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'lejournaldesactus_text_color', array(
-        'label'       => '📝 ' . __('Couleur du texte', 'lejournaldesactus'),
-        'description' => __('Couleur principale du texte.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_text_color',
-    )));
-
-    // Police principale (Bunny Fonts)
-    $wp_customize->add_setting('lejournaldesactus_font_family', array(
-        'default'   => 'Inter',
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control('lejournaldesactus_font_family', array(
-        'label'       => '🅰️ ' . __('Police principale (Bunny Fonts)', 'lejournaldesactus'),
-        'description' => __('Police utilisée pour tout le texte du site. Exemples visibles en live à droite.', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_font_family',
-        'type'        => 'select',
-        'choices'     => array(
-            'Inter'      => 'Inter',
-            'Open Sans'  => 'Open Sans',
-            'Lato'       => 'Lato',
-            'Montserrat' => 'Montserrat',
-            'Roboto'     => 'Roboto',
-            'Nunito'     => 'Nunito',
-            'Poppins'    => 'Poppins',
-            'Raleway'    => 'Raleway',
-            'Merriweather' => 'Merriweather',
-            'Space Grotesk' => 'Space Grotesk',
-            'Bricolage Grotesque' => 'Bricolage Grotesque',
-        ),
-    ));
-
-    // Taille de police de base
-    $wp_customize->add_setting('lejournaldesactus_font_size', array(
-        'default'   => 16,
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control('lejournaldesactus_font_size', array(
-        'label'       => '🔠 ' . __('Taille du texte (px)', 'lejournaldesactus'),
-        'description' => __('Taille de base du texte (corps de page).', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_font_size',
-        'type'        => 'number',
-        'input_attrs' => array('min' => 12, 'max' => 24),
-    ));
-
-    // Arrondi global
-    $wp_customize->add_setting('lejournaldesactus_border_radius', array(
-        'default'   => 6,
-        'transport' => 'postMessage',
-    ));
-    $wp_customize->add_control('lejournaldesactus_border_radius', array(
-        'label'       => '⬜ ' . __('Arrondi global (px)', 'lejournaldesactus'),
-        'description' => __('Arrondi des boutons, champs, blocs…', 'lejournaldesactus'),
-        'section'     => 'lejournaldesactus_design',
-        'settings'    => 'lejournaldesactus_border_radius',
-        'type'        => 'number',
-        'input_attrs' => array('min' => 0, 'max' => 32),
-    ));
+// Enqueue le CSS des badges
+add_action('wp_enqueue_scripts', function() {
+    wp_enqueue_style('lejda-badges', get_template_directory_uri() . '/assets/css/badges.css', [], null);
 });
 
 // =========================
@@ -325,7 +274,8 @@ add_action('wp_head', function() {
         'Space Grotesk' => 'space-grotesk',
         'Bricolage Grotesque' => 'bricolage-grotesque',
     );
-    if (isset($bunny_fonts[$font])) {
+    // Correction robustesse : s'assurer que $font est une string reconnue
+    if ( is_string($font) && isset($bunny_fonts[$font]) ) {
         $slug = $bunny_fonts[$font];
         // Poids courants pour le body + titres
         $weights = '400;500;700';
@@ -367,8 +317,27 @@ add_action('customize_controls_enqueue_scripts', function() {
     );
 });
 
-// Enqueue du script du builder dans le Customizer uniquement
-// (SUPPRIMÉ)
+// Appliquer la taille de police globale et le mode contraste élevé depuis le Customizer
+add_action('wp_head', function() {
+    $fontsize = get_theme_mod('lejournaldesactus_accessibility_fontsize', 18);
+    $contrast = get_theme_mod('lejournaldesactus_accessibility_high_contrast', false);
+    echo '<style type="text/css">body { font-size: ' . intval($fontsize) . 'px; }</style>';
+    if ($contrast) {
+        echo '<style type="text/css">body.high-contrast, .high-contrast { background:#000!important;color:#fff!important; }
+        a, a:visited { color: #ff0 !important; text-decoration: underline !important; }
+        .header, .footer, .main-content { background: #111 !important; color: #fff !important; }
+        button, input, select, textarea { background: #000 !important; color: #fff !important; border:2px solid #fff !important; }
+        </style>';
+    }
+});
+
+// Ajouter la classe high-contrast sur body si activé
+add_filter('body_class', function($classes) {
+    if (get_theme_mod('lejournaldesactus_accessibility_high_contrast', false)) {
+        $classes[] = 'high-contrast';
+    }
+    return $classes;
+});
 
 /**
  * Inclure les fonctionnalités d'administration pour la gestion des auteurs
@@ -398,7 +367,7 @@ add_action('add_meta_boxes', 'lejournaldesactus_restore_default_author_metabox',
 require_once get_template_directory() . '/inc/functions.php';
 
 // Inclure le fichier de gestion du crédit photo
-require get_template_directory() . '/inc/featured-image-credit.php';
+require get_template_directory() . '/inc/post/featured-image-credit.php';
 
 // Inclure la configuration spécifique au site si elle existe
 if (file_exists(get_template_directory() . '/site-specific.php')) {
@@ -406,10 +375,10 @@ if (file_exists(get_template_directory() . '/site-specific.php')) {
 }
 
 // Inclure le générateur de sitemap
-require_once get_template_directory() . '/inc/sitemap.php';
+require_once get_template_directory() . '/inc/seo/sitemap.php';
 
 // Inclure les outils SEO supplémentaires (robots.txt, etc.)
-require_once get_template_directory() . '/inc/seo-tools.php';
+require_once get_template_directory() . '/inc/seo/seo-tools.php';
 
 // Inclure les widgets personnalisés
 require_once get_template_directory() . '/inc/widgets/selected-pages-widget.php';

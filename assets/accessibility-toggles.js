@@ -8,12 +8,10 @@
         link.id = id;
         link.href = href;
         document.head.appendChild(link);
-        console.log('[accessibility-toggles.js] Ajout feuille:', href);
       }
     } else {
       if (link) {
         link.parentNode.removeChild(link);
-        console.log('[accessibility-toggles.js] Retrait feuille:', href);
       }
     }
   }
@@ -23,11 +21,9 @@
     if (active) localStorage.setItem(className, '1');
     else localStorage.removeItem(className);
     toggleStylesheet(cssId, cssHref, active);
-    console.log('[accessibility-toggles.js] Toggle:', className, '->', active);
   }
   document.addEventListener('DOMContentLoaded', function() {
-    var btnDyslexia = document.getElementById('toggle-dyslexia');
-    console.log('[accessibility-toggles.js] Boutons:', btnDyslexia);
+    const btnDyslexia = document.getElementById('toggle-dyslexia');
     if(btnDyslexia) {
       btnDyslexia.addEventListener('click', function(){ setToggleState(btnDyslexia, 'dyslexia-font', 'css-dyslexique', '/wp-content/themes/lejournaldesactus/assets/css/dyslexique.css'); });
       if(localStorage.getItem('dyslexia-font')) {

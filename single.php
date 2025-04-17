@@ -38,16 +38,11 @@
               <?php lejournaldesactus_post_categories(); ?>
             </div>
 
+            <?php do_action('lejournaldesactus_before_post_title'); ?>
             <h1 class="title"><?php the_title(); ?></h1>
+            <?php do_action('lejournaldesactus_after_post_title'); ?>
 
-            <div class="meta-bottom">
-              <?php lejournaldesactus_post_meta(); ?>
-              <!-- Indicateur de temps de lecture -->
-              <span class="reading-time">
-                <i class="bi bi-clock"></i> <?php echo lejournaldesactus_reading_time(); ?> min de lecture
-              </span>
-            </div><!-- End meta bottom -->
-
+            <?php do_action('lejournaldesactus_before_post_content'); ?>
             <div class="content">
               <?php the_content(); ?>
             </div><!-- End post content -->

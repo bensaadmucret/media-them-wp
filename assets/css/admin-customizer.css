@@ -50,8 +50,8 @@
 #customize-controls .customize-control textarea {
     width: 100% !important;
     box-sizing: border-box;
-    margin-left: -16px;
-    margin-right: -16px;
+    margin-left: 0;
+    margin-right: 0;
     border-radius: 6px;
     background: #f8fafc;
     border: 1px solid #e0e0e0;
@@ -63,6 +63,50 @@
 #customize-controls .customize-control input[type="number"]:focus,
 #customize-controls .customize-control select:focus,
 #customize-controls .customize-control textarea:focus {
+    border-color: #f75815;
+    outline: none;
+}
+
+/* Style pour tous les enfants de .customize-pane-child dans le Customizer */
+#customize-controls .customize-pane-child {
+    background: #f9fafb;
+    border-radius: 10px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 6px 0 rgba(40,40,60,0.06);
+    padding: 14px 18px;
+    border: 1px solid #e0e0e0;
+}
+
+#customize-controls .customize-pane-child .customize-control {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 12px;
+    border: none;
+}
+
+#customize-controls .customize-pane-child .customize-control input[type="text"],
+#customize-controls .customize-pane-child .customize-control input[type="number"],
+#customize-controls .customize-pane-child .customize-control select,
+#customize-controls .customize-pane-child .customize-control textarea {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 7px 10px;
+    font-size: 0.96rem;
+    transition: border 0.15s;
+    min-height: 36px;
+    max-width: 320px;
+}
+
+#customize-controls .customize-pane-child .customize-control input[type="text"]:focus,
+#customize-controls .customize-pane-child .customize-control input[type="number"]:focus,
+#customize-controls .customize-pane-child .customize-control select:focus,
+#customize-controls .customize-pane-child .customize-control textarea:focus {
     border-color: #f75815;
     outline: none;
 }

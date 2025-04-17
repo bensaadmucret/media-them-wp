@@ -62,6 +62,12 @@ Un thème WordPress personnalisé pour "Le Journal des Actus" avec un système d
 - **Raccourcis clavier** pour activer/désactiver le mode lecture zen (Alt+Z)
 - **Mémorisation des préférences** entre les sessions
 
+### Personnalisation de l'en-tête (NOUVEAU)
+- **Logo alternatif** pour le mode sombre
+- **Affichage/masquage de la barre de recherche** dans l'en-tête
+- **Position du menu** (gauche, centre, droite)
+- **Hauteur du header ajustable** (slider)
+
 ### Optimisation technique
 - **JavaScript moderne** sans dépendance à jQuery
 - **Conformité RGPD** intégrée à tous les niveaux

@@ -91,6 +91,13 @@
                 }
             });
         });
+        
+        // Ajout : écouteur pour le mode sombre automatique (événement personnalisé)
+        document.addEventListener('lejdaAutoDarkMode', function(e) {
+            if(typeof applyTheme === 'function') {
+                applyTheme(e.detail.theme);
+            }
+        });
     });
     
 })(jQuery);

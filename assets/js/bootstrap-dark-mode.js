@@ -7,7 +7,6 @@ jQuery(document).ready(function($) {
     var darkModeSwitch = document.getElementById('darkModeSwitch');
     
     if (!darkModeSwitch) {
-        console.log('Switch de mode sombre non trouvé dans le DOM');
         return;
     }
     
@@ -25,7 +24,6 @@ jQuery(document).ready(function($) {
     // Ajouter l'événement change
     $(darkModeSwitch).on('change', function() {
         var newTheme = this.checked ? 'dark' : 'light';
-        console.log('Switch changé! Nouveau thème:', newTheme);
         
         // Appliquer le thème via la fonction globale si disponible
         if (typeof applyTheme === 'function') {

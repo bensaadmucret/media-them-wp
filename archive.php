@@ -1,11 +1,15 @@
 <?php get_header(); ?>
 
-<main id="main">
+<main id="main" class="main-content<?php
+    $archive_layout = get_theme_mod('lejournaldesactus_archive_layout', 'grid');
+    echo $archive_layout === 'list' ? ' archive-list' : ' archive-grid';
+?>">
 
   <!-- Archive Section -->
   <section class="archive-section">
     <div class="container" data-aos="fade-up">
       <div class="section-header d-flex justify-content-between align-items-center mb-5">
+        <?php do_action('lejournaldesactus_before_post_title'); ?>
         <h2>
           <?php
           if (is_category()) {
@@ -27,6 +31,7 @@
           }
           ?>
         </h2>
+        <?php do_action('lejournaldesactus_after_post_title'); ?>
       </div>
 
       <div class="row g-5">
@@ -50,10 +55,14 @@
                         </div>
                       <?php endif; ?>
                       <div class="post-meta">
+                        <?php do_action('lejournaldesactus_post_meta'); ?>
                         <span class="date"><i class="bi bi-clock"></i> <?php echo get_the_date(); ?></span>
                         <span class="author"><i class="bi bi-person"></i> <?php the_author(); ?></span>
                       </div>
+                      <?php do_action('lejournaldesactus_before_post_title'); ?>
                       <h3 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+                      <?php do_action('lejournaldesactus_after_post_title'); ?>
+                      <?php do_action('lejournaldesactus_before_post_content'); ?>
                       <div class="post-content">
                         <?php the_excerpt(); ?>
                       </div>
@@ -83,10 +92,13 @@
                         </a>
                       <?php endif; ?>
                       <div class="post-meta">
+                        <?php do_action('lejournaldesactus_post_meta'); ?>
                         <span class="date"><i class="bi bi-clock"></i> <?php echo get_the_date(); ?></span>
                         <span class="author"><i class="bi bi-person"></i> <?php the_author(); ?></span>
                       </div>
-                      <h2 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                      <?php do_action('lejournaldesactus_before_post_title'); ?>
+                      <h2 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><?php echo lejda_show_badge_new(get_the_ID()); ?><?php echo lejda_show_badge_popular(get_the_ID()); ?></h2>
+                      <?php do_action('lejournaldesactus_after_post_title'); ?>
                     </div>
                   </div>
                   <?php
@@ -127,5 +139,29 @@
   </section><!-- End Archive Section -->
 
 </main>
+
+<?php 
+// Helpers badges "Nouveau" et "Populaire"
+if (!function_exists('lejda_show_badge_new')) {
+function lejda_show_badge_new($post_id) {
+    if (!get_theme_mod('lejournaldesactus_blog_badge_new', true)) return '';
+    $days = intval(get_theme_mod('lejournaldesactus_blog_badge_new_days', 3));
+    $date = get_the_date('U', $post_id);
+    if ((time() - $date) < ($days * 86400)) {
+        return '<span class="badge badge-new ms-1">' . esc_html__('Nouveau', 'lejournaldesactus') . '</span>';
+    }
+    return '';
+}}
+if (!function_exists('lejda_show_badge_popular')) {
+function lejda_show_badge_popular($post_id) {
+    if (!get_theme_mod('lejournaldesactus_blog_badge_popular', true)) return '';
+    $threshold = intval(get_theme_mod('lejournaldesactus_blog_badge_popular_threshold', 500));
+    $views = intval(get_post_meta($post_id, 'lejda_post_views', true));
+    if ($views >= $threshold) {
+        return '<span class="badge badge-popular ms-1">' . esc_html__('Populaire', 'lejournaldesactus') . '</span>';
+    }
+    return '';
+}}
+?>
 
 <?php get_footer(); ?>

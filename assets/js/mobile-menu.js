@@ -14,11 +14,9 @@ function isDarkModeActive() {
 
 // Fonction pour ouvrir le menu mobile
 function openMobileMenu() {
-  console.log('Ouverture du menu mobile');
   
   // Vérifier si le mode sombre est actif
   const darkMode = isDarkModeActive();
-  console.log('Mode sombre actif:', darkMode);
   
   // Ajouter la classe au body
   document.body.classList.add('mobile-nav-active');
@@ -112,12 +110,10 @@ function openMobileMenu() {
   
   // Mettre à jour l'état
   mobileMenuOpen = true;
-  console.log('Menu mobile ouvert');
 }
 
 // Fonction pour fermer le menu mobile
 function closeMobileMenu() {
-  console.log('Fermeture du menu mobile');
   
   // Retirer la classe du body
   document.body.classList.remove('mobile-nav-active');
@@ -176,12 +172,10 @@ function closeMobileMenu() {
   
   // Mettre à jour l'état
   mobileMenuOpen = false;
-  console.log('Menu mobile fermé');
 }
 
 // Fonction pour basculer l'état du menu mobile
 function toggleMobileMenu() {
-  console.log('Toggle du menu mobile, état actuel:', mobileMenuOpen ? 'ouvert' : 'fermé');
   
   if (mobileMenuOpen) {
     closeMobileMenu();
@@ -192,7 +186,6 @@ function toggleMobileMenu() {
 
 // Initialiser les événements lorsque le DOM est chargé
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('Initialisation du menu mobile');
   
   // S'assurer que le menu est fermé au chargement
   closeMobileMenu();
@@ -200,30 +193,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // Attacher l'événement de clic au bouton du menu
   const mobileMenuBtn = document.querySelector('.mobile-nav-toggle');
   if (mobileMenuBtn) {
-    console.log('Bouton de menu mobile trouvé');
     mobileMenuBtn.addEventListener('click', function(e) {
-      console.log('Clic sur le bouton du menu mobile');
       e.preventDefault();
       e.stopPropagation();
       toggleMobileMenu();
     });
-  } else {
-    console.error('Bouton de menu mobile non trouvé');
-  }
+  } 
   
   // Attacher l'événement de clic à la croix de fermeture
   const mobileMenuClose = document.querySelector('.mobile-menu-close');
   if (mobileMenuClose) {
-    console.log('Bouton de fermeture du menu mobile trouvé');
     mobileMenuClose.addEventListener('click', function(e) {
-      console.log('Clic sur la croix de fermeture');
       e.preventDefault();
       e.stopPropagation();
       closeMobileMenu();
     });
-  } else {
-    console.error('Bouton de fermeture du menu mobile non trouvé');
-  }
+  } 
   
   // Fermer le menu lors d'un clic sur un élément du menu
   const menuItems = document.querySelectorAll('.mobile-menu-list a');

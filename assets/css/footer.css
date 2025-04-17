@@ -6,8 +6,8 @@
 /* ======================================
    1. STYLES GÉNÉRAUX DU FOOTER
 ====================================== */
-.footer {
-  background-color: var(--background-footer);
+.footer, footer, footer.site-footer {
+  background-color: var(--background-footer) !important;
   font-size: 14px;
   position: relative;
   color: var(--default-color);
@@ -283,9 +283,9 @@
 /* ======================================
    9. DARK MODE STYLES
 ====================================== */
-body.dark-mode .footer,
-html[data-theme="dark"] .footer {
-  background-color: #121212;
+body.dark-mode .footer, body.dark-mode footer, body.dark-mode footer.site-footer,
+html[data-theme="dark"] .footer, html[data-theme="dark"] footer, html[data-theme="dark"] footer.site-footer {
+  background-color: #121212 !important;
   color: var(--dark-text);
   border-top: 1px solid #333333;
 }

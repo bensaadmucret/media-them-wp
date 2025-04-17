@@ -1,6 +1,16 @@
-<?php get_header(); ?>
+<?php
+$style = get_theme_mod('lejournaldesactus_site_style', 'standard');
+if ($style === 'magazine') {
+    get_header('magazine');
+} else {
+    get_header();
+}
+?>
 
-<main id="main" class="main-content">
+<main id="main" class="main-content<?php
+    $archive_layout = get_theme_mod('lejournaldesactus_archive_layout', 'grid');
+    echo $archive_layout === 'list' ? ' archive-list' : ' archive-grid';
+?>">
 
     <!-- Hero Section -->
     <section id="hero" class="hero homepage-hero">
@@ -30,11 +40,15 @@
                             </a>
                             <?php endif; ?>
                         </div>
+                        <?php do_action('lejournaldesactus_before_post_meta'); ?>
                         <div class="post-meta">
                             <?php lejournaldesactus_post_categories(); ?>
                         </div>
-                        <h1 class="post-title homepage-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-                        <?php lejournaldesactus_post_meta(); ?>
+                        <?php do_action('lejournaldesactus_after_post_meta'); ?>
+                        <?php do_action('lejournaldesactus_before_post_title'); ?>
+                        <h1 class="post-title homepage-post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><?php echo lejda_show_badge_new(get_the_ID()); ?><?php echo lejda_show_badge_popular(get_the_ID()); ?></h1>
+                        <?php do_action('lejournaldesactus_after_post_title'); ?>
+                        <?php do_action('lejournaldesactus_before_post_content'); ?>
                         <div class="post-content homepage-post-excerpt">
                             <?php the_excerpt(); ?>
                         </div>
@@ -69,16 +83,23 @@
             while ($recent_query->have_posts()) : $recent_query->the_post();
           ?>
                     <div class="post-entry-1 homepage-sidebar-post">
+                        <?php do_action('lejournaldesactus_before_post_meta'); ?>
                         <div class="post-meta">
                             <?php lejournaldesactus_post_categories(); ?>
                         </div>
-                        <h2 class="post-title homepage-sidebar-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                        <?php lejournaldesactus_post_meta(); ?>
+                        <?php do_action('lejournaldesactus_after_post_meta'); ?>
+                        <?php do_action('lejournaldesactus_before_post_title'); ?>
+                        <h2 class="post-title homepage-sidebar-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><?php echo lejda_show_badge_new(get_the_ID()); ?><?php echo lejda_show_badge_popular(get_the_ID()); ?></h2>
+                        <?php do_action('lejournaldesactus_after_post_title'); ?>
+                        <?php do_action('lejournaldesactus_before_post_content'); ?>
                         <?php if (has_post_thumbnail()) : ?>
                         <a href="<?php the_permalink(); ?>" class="post-img">
                             <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
                         </a>
                         <?php endif; ?>
+                        <div class="post-content homepage-sidebar-excerpt">
+                            <?php the_excerpt(); ?>
+                        </div>
                     </div>
                     <?php
             endwhile;
@@ -91,7 +112,8 @@
     </section><!-- /Hero Section -->
 
     <!-- Posts Section -->
-    <section id="posts" class="posts homepage-posts-section">
+    <?php $cols = intval(get_theme_mod('lejournaldesactus_home_columns', 3)); ?>
+    <section id="posts" class="posts homepage-posts-section home-cols-<?php echo $cols; ?>">
         <div class="container" data-aos="fade-up">
             <div class="section-header d-flex justify-content-between align-items-center mb-5">
                 <h2><?php echo get_theme_mod('lejournaldesactus_latest_posts_title', esc_html__('Articles récents', 'lejournaldesactus')); ?>
@@ -118,62 +140,38 @@
               $count = 0;
               while ($main_query->have_posts()) : $main_query->the_post();
                 $count++;
-                if ($count <= 2) {
-                  // Grands articles (2 premiers)
-                  echo '<div class="col-lg-6">';
-                  echo '<div class="post-box post-img">';
-                  echo '<div class="post-meta">';
-                  lejournaldesactus_post_categories();
+                // Affichage d'un article sous forme de carte
+                echo '<div class="home-col">';
+                echo '<div class="post-box post-img">';
+                echo '<div class="post-meta">';
+                do_action('lejournaldesactus_before_post_meta');
+                lejournaldesactus_post_categories();
+                echo '</div>';
+                do_action('lejournaldesactus_after_post_meta');
+                do_action('lejournaldesactus_before_post_title');
+                echo '<h3 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a>' . lejda_show_badge_new(get_the_ID()) . lejda_show_badge_popular(get_the_ID()) . '</h3>';
+                do_action('lejournaldesactus_after_post_title');
+                do_action('lejournaldesactus_before_post_content');
+                if (has_post_thumbnail()) {
+                  echo '<div class="post-img">';
+                  echo '<a href="' . get_permalink() . '" class="img-link">';
+                  the_post_thumbnail('large', array('class' => 'img-fluid'));
+                  echo '</a>';
                   echo '</div>';
-                  echo '<h3 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
-                  lejournaldesactus_post_meta();
-                  if (has_post_thumbnail()) {
-                    echo '<div class="post-img">';
-                    echo '<a href="' . get_permalink() . '" class="img-link">';
-                    the_post_thumbnail('large', array('class' => 'img-fluid'));
-                    echo '</a>';
-                    echo '</div>';
-                  }
-                  echo '<div class="post-content">';
-                  the_excerpt();
-                  echo '</div>';
-                  echo '<div class="d-flex align-items-center justify-content-between">';
-                  echo '<a href="' . get_permalink() . '" class="read-more">' . esc_html__('Lire la suite', 'lejournaldesactus') . ' <i class="bi bi-arrow-right"></i></a>';
-                  echo '<div class="social-share">';
-                  echo '<a href="#"><i class="bi bi-facebook"></i></a>';
-                  echo '<a href="#"><i class="bi bi-twitter"></i></a>';
-                  echo '<a href="#"><i class="bi bi-instagram"></i></a>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                  echo '</div>';
-                } else {
-                  // Petits articles (4 suivants)
-                  if ($count == 3) {
-                    echo '<div class="col-lg-12">';
-                    echo '<div class="row g-5">';
-                  }
-                  
-                  echo '<div class="col-lg-6">';
-                  echo '<div class="post-entry-1">';
-                  echo '<div class="post-meta">';
-                  lejournaldesactus_post_categories();
-                  echo '</div>';
-                  echo '<h2 class="post-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h2>';
-                  lejournaldesactus_post_meta();
-                  if (has_post_thumbnail()) {
-                    echo '<a href="' . get_permalink() . '" class="post-img">';
-                    the_post_thumbnail('medium', array('class' => 'img-fluid'));
-                    echo '</a>';
-                  }
-                  echo '</div>';
-                  echo '</div>';
-                  
-                  if ($count == 6 || $count == $main_query->post_count) {
-                    echo '</div>';
-                    echo '</div>';
-                  }
                 }
+                echo '<div class="post-content">';
+                the_excerpt();
+                echo '</div>';
+                echo '<div class="d-flex align-items-center justify-content-between">';
+                echo '<a href="' . get_permalink() . '" class="read-more">' . esc_html__('Lire la suite', 'lejournaldesactus') . ' <i class="bi bi-arrow-right"></i></a>';
+                echo '<div class="social-share">';
+                echo '<a href="#"><i class="bi bi-facebook"></i></a>';
+                echo '<a href="#"><i class="bi bi-twitter"></i></a>';
+                echo '<a href="#"><i class="bi bi-instagram"></i></a>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
               endwhile;
               wp_reset_postdata();
             endif;
@@ -284,4 +282,32 @@
 
 </main>
 
-<?php get_footer(); ?>
+<?php
+// Helpers badges "Nouveau" et "Populaire"
+function lejda_show_badge_new($post_id) {
+    if (!get_theme_mod('lejournaldesactus_blog_badge_new', true)) return '';
+    $days = intval(get_theme_mod('lejournaldesactus_blog_badge_new_days', 3));
+    $date = get_the_date('U', $post_id);
+    if ((time() - $date) < ($days * 86400)) {
+        return '<span class="badge badge-new ms-1">' . esc_html__('Nouveau', 'lejournaldesactus') . '</span>';
+    }
+    return '';
+}
+function lejda_show_badge_popular($post_id) {
+    if (!get_theme_mod('lejournaldesactus_blog_badge_popular', true)) return '';
+    $threshold = intval(get_theme_mod('lejournaldesactus_blog_badge_popular_threshold', 500));
+    $views = intval(get_post_meta($post_id, 'lejda_post_views', true));
+    if ($views >= $threshold) {
+        return '<span class="badge badge-popular ms-1">' . esc_html__('Populaire', 'lejournaldesactus') . '</span>';
+    }
+    return '';
+}
+?>
+
+<?php
+if ($style === 'magazine') {
+    get_footer('magazine');
+} else {
+    get_footer();
+}
+?>

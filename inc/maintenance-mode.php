@@ -117,13 +117,15 @@ function lejournaldesactus_maintenance_customize_register($wp_customize) {
         'type'     => 'checkbox',
     ));
 }
-add_action('customize_register', 'lejournaldesactus_maintenance_customize_register');
+// add_action('customize_register', 'lejournaldesactus_maintenance_customize_register');
 
 /**
  * Fonction de validation pour les cases à cocher
  */
+if (!function_exists('lejournaldesactus_sanitize_checkbox')) {
 function lejournaldesactus_sanitize_checkbox($input) {
     return (isset($input) && true == $input) ? true : false;
+}
 }
 
 /**
