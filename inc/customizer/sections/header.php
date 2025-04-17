@@ -98,3 +98,16 @@ Kirki::add_field( LEJOURNALDESACTUS_KIRKI_CONFIG, [
         'step' => 1,
     ],
 ] );
+
+// Switch pour afficher/masquer le sélecteur de langue dans le header
+Kirki::add_field( LEJOURNALDESACTUS_KIRKI_CONFIG, [
+    'type'     => 'switch',
+    'settings' => 'lejournaldesactus_header_show_language_switcher',
+    'label'    => esc_html__( 'Afficher le sélecteur de langue', 'lejournaldesactus' ),
+    'section'  => 'lejournaldesactus_header',
+    'default'  => false,
+    'choices'  => [
+        'on'  => esc_html__( 'Oui', 'lejournaldesactus' ),
+        'off' => esc_html__( 'Non', 'lejournaldesactus' ),
+    ],
+] );

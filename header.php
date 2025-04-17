@@ -80,6 +80,16 @@
           <button id="increase-fontsize" class="btn btn-outline-secondary ms-2" type="button" title="Augmenter la taille du texte"><i class="fa-solid fa-plus"></i></button>
           <button id="decrease-fontsize" class="btn btn-outline-secondary ms-2" type="button" title="Réduire la taille du texte"><i class="fa-solid fa-minus"></i></button>
           <?php endif; ?>
+          <!-- Sélecteur de langue -->
+          <?php if (get_theme_mod('lejournaldesactus_header_show_language_switcher', false)) : ?>
+          <form method="get" class="language-switcher ms-3" action="<?php echo esc_url(home_url('/')); ?>">
+            <select name="lang" onchange="this.form.submit()" class="form-select form-select-sm">
+              <option value="fr_FR" <?php selected(get_locale(), 'fr_FR'); ?>>Français</option>
+              <option value="en_US" <?php selected(get_locale(), 'en_US'); ?>>English</option>
+              <option value="es_ES" <?php selected(get_locale(), 'es_ES'); ?>>Español</option>
+            </select>
+          </form>
+          <?php endif; ?>
           <!-- Affichage conditionnel de la barre de recherche -->
           <?php if (get_theme_mod('lejournaldesactus_header_show_search', true)) : ?>
           <form class="search-form ms-4" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">

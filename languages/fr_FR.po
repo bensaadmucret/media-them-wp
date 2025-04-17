@@ -173,3 +173,19 @@ msgstr "Restez informé de nos derniers articles et actualités. Rejoignez notre
 #: index.php:200
 msgid "S'abonner"
 msgstr "S'abonner"
+
+#: theme-missing-manual
+msgid "Lire la suite"
+msgstr "Lire la suite"
+
+msgid "Temps de lecture"
+msgstr "Temps de lecture"
+
+msgid "Partager"
+msgstr "Partager"
+
+msgid "Enregistrer"
+msgstr "Enregistrer"
+
+msgid "Enregistré"
+msgstr "Enregistré"

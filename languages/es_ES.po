@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Le Journal des Actus\n"
+"POT-Creation-Date: 2025-04-17 15:39+0200\n"
+"PO-Revision-Date: 2025-04-17 15:40+0200\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Cascade AI\n"
+
+#: search.php:41 index.php:39 index.php:134 archive.php:61
+msgid "Read More"
+msgstr "Leer más"
+
+#: sidebar.php:9
+msgid "Search"
+msgstr "Buscar"
+
+#: header.php:39 header.php:61 sidebar.php:11
+msgctxt "placeholder"
+msgid "Search..."
+msgstr "Buscar..."
+
+#: header.php:54
+msgid "Menu"
+msgstr "Menú"
+
+#: inc/setup.php:22
+msgid "Menu Principal"
+msgstr "Menú Principal"
+
+#: inc/setup.php:23
+msgid "Liens Utiles (Footer)"
+msgstr "Enlaces útiles (Pie de página)"
+
+#: inc/setup.php:24
+msgid "Nos Services (Footer)"
+msgstr "Nuestros servicios (Pie de página)"
+
+#: inc/setup.php:25
+msgid "Liens Footer 1"
+msgstr "Enlaces Pie 1"
+
+#: inc/setup.php:26
+msgid "Liens Footer 2"
+msgstr "Enlaces Pie 2"
+
+#: inc/setup.php:77
+msgid "Sidebar"
+msgstr "Barra lateral"
+
+#: inc/setup.php:79
+msgid "Ajouter des widgets ici."
+msgstr "Añadir widgets aquí."
+
+#: search.php:12
+msgid "Résultats de recherche pour : %s"
+msgstr "Resultados de búsqueda para: %s"
+
+#: search.php:55
+msgid "Aucun résultat trouvé"
+msgstr "No se han encontrado resultados"
+
+#: search.php:56
+msgid "Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des mots-clés différents."
+msgstr "Lo siento, pero nada coincide con sus términos de búsqueda. Por favor, inténtelo de nuevo con otras palabras clave."
+
+#: 404.php:10
+msgid "Page non trouvée"
+msgstr "Página no encontrada"
+
+#: 404.php:11
+msgid "La page que vous recherchez n'existe pas ou a été déplacée."
+msgstr "La página que busca no existe o ha sido movida."
+
+#: 404.php:12
+msgid "Retour à l'accueil"
+msgstr "Volver al inicio"
+
+#: comments.php:18
+msgid "Commentaires"
+msgstr "Comentarios"
+
+#: comments.php:35
+msgid "Laisser un commentaire"
+msgstr "Dejar un comentario"
+
+#: comments.php:36
+msgid "Laisser une réponse à %s"
+msgstr "Responder a %s"
+
+# Header Customizer
+msgid "En-tête du site"
+msgstr "Cabecera del sitio"
+
+msgid "Afficher la barre de recherche"
+msgstr "Mostrar la barra de búsqueda"
+
+msgid "Logo pour le mode sombre"
+msgstr "Logo para el modo oscuro"
+
+msgid "Position du menu"
+msgstr "Posición del menú"
+
+msgid "Hauteur du header (px)"
+msgstr "Altura de la cabecera (px)"
+
+msgid "Oui"
+msgstr "Sí"
+
+msgid "Non"
+msgstr "No"
+
+msgid "Sera affiché si le mode sombre est actif."
+msgstr "Se mostrará si el modo oscuro está activo."
+
+msgid "Texte affiché sous le logo principal."
+msgstr "Texto mostrado debajo del logo principal."
+
+msgid "Gauche"
+msgstr "Izquierda"
+
+msgid "Centre"
+msgstr "Centro"
+
+msgid "Droite"
+msgstr "Derecha"
+
+#: theme-missing-manual
+msgid "Lire la suite"
+msgstr "Leer más"
+
+msgid "Temps de lecture"
+msgstr "Tiempo de lectura"
+
+msgid "Partager"
+msgstr "Compartir"
+
+msgid "Enregistrer"
+msgstr "Guardar"
+
+msgid "Enregistré"
+msgstr "Guardado"

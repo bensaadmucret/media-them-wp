@@ -68,6 +68,11 @@ Un thème WordPress personnalisé pour "Le Journal des Actus" avec un système d
 - **Position du menu** (gauche, centre, droite)
 - **Hauteur du header ajustable** (slider)
 
+### Fonctionnalités multilingues
+- **Support multilingue natif (français, anglais, espagnol)**
+- **Switcher de langue intégré dans le header**
+- **Traduction dynamique des chaînes clés :** "Lire la suite", "Temps de lecture", "Partager", "Enregistrer", "Enregistré"
+
 ### Optimisation technique
 - **JavaScript moderne** sans dépendance à jQuery
 - **Conformité RGPD** intégrée à tous les niveaux

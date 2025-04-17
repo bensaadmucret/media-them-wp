@@ -55,6 +55,39 @@ if ( ! class_exists( 'Kirki' ) ) {
 }
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer/login-customizer.php'; // Personnalisation de la page de connexion
 
+// --- MULTILINGUE NATIF SANS PLUGIN ---
+add_filter('locale', function($locale) {
+    // 1. Priorité à l'URL
+    if (isset($_GET['lang'])) {
+        $lang = sanitize_text_field($_GET['lang']);
+        // On ne garde que les locales supportées
+        $allowed = ['fr_FR','en_US','es_ES'];
+        if (in_array($lang, $allowed)) {
+            setcookie('lejournaldesactus_lang', $lang, time()+3600*24*30, COOKIEPATH, COOKIE_DOMAIN);
+            return $lang;
+        }
+    }
+    // 2. Cookie
+    if (isset($_COOKIE['lejournaldesactus_lang'])) {
+        $lang = sanitize_text_field($_COOKIE['lejournaldesactus_lang']);
+        $allowed = ['fr_FR','en_US','es_ES'];
+        if (in_array($lang, $allowed)) {
+            return $lang;
+        }
+    }
+    // 3. Sinon, locale WordPress par défaut
+    return $locale;
+});
+// Forcer le rechargement des traductions si la langue change
+add_action('init', function() {
+    if (isset($_GET['lang'])) {
+        // Redirige sans le paramètre lang pour éviter les URL longues
+        $url = remove_query_arg('lang');
+        wp_safe_redirect($url);
+        exit;
+    }
+});
+
 // Ajout dynamique de classes body selon la mise en page
 add_filter('body_class', function($classes) {
     $site_width = get_theme_mod('lejournaldesactus_site_width', 'full');

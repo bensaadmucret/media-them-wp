@@ -1,0 +1,144 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Le Journal des Actus\n"
+"POT-Creation-Date: 2025-04-17 15:41+0200\n"
+"PO-Revision-Date: 2025-04-17 15:41+0200\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Cascade AI\n"
+
+#: search.php:41 index.php:39 index.php:134 archive.php:61
+msgid "Read More"
+msgstr "Read More"
+
+#: sidebar.php:9
+msgid "Search"
+msgstr "Search"
+
+#: header.php:39 header.php:61 sidebar.php:11
+msgctxt "placeholder"
+msgid "Search..."
+msgstr "Search..."
+
+#: header.php:54
+msgid "Menu"
+msgstr "Menu"
+
+#: inc/setup.php:22
+msgid "Menu Principal"
+msgstr "Main Menu"
+
+#: inc/setup.php:23
+msgid "Liens Utiles (Footer)"
+msgstr "Useful Links (Footer)"
+
+#: inc/setup.php:24
+msgid "Nos Services (Footer)"
+msgstr "Our Services (Footer)"
+
+#: inc/setup.php:25
+msgid "Liens Footer 1"
+msgstr "Footer Links 1"
+
+#: inc/setup.php:26
+msgid "Liens Footer 2"
+msgstr "Footer Links 2"
+
+#: inc/setup.php:77
+msgid "Sidebar"
+msgstr "Sidebar"
+
+#: inc/setup.php:79
+msgid "Ajouter des widgets ici."
+msgstr "Add widgets here."
+
+#: search.php:12
+msgid "Résultats de recherche pour : %s"
+msgstr "Search results for: %s"
+
+#: search.php:55
+msgid "Aucun résultat trouvé"
+msgstr "No results found"
+
+#: search.php:56
+msgid "Désolé, mais rien ne correspond à vos termes de recherche. Veuillez réessayer avec des mots-clés différents."
+msgstr "Sorry, but nothing matches your search terms. Please try again with different keywords."
+
+#: 404.php:10
+msgid "Page non trouvée"
+msgstr "Page not found"
+
+#: 404.php:11
+msgid "La page que vous recherchez n'existe pas ou a été déplacée."
+msgstr "The page you are looking for does not exist or has been moved."
+
+#: 404.php:12
+msgid "Retour à l'accueil"
+msgstr "Back to homepage"
+
+#: comments.php:18
+msgid "Commentaires"
+msgstr "Comments"
+
+#: comments.php:35
+msgid "Laisser un commentaire"
+msgstr "Leave a comment"
+
+#: comments.php:36
+msgid "Laisser une réponse à %s"
+msgstr "Leave a reply to %s"
+
+# Header Customizer
+msgid "En-tête du site"
+msgstr "Site Header"
+
+msgid "Afficher la barre de recherche"
+msgstr "Show search bar"
+
+msgid "Logo pour le mode sombre"
+msgstr "Logo for dark mode"
+
+msgid "Position du menu"
+msgstr "Menu position"
+
+msgid "Hauteur du header (px)"
+msgstr "Header height (px)"
+
+msgid "Oui"
+msgstr "Yes"
+
+msgid "Non"
+msgstr "No"
+
+msgid "Sera affiché si le mode sombre est actif."
+msgstr "Will be displayed if dark mode is active."
+
+msgid "Texte affiché sous le logo principal."
+msgstr "Text displayed under the main logo."
+
+msgid "Gauche"
+msgstr "Left"
+
+msgid "Centre"
+msgstr "Center"
+
+msgid "Droite"
+msgstr "Right"
+
+#: theme-missing-manual
+msgid "Lire la suite"
+msgstr "Read More"
+
+msgid "Temps de lecture"
+msgstr "Reading time"
+
+msgid "Partager"
+msgstr "Share"
+
+msgid "Enregistrer"
+msgstr "Save"
+
+msgid "Enregistré"
+msgstr "Saved"
