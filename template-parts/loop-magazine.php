@@ -9,7 +9,7 @@ if (have_posts()) :
           <?php if (has_post_thumbnail()) : ?>
             <?php the_post_thumbnail('large', ['class' => 'card-img-top', 'alt' => get_the_title()]); ?>
           <?php else : ?>
-            <img src="https://via.placeholder.com/800x300" class="card-img-top" alt="No image">
+            <img src="https://via.placeholder.com/800x300" class="card-img-top" alt="Image d'illustration">
           <?php endif; ?>
           <div class="card-body">
             <h2 class="card-title"><?php the_title(); ?></h2>
@@ -24,7 +24,7 @@ if (have_posts()) :
           <?php if (has_post_thumbnail()) : ?>
             <?php the_post_thumbnail('medium', ['class' => 'card-img-top', 'alt' => get_the_title()]); ?>
           <?php else : ?>
-            <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="No image">
+            <img src="https://via.placeholder.com/400x200" class="card-img-top" alt="Image d'illustration">
           <?php endif; ?>
           <div class="card-body">
             <h5 class="card-title"><?php the_title(); ?></h5>

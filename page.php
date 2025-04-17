@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main id="main">
+<main id="main-content">
 
   <!-- Page Content Section -->
   <section class="page-content">
@@ -28,6 +28,8 @@
               <?php the_post_thumbnail('full', array('class' => 'img-fluid')); ?>
             </div>
             <?php endif; ?>
+
+            <?php lejournaldesactus_breadcrumb(); ?>
 
             <h1 class="title"><?php the_title(); ?></h1>
 

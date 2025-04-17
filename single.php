@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main id="main">
+<main id="main-content">
   <!-- Barre de progression de lecture -->
   <div class="reading-progress-bar"></div>
   
@@ -27,7 +27,16 @@
           while (have_posts()) :
             the_post();
           ?>
-          <article class="blog-details-content">
+          <article class="blog-details-content" itemscope itemtype="https://schema.org/Article">
+            <meta itemprop="mainEntityOfPage" content="<?php the_permalink(); ?>">
+            <meta itemprop="datePublished" content="<?php echo get_the_date('c'); ?>">
+            <meta itemprop="dateModified" content="<?php echo get_the_modified_date('c'); ?>">
+            <meta itemprop="author" content="<?php the_author(); ?>">
+            <?php if (has_post_thumbnail()) : ?>
+              <meta itemprop="image" content="<?php echo esc_url(get_the_post_thumbnail_url(null, 'full')); ?>">
+            <?php endif; ?>
+            <meta itemprop="headline" content="<?php the_title_attribute(); ?>">
+            <meta itemprop="description" content="<?php echo esc_attr(get_the_excerpt() ? get_the_excerpt() : wp_strip_all_tags(get_the_title())); ?>">
             <div class="post-img">
               <?php if (has_post_thumbnail()) : ?>
                 <?php the_post_thumbnail('full', array('class' => 'img-fluid')); ?>
@@ -39,6 +48,7 @@
             </div>
 
             <?php do_action('lejournaldesactus_before_post_title'); ?>
+            <?php lejournaldesactus_breadcrumb(); ?>
             <h1 class="title"><?php the_title(); ?></h1>
             <?php do_action('lejournaldesactus_after_post_title'); ?>
 

@@ -7,7 +7,7 @@ if ($style === 'magazine') {
 }
 ?>
 
-<main id="main" class="main-content<?php
+<main id="main-content" class="main-content<?php
     $archive_layout = get_theme_mod('lejournaldesactus_archive_layout', 'grid');
     echo $archive_layout === 'list' ? ' archive-list' : ' archive-grid';
 ?>">

@@ -1,20 +1,50 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?> <?php if (is_dark_mode_active()) echo 'data-theme="dark"'; ?>>
+  <head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="google-site-verification" content="jkVDgWAXA6xncHLmfwMBM_qmyCjAdl-PEXTYZ1xTQP4" />
+    <!-- Font Awesome pour les icônes sociales -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <title><?php wp_title('|', true, 'right'); bloginfo('name'); ?></title>
+    <?php if (is_singular()) : ?>
+      <meta name="description" content="<?php echo esc_attr(get_the_excerpt() ? get_the_excerpt() : wp_strip_all_tags(get_the_title())); ?>">
+      <meta property="og:type" content="article">
+      <meta property="og:title" content="<?php the_title_attribute(); ?>">
+      <meta property="og:description" content="<?php echo esc_attr(get_the_excerpt() ? get_the_excerpt() : wp_strip_all_tags(get_the_title())); ?>">
+      <meta property="og:url" content="<?php the_permalink(); ?>">
+      <?php if (has_post_thumbnail()) : ?>
+        <meta property="og:image" content="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>">
+      <?php endif; ?>
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="<?php the_title_attribute(); ?>">
+      <meta name="twitter:description" content="<?php echo esc_attr(get_the_excerpt() ? get_the_excerpt() : wp_strip_all_tags(get_the_title())); ?>">
+      <?php if (has_post_thumbnail()) : ?>
+        <meta name="twitter:image" content="<?php echo esc_url(get_the_post_thumbnail_url(null, 'large')); ?>">
+      <?php endif; ?>
+    <?php else : ?>
+      <meta name="description" content="<?php bloginfo('description'); ?>">
+      <meta property="og:type" content="website">
+      <meta property="og:title" content="<?php bloginfo('name'); ?>">
+      <meta property="og:description" content="<?php bloginfo('description'); ?>">
+      <meta property="og:url" content="<?php echo esc_url(home_url('/')); ?>">
+      <meta property="og:image" content="<?php echo esc_url(get_theme_mod('lejournaldesactus_header_logo_dark') ? get_theme_mod('lejournaldesactus_header_logo_dark') : get_template_directory_uri() . '/screenshot.png'); ?>">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="<?php bloginfo('name'); ?>">
+      <meta name="twitter:description" content="<?php bloginfo('description'); ?>">
+      <meta name="twitter:image" content="<?php echo esc_url(get_theme_mod('lejournaldesactus_header_logo_dark') ? get_theme_mod('lejournaldesactus_header_logo_dark') : get_template_directory_uri() . '/screenshot.png'); ?>">
+    <?php endif; ?>
+    
+    <?php wp_head(); ?>
+  </head>
 
-<head>
-  <meta charset="<?php bloginfo('charset'); ?>">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="google-site-verification" content="jkVDgWAXA6xncHLmfwMBM_qmyCjAdl-PEXTYZ1xTQP4" />
-  <!-- Font Awesome pour les icônes sociales -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <?php wp_head(); ?>
-</head>
+  <body <?php body_class(); ?>>
+  <?php wp_body_open(); ?>
 
-<body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
+  <a href="#main-content" class="skip-link visually-hidden-focusable">Aller au contenu principal</a>
 
   <!-- Overlay pour le menu mobile -->
   <div class="mobile-nav-overlay"></div>
@@ -98,7 +128,7 @@
           </form>
           <?php endif; ?>
           <!-- Bouton Menu Mobile -->
-          <i class="bi bi-list mobile-nav-toggle d-xl-none" id="mobile-menu-btn" style="color: var(--light-text); transition: color 0.3s ease;"></i>
+          <i class="bi bi-list mobile-nav-toggle d-xl-none" id="mobile-menu-btn" style="color: var(--light-text); transition: color 0.3s ease;" role="button" tabindex="0" aria-label="Ouvrir le menu mobile"></i>
         </div>
       </div>
 
@@ -106,7 +136,7 @@
 
     <div class="nav-wrap">
       <div class="container d-flex justify-content-between align-items-center header-menu-position-<?php echo esc_attr(get_theme_mod('lejournaldesactus_header_menu_position', 'center')); ?>">
-        <nav id="navbar" class="navmenu">
+        <nav id="navbar" class="navmenu" aria-label="Menu principal">
           <?php
           wp_nav_menu(array(
             'theme_location' => 'primary',
@@ -123,7 +153,7 @@
   <div class="mobile-menu-header">
     <div class="mobile-menu-title">
       <h3>Menu</h3>
-      <i class="bi bi-x mobile-menu-close"></i>
+      <i class="bi bi-x mobile-menu-close" role="button" tabindex="0" aria-label="Fermer le menu mobile"></i>
     </div>
     <div class="header-menu-items">
       <?php

@@ -20,6 +20,16 @@ add_action('customize_register', function($wp_customize) {
         'section' => 'lejournaldesactus_design',
         'settings'=> 'lejournaldesactus_primary_color',
     )));
+    $wp_customize->add_setting('lejournaldesactus_breadcrumb_enable', array(
+        'default'   => true,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'rest_sanitize_boolean',
+    ));
+    $wp_customize->add_control('lejournaldesactus_breadcrumb_enable', array(
+        'type'    => 'checkbox',
+        'label'   => __('Afficher le fil d\'Ariane (breadcrumb)', 'lejournaldesactus'),
+        'section' => 'lejournaldesactus_design',
+    ));
     // Ajoute ici d'autres réglages design si besoin
 });
 

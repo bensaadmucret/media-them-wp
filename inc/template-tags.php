@@ -134,6 +134,59 @@ if (!function_exists('lejournaldesactus_post_thumbnail')) :
 endif;
 
 /**
+ * Affiche un fil d'Ariane accessible et SEO-friendly
+ */
+if (!function_exists('lejournaldesactus_breadcrumb')) :
+    function lejournaldesactus_breadcrumb() {
+        if (!get_theme_mod('lejournaldesactus_breadcrumb_enable', true)) return;
+        if (is_front_page()) return;
+        echo '<nav class="breadcrumb-nav" aria-label="Fil d\'Ariane" itemscope itemtype="https://schema.org/BreadcrumbList">';
+        echo '<ol class="breadcrumb bg-transparent px-0 mb-2">';
+        $position = 1;
+        echo '<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<a href="' . esc_url(home_url('/')) . '" itemprop="item"><span itemprop="name">Accueil</span></a>';
+        echo '<meta itemprop="position" content="' . $position++ . '" />';
+        echo '</li>';
+        if (is_category() || is_single()) {
+            $cat = get_the_category();
+            if ($cat && isset($cat[0])) {
+                echo '<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+                echo '<a href="' . esc_url(get_category_link($cat[0]->term_id)) . '" itemprop="item"><span itemprop="name">' . esc_html($cat[0]->name) . '</span></a>';
+                echo '<meta itemprop="position" content="' . $position++ . '" />';
+                echo '</li>';
+            }
+            if (is_single()) {
+                echo '<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+                echo '<span itemprop="name">' . get_the_title() . '</span>';
+                echo '<meta itemprop="position" content="' . $position++ . '" />';
+                echo '</li>';
+            }
+        } elseif (is_page()) {
+            global $post;
+            if ($post->post_parent) {
+                $ancestors = array_reverse(get_post_ancestors($post->ID));
+                foreach ($ancestors as $ancestor) {
+                    echo '<li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+                    echo '<a href="' . esc_url(get_permalink($ancestor)) . '" itemprop="item"><span itemprop="name">' . get_the_title($ancestor) . '</span></a>';
+                    echo '<meta itemprop="position" content="' . $position++ . '" />';
+                    echo '</li>';
+                }
+            }
+            echo '<li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+            echo '<span itemprop="name">' . get_the_title() . '</span>';
+            echo '<meta itemprop="position" content="' . $position++ . '" />';
+            echo '</li>';
+        } elseif (is_search()) {
+            echo '<li class="breadcrumb-item active" aria-current="page">Recherche : ' . get_search_query() . '</li>';
+        } elseif (is_404()) {
+            echo '<li class="breadcrumb-item active" aria-current="page">Erreur 404</li>';
+        }
+        echo '</ol>';
+        echo '</nav>';
+    }
+endif;
+
+/**
  * Affiche la pagination des articles
  */
 if (!function_exists('lejournaldesactus_pagination')) :

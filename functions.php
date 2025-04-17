@@ -55,6 +55,17 @@ if ( ! class_exists( 'Kirki' ) ) {
 }
 require_once LEJOURNALDESACTUS_THEME_DIR . '/inc/customizer/login-customizer.php'; // Personnalisation de la page de connexion
 
+// WooCommerce support
+declare_woocommerce_support();
+
+function declare_woocommerce_support() {
+    add_theme_support('woocommerce');
+    // Optionnel : prise en charge des galeries améliorées
+    add_theme_support('wc-product-gallery-zoom');
+    add_theme_support('wc-product-gallery-lightbox');
+    add_theme_support('wc-product-gallery-slider');
+}
+
 // --- MULTILINGUE NATIF SANS PLUGIN ---
 add_filter('locale', function($locale) {
     // 1. Priorité à l'URL
